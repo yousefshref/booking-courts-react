@@ -28,12 +28,12 @@ function App() {
 
   const navigate = useNavigate()
 
+  const path = window.location.pathname
+
   const getUser = async () => {
     try {
       const res = await apiContext?.getUser()
-
       if (res?.data?.id) {
-
         const res_profile = await apiContext?.checkProfile(localStorage.getItem('token'))
         if (res_profile?.data?.manager) {
           navigate('/manager/' + res_profile?.data?.manager?.user_details?.username)
@@ -44,6 +44,8 @@ function App() {
           } else {
             if (res_profile?.data?.user) {
               navigate('/profile/' + res_profile?.data?.user?.user_details?.username)
+            } else {
+              navigate('/check/profile')
             }
           }
         }
@@ -56,7 +58,10 @@ function App() {
       }
 
     } catch (err) {
-      navigate('/check/profile')
+      navigate('/auth/login')
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+      localStorage.removeItem('email')
       console.log(err);
     }
   }
@@ -65,7 +70,7 @@ function App() {
     if (localStorage.getItem('token')) {
       getUser()
     } else {
-      navigate('/auth/login')
+      if (path !== '/') navigate('/auth/login')
     }
   }, [])
 

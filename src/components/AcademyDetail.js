@@ -138,49 +138,54 @@ const AcademyDetail = () => {
           </div>
         </div>
 
-        <div className='flex flex-col gap-3 text-center bg-white p-3 rounded-lg'>
-          <h3 className='text-3xl'>اوقات التدريب</h3>
-          <hr />
-          <div className='flex flex-wrap gap-3 justify-around max-h-[400px] min-h-fit overflow-scroll'>
-            {
-              academyPlans?.map((plan, index) => (
-                <div className='p-3 rounded-lg from-sky-200 to-blue-200 gap-4 flex flex-col bg-gradient-to-tr w-full max-w-xs' key={index}>
-                  <h3 className='text-2xl text-zinc-700'>{plan?.name}</h3>
-                  <p>{plan?.description}</p>
-                  <div className='flex flex-col gap-1 p-3 rounded-lg bg-indigo-200'>
-                    <p>{plan?.price_per_class} EGP / في الحصة</p>
-                    <p>{plan?.price_per_week} EGP / في الاسبوع</p>
-                    <p>{plan?.price_per_month} EGP / في الشهر</p>
-                    <p>{plan?.price_per_year} EGP / في السنة</p>
+        {
+          academyPlans?.length > 0 &&
+          <div className='flex flex-col gap-3 text-center bg-white p-3 rounded-lg'>
+            <h3 className='text-3xl'>الاشتراكات</h3>
+            <hr />
+            <div className='flex flex-wrap gap-3 justify-around max-h-[400px] min-h-fit overflow-scroll'>
+              {
+                academyPlans?.map((plan, index) => (
+                  <div className='p-3 rounded-lg from-sky-200 to-blue-200 gap-4 flex flex-col bg-gradient-to-tr w-full max-w-xs' key={index}>
+                    <h3 className='text-2xl text-zinc-700'>{plan?.name}</h3>
+                    <p>{plan?.description}</p>
+                    <div className='flex flex-col gap-1 p-3 rounded-lg bg-indigo-200'>
+                      <p>{plan?.price_per_class} EGP / في الحصة</p>
+                      <p>{plan?.price_per_week} EGP / في الاسبوع</p>
+                      <p>{plan?.price_per_month} EGP / في الشهر</p>
+                      <p>{plan?.price_per_year} EGP / في السنة</p>
+                    </div>
+                    <Button size='large' href={`https://wa.me/20${plan?.academy_details?.manager_details?.user_details?.phone}`} className='font rounded-full' type='primary'>تفاصيل</Button>
                   </div>
-                  <Button size='large' href={`https://wa.me/20${plan?.academy_details?.manager_details?.user_details?.phone}`} className='font rounded-full' type='primary'>تفاصيل</Button>
-                </div>
-              ))
-            }
+                ))
+              }
+            </div>
           </div>
-        </div>
+        }
 
-
-        <div className='flex flex-col gap-3 text-center bg-white p-3 rounded-lg'>
-          <h3 className='text-3xl'>المدربين</h3>
-          <hr />
-          <div className='flex flex-wrap gap-3 justify-around max-h-[400px] min-h-fit overflow-scroll'>
-            {
-              trainers?.map((trainer, index) => (
-                <div className='p-3 rounded-lg from-sky-200 to-blue-200 gap-4 flex flex-col bg-gradient-to-tr w-full max-w-xs' key={index}>
-                  <h3 className='text-2xl text-zinc-700'>{trainer?.trainer}</h3>
-                  <div className='flex flex-col gap-1 p-3 rounded-lg bg-indigo-200'>
-                    <p>{trainer?.price_per_class} EGP / في الحصة</p>
-                    <p>{trainer?.price_per_week} EGP / في الاسبوع</p>
-                    <p>{trainer?.price_per_month} EGP / في الشهر</p>
-                    <p>{trainer?.price_per_year} EGP / في السنة</p>
+        {
+          trainers?.length > 0 &&
+          <div className='flex flex-col gap-3 text-center bg-white p-3 rounded-lg'>
+            <h3 className='text-3xl'>المدربين</h3>
+            <hr />
+            <div className='flex flex-wrap gap-3 justify-around max-h-[400px] min-h-fit overflow-scroll'>
+              {
+                trainers?.map((trainer, index) => (
+                  <div className='p-3 rounded-lg from-sky-200 to-blue-200 gap-4 flex flex-col bg-gradient-to-tr w-full max-w-xs' key={index}>
+                    <h3 className='text-2xl text-zinc-700'>{trainer?.trainer}</h3>
+                    <div className='flex flex-col gap-1 p-3 rounded-lg bg-indigo-200'>
+                      <p>{trainer?.price_per_class} EGP / في الحصة</p>
+                      <p>{trainer?.price_per_week} EGP / في الاسبوع</p>
+                      <p>{trainer?.price_per_month} EGP / في الشهر</p>
+                      <p>{trainer?.price_per_year} EGP / في السنة</p>
+                    </div>
+                    <Button size='large' href={`https://wa.me/20${trainer?.manager_details?.user_details?.phone}`} className='font rounded-full' type='primary'>تفاصيل</Button>
                   </div>
-                  <Button size='large' href={`https://wa.me/20${trainer?.manager_details?.user_details?.phone}`} className='font rounded-full' type='primary'>تفاصيل</Button>
-                </div>
-              ))
-            }
+                ))
+              }
+            </div>
           </div>
-        </div>
+        }
 
       </div>
     </div>

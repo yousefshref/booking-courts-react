@@ -12,7 +12,7 @@ import { ArrowLeft, ArrowRight } from '@mui/icons-material';
 import { Popconfirm } from "antd";
 import { useNavigate } from 'react-router-dom';
 import { server } from '../utlits/Variables';
-import DisplayInvoicesModal from './DisplayInvoicesModal';
+import DisplayInvoicesModal from './Invoices/DisplayInvoicesModal';
 import FeaturesAndTools from './FeaturesAndTools';
 import ImagesAndVideos from './ImagesAndVideos';
 import Info from './Info';

@@ -16,12 +16,10 @@ const Redirect = () => {
       const res = await apiContext?.getUser()
       setUser(res.data)
     } catch (err) {
-      if (err?.response?.status === 403) {
-        navigate('/auth/login')
-        localStorage.removeItem('token')
-        localStorage.removeItem('username')
-        localStorage.removeItem('email')
-      }
+      navigate('/auth/login')
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+      localStorage.removeItem('email')
       console.log(err);
     }
   }

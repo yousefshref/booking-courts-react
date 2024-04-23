@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Header from '../components/Header'
 import { ApiContextProvider } from '../contexts/ApiContext'
-import InvoiceComponent from '../components/InvoiceComponent'
+import InvoiceComponent from '../components/Invoices/InvoiceComponent'
 import { BiFilter } from 'react-icons/bi'
 import { DatePicker, Input, Modal, Select } from 'antd'
 import { Backdrop, CircularProgress } from '@mui/material'
+import dayjs from 'dayjs'
+import moment from 'moment'
 
 
 const Manager = () => {
@@ -19,13 +21,10 @@ const Manager = () => {
   const [onlyCourts, setOnlyCourts] = useState('')
   const [onlyBooks, setOnlyBooks] = useState('')
   const [onlyAcademies, setOnlyAcademies] = useState('')
-  const [startDate, setStartDate] = useState('')
-  const [endDate, setEndDate] = useState('')
+  const [startDate, setStartDate] = useState(null)
+  const [endDate, setEndDate] = useState(null)
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
-  // const [bookId, setBookId] = useState('')
-  // const [courtId, setCourtId] = useState('')
-  // const [academyId, setAcademyId] = useState('')
 
 
 
@@ -67,7 +66,7 @@ const Manager = () => {
 
           <div className='flex flex-col gap-3'>
             <div className='flex gap-3 justify-between'>
-              <p>جميع الفواتير</p>
+              <p> جميع الفواتير</p>
               <span onClick={() => setOpenSearch(true)} className='cursor-pointer'>
                 <BiFilter />
               </span>
@@ -92,8 +91,10 @@ const Manager = () => {
                     <div className='flex flex-col gap-2 w-1/2'>
                       <p className='text-xs md:text-base'>بداية تاريخ إنشاء الفاتورة</p>
                       <DatePicker
-                        selected={createdAtStart ? new Date(createdAtStart) : null}
-                        onChange={(date) => setCreatedAtStart(date?.toISOString())}
+
+                        value={createdAtStart ? moment(createdAtStart, 'YYYY-MM-DD') : null}
+                        onChange={(date, d) => date ? setCreatedAtStart(d) : setCreatedAtStart(null)}
+
                         className='w-full'
                         placeholderText='بداية تاريخ إنشاء الفاتورة'
                       />
@@ -102,8 +103,10 @@ const Manager = () => {
                     <div className='flex flex-col gap-2 w-1/2'>
                       <p className='text-xs md:text-base'>نهاية تاريخ إنشاء الفاتورة</p>
                       <DatePicker
-                        selected={createdAtEnd ? new Date(createdAtEnd) : null}
-                        onChange={(date) => setCreatedAtEnd(date?.toISOString())}
+
+                        value={createdAtEnd ? moment(createdAtEnd, 'YYYY-MM-DD') : null}
+                        onChange={(date, d) => date ? setCreatedAtEnd(d) : setCreatedAtEnd(null)}
+
                         className='w-full'
                         placeholderText='نهاية تاريخ إنشاء الفاتورة'
                       />
@@ -157,8 +160,8 @@ const Manager = () => {
                     <div className='flex flex-col gap-2 w-1/2'>
                       <label className='text-xs md:text-base'>بداية الفترة</label>
                       <DatePicker
-                        selected={startDate ? new Date(startDate) : null}
-                        onChange={(date) => setStartDate(date?.toISOString())}
+                        value={startDate ? moment(startDate, 'YYYY-MM-DD') : null}
+                        onChange={(date, d) => date ? setStartDate(d) : setStartDate(null)}
                         className='w-full'
                         placeholderText='بداية الفترة'
                       />
@@ -167,8 +170,8 @@ const Manager = () => {
                     <div className='flex flex-col gap-2 w-1/2'>
                       <p className='text-xs md:text-base'>نهاية الفترة</p>
                       <DatePicker
-                        selected={endDate ? new Date(endDate) : null}
-                        onChange={(date) => setEndDate(date?.toISOString())}
+                        value={endDate ? moment(endDate, 'YYYY-MM-DD') : null}
+                        onChange={(date, d) => date ? setEndDate(d) : setEndDate(null)}
                         className='w-full'
                         placeholderText='نهاية الفترة'
                       />

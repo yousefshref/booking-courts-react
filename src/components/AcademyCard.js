@@ -7,7 +7,7 @@ import EditOrCreateTimeModal from './EditOrCreateTimeModal'
 import SubscribePlanComponent from './SubscribePlanComponent'
 import EditOrCreatePlanModal from './EditOrCreatePlanModal'
 import UpdateAcademy from './UpdateAcademy'
-import DisplayInvoicesModal from './DisplayInvoicesModal'
+import DisplayInvoicesModal from './Invoices/DisplayInvoicesModal'
 import { server } from '../utlits/Variables'
 
 const AcademyCard = ({ academy, getAcademies }) => {

@@ -590,8 +590,11 @@ const ApiContext = ({ children }) => {
 
 
   const check_auto_cancell = async () => {
-    const res = await axios.get(`${server}books/auto-cancel/`, header)
-    return res
+    try {
+      const res = await axios.get(`${server}books/auto-cancel/`, header)
+      return res
+    } catch (err) {
+    }
   }
 
   useEffect(() => {

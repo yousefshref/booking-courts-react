@@ -43,9 +43,9 @@ const Header = () => {
       label: (
         <p onClick={() => {
           if (checkProfile?.manager) {
-            navigate(`/manager/${user?.username}/profile`)
+            navigate(`/manager/${user?.username}/`)
           } else if (checkProfile?.staff) {
-            navigate(`/staff/${user?.username}/profile`)
+            navigate(`/staff/${user?.username}/`)
           } else {
             navigate(`/profile/${user?.username}/`)
           }

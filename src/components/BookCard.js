@@ -4,7 +4,7 @@ import { server } from '../utlits/Variables'
 import { convertToAMPM } from '../utlits/Functions'
 import { Button } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import DisplayInvoicesModal from './DisplayInvoicesModal'
+import DisplayInvoicesModal from './Invoices/DisplayInvoicesModal'
 
 const BookCard = ({ book, apiContext, setBookOpne }) => {
 
