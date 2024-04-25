@@ -23,6 +23,7 @@ const Login = () => {
         localStorage.setItem('token', res.data.token)
         localStorage.setItem('username', res.data.user.username)
         localStorage.setItem('email', res.data.user.email)
+        localStorage.setItem('phone', res.data.user.phone)
         if (res?.data?.user) window.location.reload()
       }
     } catch (err) {
