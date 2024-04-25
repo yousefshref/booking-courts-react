@@ -177,6 +177,9 @@ const UpdateOrCreateInvoice = ({ open, setOpen, invoice, create, getInvoices, co
 
 
 
+
+
+
   return (
     <Modal
       open={open}
@@ -255,14 +258,16 @@ const UpdateOrCreateInvoice = ({ open, setOpen, invoice, create, getInvoices, co
               <div className='academyCreateInvoice flex flex-col gap-4'>
                 <div className='studentInfo flex flex-col gap-4'>
                   {
-                    !request ? null :
+                    profile?.manager || profile?.staff ?
                       <div className='invoiceInfo flex flex-col gap-4'>
                         <p>الموافقة</p>
                         <Select value={isAcceptedState} onChange={(e) => setIsAcceptedState(e)}>
-                          <Select.Option value='True'>موافق</Select.Option>
+                          <Select.Option value=''>اختر</Select.Option>
                           <Select.Option value='False'>غير موافق</Select.Option>
+                          <Select.Option value='True'>موافق</Select.Option>
                         </Select>
                       </div>
+                      : null
                   }
                   <div className='invoiceInfo flex flex-col gap-4'>
                     <p>الاسم</p>
@@ -442,24 +447,30 @@ const UpdateOrCreateInvoice = ({ open, setOpen, invoice, create, getInvoices, co
                       placeholder='العنوان'
                     />
                   </div>
-                  <DatePicker
-                    value={startDate ? dayjs(startDate, 'YYYY-MM-DD') : null}
-                    onChange={(date, dateString) => {
-                      if (dateString) {
-                        setStartDate(dateString)
-                      }
-                    }}
-                    placeholder='تاريخ بدء (تاريخ الاشتراك)'
-                  />
-                  <DatePicker
-                    value={endDate ? dayjs(endDate, 'YYYY-MM-DD') : null}
-                    onChange={(date, dateString) => {
-                      if (dateString) {
-                        setEndDate(dateString)
-                      }
-                    }}
-                    placeholder='تاريخ نهاية (تاريخ نهاية الاشتراك)'
-                  />
+                  {
+                    profile?.manager || profile?.staff ? (
+                      <>
+                        <DatePicker
+                          value={startDate ? dayjs(startDate, 'YYYY-MM-DD') : null}
+                          onChange={(date, dateString) => {
+                            if (dateString) {
+                              setStartDate(dateString)
+                            }
+                          }}
+                          placeholder='تاريخ بدء (تاريخ الاشتراك)'
+                        />
+                        <DatePicker
+                          value={endDate ? dayjs(endDate, 'YYYY-MM-DD') : null}
+                          onChange={(date, dateString) => {
+                            if (dateString) {
+                              setEndDate(dateString)
+                            }
+                          }}
+                          placeholder='تاريخ نهاية (تاريخ نهاية الاشتراك)'
+                        />
+                      </>
+                    ) : null
+                  }
                 </div>
 
                 <div className='invoiceInfo flex flex-col gap-4'>
