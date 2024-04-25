@@ -45,8 +45,8 @@ const CourtBook = () => {
 
 
 
-  const [name, setName] = useState('')
-  const [phone, setPhone] = useState('')
+  const [name, setName] = useState(localStorage.getItem('name') || '')
+  const [phone, setPhone] = useState(localStorage.getItem('phone') || '')
   const [date, setDate] = useState(getCurrentDate())
   const [tools, setTools] = useState([])
   const [startTime, setStartTime] = useState(null)

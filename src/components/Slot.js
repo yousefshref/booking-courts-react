@@ -25,7 +25,7 @@ const Slot = ({ slot, closedSlots, pinnedSlots, date, bookedSlots, visible, setV
   const b = (pinnedSlots[0]?.book_details?.start_time?.slice(0, 5) === first_slot && pinnedSlots[0]?.book_details?.end_time?.slice(0, 5) === secSlot) || (pinned?.book_details?.end_time?.slice(0, 5) === sec_slot && pinned?.book_details?.start_time?.slice(0, 5) === first_slot) || (booked)
 
   const currentDate = new Date().toISOString().slice(0, 10)
-  const isToday = currentDate < date
+  const isToday = currentDate <= date
 
 
   return (
