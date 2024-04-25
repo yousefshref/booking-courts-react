@@ -26,9 +26,12 @@ const Slot = ({ slot, closedSlots, pinnedSlots, date, bookedSlots, visible, setV
 
   const currentDate = new Date().toISOString().slice(0, 10)
 
+  const hideSlotCuzt = (firstSlot >= currentTime || date > currentDate) ? true : false
+
+
 
   return (
-    firstSlot > currentTime && date >= currentDate ?
+    hideSlotCuzt ?
       <div
         onClick={() => {
           if (isSecSlotClosed && isFirstSlotClosed) {
