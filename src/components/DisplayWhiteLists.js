@@ -30,7 +30,7 @@ const DisplayWhiteLists = ({ open, setOpen }) => {
       closeIcon={false}
     >
 
-      <div className='min-h-fit max-h-[500px] p-2 bg-zinc-200 overflow-scroll rounded-lg'>
+      <div className='min-h-fit max-h-[500px] p-2 bg-zinc-200 overflow-scroll rounded-xl'>
 
         {
           whitelists?.map(whitelist => (

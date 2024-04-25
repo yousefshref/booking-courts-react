@@ -18,7 +18,6 @@ const CourtDetail = () => {
   const id = window.location.pathname.split('/').pop()
 
 
-
   const [loadingCourt, setLoadingCourt] = useState(true)
   const [court, setCourt] = useState(null)
 
@@ -60,7 +59,7 @@ const CourtDetail = () => {
   }, [id, court?.id])
 
 
-  const [mainImage, setMainImage] = useState(server + images[0]?.image);
+  const [mainImage, setMainImage] = useState(images[0] ? server + images[0]?.image : "https://images.pexels.com/photos/46798/the-ball-stadion-football-the-pitch-46798.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
 
   useEffect(() => {
     if (images.length > 0) {
@@ -128,233 +127,248 @@ const CourtDetail = () => {
       </Backdrop>
       <Header />
 
-      <div className='p-5 w-full max-w-6xl mx-auto'>
-        <Button onClick={() => navigate(`/court/${court?.name?.replace(' ', '-')}/${court?.id}/book/`)} type='primary' className='font'>أحجز الملعب</Button>
-      </div>
-
-      <div className='flex flex-col gap-3 p-5 w-full max-w-6xl mx-auto'>
-        <div className='top flex md:flex-row flex-col gap-3 bg-white p-3 rounded-md shadow-md'>
-          <div className="flex flex-col items-center">
-            <div className="main-image">
-              <img src={mainImage} alt="Main Image" className="w-full md:max-w-[240px] h-auto rounded-md" />
-            </div>
-            <div className='flex gap-1 p-2 w-full max-w-[260px]'>
-              <div onClick={() => {
-                const imagesDiv = document.getElementById('imagesSmall')
-                imagesDiv.scrollBy({
-                  top: 0,
-                  left: -100,
-                  behavior: 'smooth'
-                })
-              }} className="prev-arrow flex flex-col justify-center cursor-pointer p-1 bg-indigo-200 transition-all hover:bg-indigo-300 rounded-full">
-                <ArrowRight />
-              </div>
-              <div id='imagesSmall' className="relative whitespace-nowrap bg-zinc-200 rounded-md thumbnail-images flex overflow-scroll gap-3 justify-start ">
-                {
-                  loadingImages ? <Loading /> : (
-                    images.map((image, index) => (
-                      <img
-                        key={index}
-                        className="thumbnail inline-block rounded-md w-16 h-auto cursor-pointer"
-                        src={server + image.image}
-                        alt={court?.name}
-                        onClick={() => handleThumbnailClick(server + image?.image)}
-                      />
-                    ))
-                  )
-                }
-              </div>
-              <div onClick={() => {
-                const imagesDiv = document.getElementById('imagesSmall')
-                imagesDiv.scrollBy({
-                  top: 0,
-                  left: 100,
-                  behavior: 'smooth'
-                })
-              }} className="prev-arrow flex flex-col justify-center cursor-pointer p-1 bg-indigo-200 transition-all hover:bg-indigo-300 rounded-full">
-                <ArrowLeft />
-              </div>
-            </div>
-          </div>
-          <div className='flex flex-col gap-2 my-auto'>
-            <h1 className='text-3xl'>{court?.name}</h1>
-            <p>{court?.address}</p>
-            <p>{court?.state_details?.name}</p>
-            <p>{court?.price_per_hour?.split('.')[0]} EGP</p>
-          </div>
-        </div>
-      </div>
-
-      <div className='flex bg-white rounded-md shadow-md mt-5 flex-col gap-3 p-5 w-full max-w-6xl mx-auto'>
-        <div className='flex md:flex-row flex-col gap-6 justify-around'>
-          {
-            court?.location_url &&
-            <a href={court?.location_url} target='_blank' className='flex gap-1 cursor-pointer my-auto'>
-              <span className='my-auto'>
-                <SiGooglemaps />
-              </span>
-              <p className='my-auto'>رابط المكان</p>
-            </a>
-          }
-          <div className='flex flex-col my-auto'>
-            <div className='open_from_to flex gap-3'>
-              <div className='flex gap-1 text-green-600'>
-                <span className='my-auto'>
-                  <FaClock />
-                </span>
-                <p>{court && convertToAMPM(court?.open_from?.slice(0, 5))}</p>
-              </div>
-              <div className='flex gap-1 text-red-600'>
-                <span className='my-auto'>
-                  <FaClock />
-                </span>
-                <p>{court && convertToAMPM(court?.open_to?.slice(0, 5))}</p>
-              </div>
-            </div>
-            <small className='md:mx-auto'>مواعيد العمل</small>
-          </div>
-          {
-            court?.close_from && court?.close_to ?
-              <div className='flex flex-col my-auto'>
-                <div className='close_from_to flex gap-3'>
-                  <div className='flex gap-1 text-red-600'>
-                    <span className='my-auto'>
-                      <FaClock />
-                    </span>
-                    <p>{convertToAMPM(court?.close_from?.slice(0, 5))}</p>
-                  </div>
-                  <div className='flex gap-1 text-red-600'>
-                    <span className='my-auto'>
-                      <FaClock />
-                    </span>
-                    <p>{convertToAMPM(court?.close_to?.slice(0, 5))}</p>
-                  </div>
-                </div>
-                <small className='md:mx-auto'>يغلق في</small>
-              </div>
-              : null
-          }
+      <div className='flex flex-col gap-5 p-5'>
+        <div className='p-5 w-full max-w-6xl mx-auto'>
+          <Button onClick={() => navigate(`/court/${court?.name?.replace(' ', '-')}/${court?.id}/book/`)} type='primary' className='font'>أحجز الملعب</Button>
         </div>
 
-        {
-          (court?.offer_price && court?.offer_time_from && court?.offer_time_to) ||
-            (court?.event_price && court?.event_time_from && court?.event_time_to) ?
-            <hr />
-            : null
-        }
-
-        <div className='flex md:flex-row flex-col gap-6 justify-around'>
-          {
-            court?.offer_price && court?.offer_time_from && court?.offer_time_to ?
-              <div className='flex flex-col my-auto'>
-                <div className='open_from_to flex gap-3'>
-                  <div className='flex gap-1 text-green-600'>
-                    <span className='my-auto'>
-                      <FaClock />
-                    </span>
-                    {/* <p>{court && convertToAMPM(court?.offer_time_from?.slice(0, 5))}</p> */}
-                  </div>
-                  <div className='flex gap-1 text-green-600'>
-                    <span className='my-auto'>
-                      <FaClock />
-                    </span>
-                    {/* <p>{court && convertToAMPM(court?.offer_time_to?.slice(0, 5))}</p> */}
-                  </div>
-                </div>
-                <div className='md:mx-auto flex gap-1 text-green-700'>
-                  <small className='my-auto'>{court?.offer_price?.split('.')[0]} EGP</small>
-                </div>
-                <div className='md:mx-auto flex gap-1 text-indigo-700'>
-                  <BiSolidOffer className='text-lg my-auto' />
-                  <small className='my-auto'>عرض محدود</small>
-                </div>
-                <hr className='my-3 block md:hidden' />
+        <div className='flex flex-col gap-3 p-5 w-full max-w-6xl mx-auto'>
+          <div className='top flex md:flex-row flex-col gap-3 bg-white p-3 rounded-md shadow-md'>
+            <div className="flex flex-col items-center">
+              <div className="main-image">
+                <img src={mainImage} alt={court?.name} className="w-full md:max-w-[240px] h-auto rounded-md" />
               </div>
-              : null
-          }
-
-
-          {
-            court?.event_price && court?.event_time_from && court?.event_time_to ?
-              <div className='flex flex-col my-auto'>
-                <div className='open_from_to flex gap-3'>
-                  <div className='flex gap-1 text-green-600'>
-                    <span className='my-auto'>
-                      <FaClock />
-                    </span>
-                    <p>{court && convertToAMPM(court?.event_time_from?.slice(0, 5))}</p>
-                  </div>
-                  <div className='flex gap-1 text-green-600'>
-                    <span className='my-auto'>
-                      <FaClock />
-                    </span>
-                    <p>{court && convertToAMPM(court?.event_time_to?.slice(0, 5))}</p>
-                  </div>
+              <div className='flex gap-1 p-2 w-full max-w-[260px]'>
+                <div onClick={() => {
+                  const imagesDiv = document.getElementById('imagesSmall')
+                  imagesDiv.scrollBy({
+                    top: 0,
+                    left: -100,
+                    behavior: 'smooth'
+                  })
+                }} className="prev-arrow flex flex-col justify-center cursor-pointer p-1 bg-indigo-200 transition-all hover:bg-indigo-300 rounded-full">
+                  <ArrowRight />
                 </div>
-                <div className='md:mx-auto flex gap-1 text-green-700'>
-                  <small className='my-auto'>{court?.event_price?.split('.')[0]} EGP</small>
+                <div id='imagesSmall' className="relative whitespace-nowrap bg-zinc-200 rounded-md thumbnail-images flex overflow-scroll gap-3 justify-start ">
+                  {
+                    loadingImages ? <Loading /> : (
+                      images?.length > 0 ?
+                        images.map((image, index) => (
+                          <img
+                            key={index}
+                            className="thumbnail inline-block rounded-md w-16 h-auto cursor-pointer"
+                            src={server + image.image}
+                            alt={court?.name}
+                            onClick={() => handleThumbnailClick(server + image?.image)}
+                          />
+                        ))
+                        : null
+                    )
+                  }
                 </div>
-                <div className='md:mx-auto flex gap-1 text-indigo-700'>
-                  <Event fontSize='small' />
-                  <small className='my-auto'>عرض محدود</small>
+                <div onClick={() => {
+                  const imagesDiv = document.getElementById('imagesSmall')
+                  imagesDiv.scrollBy({
+                    top: 0,
+                    left: 100,
+                    behavior: 'smooth'
+                  })
+                }} className="prev-arrow flex flex-col justify-center cursor-pointer p-1 bg-indigo-200 transition-all hover:bg-indigo-300 rounded-full">
+                  <ArrowLeft />
                 </div>
               </div>
-              : null
-          }
-
+            </div>
+            <div className='flex flex-col gap-2 my-auto'>
+              <h1 className='text-3xl'>{court?.name}</h1>
+              <p>{court?.address}</p>
+              <p>{court?.state_details?.name}</p>
+              <p>{court?.price_per_hour?.split('.')[0]} EGP</p>
+            </div>
+          </div>
         </div>
 
-      </div>
-
-
-      {
-        features?.length > 0 &&
-        <div className='flex bg-white rounded-md shadow-md mt-5 flex-col gap-3 p-5 w-full max-w-6xl mx-auto'>
-          <p className='text-lg font-bold'>المميزات</p>
-          <div className='flex flex-col gap-3'>
+        <div className='flex p-5 rounded-xl bg-indigo-200 flex-col justify-center text-center w-full max-w-6xl mx-auto'>
+          <div className='flex gap-5 justify-around'>
             {
-              features?.map((feature, index) => (
-                <div key={index} className='flex justify-between p-3 bg-indigo-100 rounded-md w-full'>
-                  <strong className='text-sm text-zinc-600'>{feature?.name}</strong>
-                  <span className={`text-sm ${feature?.is_free ? "text-green-700" : "text-red-700"}`}>{feature?.is_free ? 'مجاني' : 'رسوم'}</span>
+              court?.profile_details?.logo &&
+              <img className='w-36 h-36 my-auto' src={court?.profile_details?.logo} alt={court?.name} />
+            }
+            <p className='text-3xl my-auto'>{court?.profile_details?.brand_name}</p>
+          </div>
+          <Button onClick={() => navigate(`/managers/${court?.profile_details?.brand_name?.replace(' ', '-')}/${court?.profile_details?.id}/courts/`)} type='primary' className='font bg-sky-500 h-[50px] rounded-xl'>رؤية جميع انشطة الاكاديمية</Button>
+        </div>
+
+        <div className='flex bg-white rounded-md shadow-md mt-5 flex-col gap-3 p-5 w-full max-w-6xl mx-auto'>
+          <div className='flex md:flex-row flex-col gap-6 justify-around'>
+            {
+              court?.location_url &&
+              <a href={court?.location_url} target='_blank' className='flex gap-1 cursor-pointer my-auto'>
+                <span className='my-auto'>
+                  <SiGooglemaps />
+                </span>
+                <p className='my-auto'>رابط المكان</p>
+              </a>
+            }
+            <div className='flex flex-col my-auto'>
+              <div className='open_from_to flex gap-3'>
+                <div className='flex gap-1 text-green-600'>
+                  <span className='my-auto'>
+                    <FaClock />
+                  </span>
+                  <p>{court && convertToAMPM(court?.open_from?.slice(0, 5))}</p>
                 </div>
-              ))
+                <div className='flex gap-1 text-red-600'>
+                  <span className='my-auto'>
+                    <FaClock />
+                  </span>
+                  <p>{court && convertToAMPM(court?.open_to?.slice(0, 5))}</p>
+                </div>
+              </div>
+              <small className='md:mx-auto'>مواعيد العمل</small>
+            </div>
+            {
+              court?.close_from && court?.close_to ?
+                <div className='flex flex-col my-auto'>
+                  <div className='close_from_to flex gap-3'>
+                    <div className='flex gap-1 text-red-600'>
+                      <span className='my-auto'>
+                        <FaClock />
+                      </span>
+                      <p>{convertToAMPM(court?.close_from?.slice(0, 5))}</p>
+                    </div>
+                    <div className='flex gap-1 text-red-600'>
+                      <span className='my-auto'>
+                        <FaClock />
+                      </span>
+                      <p>{convertToAMPM(court?.close_to?.slice(0, 5))}</p>
+                    </div>
+                  </div>
+                  <small className='md:mx-auto'>يغلق في</small>
+                </div>
+                : null
             }
           </div>
-        </div>
-      }
-      {
-        loadingFeatures &&
-        <div className='flex bg-white rounded-md shadow-md mt-5 flex-col gap-3 p-5 w-full max-w-6xl mx-auto'>
-          <Loading />
-        </div>
-      }
 
-
-
-      {
-        (tools?.length > 0 || loadingTools) &&
-        <div className='flex bg-white rounded-md shadow-md mt-5 flex-col gap-3 p-5 w-full max-w-6xl mx-auto'>
-          <p className='text-lg font-bold'>الأدوات</p>
           {
-            loadingTools &&
-            <Loading />
+            (court?.offer_price && court?.offer_time_from && court?.offer_time_to) ||
+              (court?.event_price && court?.event_time_from && court?.event_time_to) ?
+              <hr />
+              : null
           }
-          {
-            tools?.length > 0 &&
+
+          <div className='flex md:flex-row flex-col gap-6 justify-around'>
+            {
+              court?.offer_price && court?.offer_time_from && court?.offer_time_to ?
+                <div className='flex flex-col my-auto'>
+                  <div className='open_from_to flex gap-3'>
+                    <div className='flex gap-1 text-green-600'>
+                      <span className='my-auto'>
+                        <FaClock />
+                      </span>
+                      {/* <p>{court && convertToAMPM(court?.offer_time_from?.slice(0, 5))}</p> */}
+                    </div>
+                    <div className='flex gap-1 text-green-600'>
+                      <span className='my-auto'>
+                        <FaClock />
+                      </span>
+                      {/* <p>{court && convertToAMPM(court?.offer_time_to?.slice(0, 5))}</p> */}
+                    </div>
+                  </div>
+                  <div className='md:mx-auto flex gap-1 text-green-700'>
+                    <small className='my-auto'>{court?.offer_price?.split('.')[0]} EGP</small>
+                  </div>
+                  <div className='md:mx-auto flex gap-1 text-indigo-700'>
+                    <BiSolidOffer className='text-lg my-auto' />
+                    <small className='my-auto'>عرض محدود</small>
+                  </div>
+                  <hr className='my-3 block md:hidden' />
+                </div>
+                : null
+            }
+
+
+            {
+              court?.event_price && court?.event_time_from && court?.event_time_to ?
+                <div className='flex flex-col my-auto'>
+                  <div className='open_from_to flex gap-3'>
+                    <div className='flex gap-1 text-green-600'>
+                      <span className='my-auto'>
+                        <FaClock />
+                      </span>
+                      <p>{court && convertToAMPM(court?.event_time_from?.slice(0, 5))}</p>
+                    </div>
+                    <div className='flex gap-1 text-green-600'>
+                      <span className='my-auto'>
+                        <FaClock />
+                      </span>
+                      <p>{court && convertToAMPM(court?.event_time_to?.slice(0, 5))}</p>
+                    </div>
+                  </div>
+                  <div className='md:mx-auto flex gap-1 text-green-700'>
+                    <small className='my-auto'>{court?.event_price?.split('.')[0]} EGP</small>
+                  </div>
+                  <div className='md:mx-auto flex gap-1 text-indigo-700'>
+                    <Event fontSize='small' />
+                    <small className='my-auto'>عرض محدود</small>
+                  </div>
+                </div>
+                : null
+            }
+
+          </div>
+
+        </div>
+
+
+        {
+          features?.length > 0 &&
+          <div className='flex bg-white rounded-md shadow-md mt-5 flex-col gap-3 p-5 w-full max-w-6xl mx-auto'>
+            <p className='text-lg font-bold'>المميزات</p>
             <div className='flex flex-col gap-3'>
               {
-                tools?.map((tool, index) => (
+                features?.map((feature, index) => (
                   <div key={index} className='flex justify-between p-3 bg-indigo-100 rounded-md w-full'>
-                    <strong className='text-sm text-zinc-600'>{tool?.name}</strong>
-                    <span className='text-sm text-green-600'>{tool?.price?.split('.')[0]} EGP</span>
+                    <strong className='text-sm text-zinc-600'>{feature?.name}</strong>
+                    <span className={`text-sm ${feature?.is_free ? "text-green-700" : "text-red-700"}`}>{feature?.is_free ? 'مجاني' : 'رسوم'}</span>
                   </div>
                 ))
               }
             </div>
-          }
-        </div>
-      }
+          </div>
+        }
+        {
+          loadingFeatures &&
+          <div className='flex bg-white rounded-md shadow-md mt-5 flex-col gap-3 p-5 w-full max-w-6xl mx-auto'>
+            <Loading />
+          </div>
+        }
+
+
+
+        {
+          (tools?.length > 0 || loadingTools) &&
+          <div className='flex bg-white rounded-md shadow-md mt-5 flex-col gap-3 p-5 w-full max-w-6xl mx-auto'>
+            <p className='text-lg font-bold'>الأدوات</p>
+            {
+              loadingTools &&
+              <Loading />
+            }
+            {
+              tools?.length > 0 &&
+              <div className='flex flex-col gap-3'>
+                {
+                  tools?.map((tool, index) => (
+                    <div key={index} className='flex justify-between p-3 bg-indigo-100 rounded-md w-full'>
+                      <strong className='text-sm text-zinc-600'>{tool?.name}</strong>
+                      <span className='text-sm text-green-600'>{tool?.price?.split('.')[0]} EGP</span>
+                    </div>
+                  ))
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
 
 
     </div>

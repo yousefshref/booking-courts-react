@@ -9,7 +9,7 @@ const TimeComponent = ({ time, getAcademyTimes }) => {
   const [editOpen, setEditOpen] = React.useState(false)
 
   return (
-    <div className='p-2 flex justify-between flex-wrap gap-2 rounded-lg bg-indigo-100 w-full' key={time?.id}>
+    <div className='p-2 flex justify-between flex-wrap gap-2 rounded-xl bg-indigo-100 w-full' key={time?.id}>
       <p>{time?.day_name}</p>
       <div className='flex flex-row gap-3'>
         <p className='flex gap-1'>

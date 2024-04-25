@@ -13,15 +13,15 @@ const WhiteListComponent = ({ whitelist, getWhtieLists }) => {
 
   const [image, setImage] = React.useState(null)
   return (
-    <div className='flex bg-white justify-between w-full p-2 rounded-lg border'>
+    <div className='flex bg-white justify-between w-full p-2 rounded-xl border'>
       <div className='flex flex-col gap-2 w-1/4'>
         {
           whitelist?.image &&
-          <img onClick={() => setImage(whitelist?.image)} className='w-1/3 rounded-lg cursor-pointer' alt='test image' src={server + whitelist?.image} />
+          <img onClick={() => setImage(whitelist?.image)} className='w-1/3 rounded-xl cursor-pointer' alt='test image' src={server + whitelist?.image} />
         }
         {
           whitelist?.image2 &&
-          <img onClick={() => setImage(whitelist?.image2)} className='w-1/3 rounded-lg cursor-pointer' alt='test image' src={server + whitelist?.image2} />
+          <img onClick={() => setImage(whitelist?.image2)} className='w-1/3 rounded-xl cursor-pointer' alt='test image' src={server + whitelist?.image2} />
         }
 
         <Modal
@@ -32,7 +32,7 @@ const WhiteListComponent = ({ whitelist, getWhtieLists }) => {
           width={650}
           closeIcon={false}
         >
-          <img className='w-full rounded-lg' alt='test image' src={server + image} />
+          <img className='w-full rounded-xl' alt='test image' src={server + image} />
         </Modal>
 
       </div>

@@ -46,7 +46,7 @@ const ImagesAndVideos = ({ court, images, videos, setSelectedImages, setSelected
           <small className='my-auto text-red-700'>يستحسن ان تكون 250px X 250px</small>
         </div>
         <div className='flex flex-wrap gap-2'>
-          <label htmlFor="upload-btn" className="upload mt-auto cursor-pointer bg-indigo-500 transition-all hover:bg-indigo-600 text-white font-bold h-[200px] flex flex-col justify-center w-[200px] py-2 px-4 rounded-lg shadow-md">
+          <label htmlFor="upload-btn" className="upload mt-auto cursor-pointer bg-indigo-500 transition-all hover:bg-indigo-600 text-white font-bold h-[200px] flex flex-col justify-center w-[200px] py-2 px-4 rounded-xl shadow-md">
             <span className='mx-auto'>أختر صورة</span>
             <input
               id="upload-btn"

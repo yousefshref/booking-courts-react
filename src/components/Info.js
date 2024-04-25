@@ -143,28 +143,28 @@ const Info = ({
         <p>يفتح من *</p>
         <div className="relative">
 
-          <input value={openFrom?.slice(0, 5)} onChange={(e) => setOpenFrom(e.target.value)} type="time" className="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg outline-none transition-all focus:border-blue-500 block w-full p-2.5" required />
+          <input value={openFrom?.slice(0, 5)} onChange={(e) => setOpenFrom(e.target.value)} type="time" className="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-xl outline-none transition-all focus:border-blue-500 block w-full p-2.5" required />
         </div>
       </div>
 
       <div className='flex flex-col gap-1'>
         <p>يفتح حتي *</p>
         <div className="relative">
-          <input value={openTo?.slice(0, 5)} onChange={(e) => setOpenTo(e.target.value)} type="time" className="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg outline-none transition-all focus:border-blue-500 block w-full p-2.5" required />
+          <input value={openTo?.slice(0, 5)} onChange={(e) => setOpenTo(e.target.value)} type="time" className="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-xl outline-none transition-all focus:border-blue-500 block w-full p-2.5" required />
         </div>
       </div>
 
       <div className='flex flex-col gap-1'>
         <p>يغلق من </p>
         <div className="relative">
-          <input value={closeFrom?.slice(0, 5)} onChange={(e) => setCloseFrom(e.target.value)} type="time" className="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg outline-none transition-all focus:border-blue-500 block w-full p-2.5" required />
+          <input value={closeFrom?.slice(0, 5)} onChange={(e) => setCloseFrom(e.target.value)} type="time" className="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-xl outline-none transition-all focus:border-blue-500 block w-full p-2.5" required />
         </div>
       </div>
 
       <div className='flex flex-col gap-1'>
         <p>يغلق حتي </p>
         <div className="relative">
-          <input value={closeTo?.slice(0, 5)} onChange={(e) => setCloseTo(e.target.value)} type="time" className="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg outline-none transition-all focus:border-blue-500 block w-full p-2.5" required />
+          <input value={closeTo?.slice(0, 5)} onChange={(e) => setCloseTo(e.target.value)} type="time" className="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-xl outline-none transition-all focus:border-blue-500 block w-full p-2.5" required />
         </div>
       </div>
 

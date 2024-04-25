@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ApiContextProvider } from '../contexts/ApiContext'
 import { Button, Dropdown } from 'antd'
+import DisplayInvoicesModal from './Invoices/DisplayInvoicesModal'
 
 const Header = () => {
   const navigate = useNavigate()
@@ -37,6 +38,23 @@ const Header = () => {
     getCheckProfile()
   }, [])
 
+
+  const [invoices, setInvoices] = useState([])
+
+  const getInvoices = async () => {
+    const res = await apiContext?.getInvoices({
+      request: 'True'
+    })
+    setInvoices(res?.data)
+  }
+
+  useEffect(() => {
+    getInvoices()
+  }, [])
+
+
+  const [opneRequestedInvoices, setOpneRequestedInvoices] = useState(false)
+
   const items = [
     {
       key: '1',
@@ -49,11 +67,19 @@ const Header = () => {
           } else {
             navigate(`/profile/${user?.username}/`)
           }
-        }} className='my-auto'>أهلا, {localStorage.getItem('username')}</p>
+        }} className='my-auto font'>الصفحة الشخصية</p>
       ),
     },
+    checkProfile?.manager || checkProfile?.staff ?
+      {
+        key: '2',
+        label: (
+          <p onClick={() => setOpneRequestedInvoices(true)} className='my-auto font'>طلبات الاشتراكات {invoices?.length}</p>
+        ),
+      }
+      : null,
     {
-      key: '2',
+      key: '3',
       label: (
         <p onClick={() => {
           localStorage.removeItem('token')
@@ -69,6 +95,9 @@ const Header = () => {
     <header className='flex justify-between p-2 bg-white'>
       <h3 className='text-2xl font-bold my-auto hidden md:flex'>لينكاوي</h3>
       <div className='navs flex gap-2 my-auto'>
+
+        <DisplayInvoicesModal request={true} open={opneRequestedInvoices} setOpen={setOpneRequestedInvoices} />
+
         {
           checkProfile?.manager && (
             <>

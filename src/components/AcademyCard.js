@@ -62,13 +62,13 @@ const AcademyCard = ({ academy, getAcademies }) => {
   const [displayInvoices, setDisplayInvoices] = React.useState(false)
 
   return (
-    <div className='relative p-4 rounded-lg h-fit bg-white w-full max-w-xs flex flex-col gap-3'>
+    <div className='relative p-4 rounded-xl h-fit bg-white w-full max-w-xs flex flex-col gap-3'>
 
       {
         academyData?.image && (
           <>
-            <div className='flex rounded-lg'>
-              <img src={server + academyData?.image} className='rounded-lg' />
+            <div className='flex rounded-xl'>
+              <img src={server + academyData?.image} className='rounded-xl' />
             </div>
 
             <hr />

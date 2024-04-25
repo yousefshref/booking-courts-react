@@ -5,10 +5,18 @@ import { ApiContextProvider } from '../../contexts/ApiContext'
 import { server } from '../../utlits/Variables'
 import { Backdrop, CircularProgress } from '@mui/material'
 
-const UpdateOrCreateInvoice = ({ open, setOpen, invoice, create, getInvoices, court, book, academy }) => {
+const UpdateOrCreateInvoice = ({ open, setOpen, invoice, create, getInvoices, court, book, academy, request }) => {
 
   const apiContext = useContext(ApiContextProvider)
 
+  const [profile, setProfile] = useState({})
+  const checkProfile = async () => {
+    const res = await apiContext?.checkProfile(localStorage.getItem('token'))
+    setProfile(res?.data)
+  }
+  useEffect(() => {
+    checkProfile()
+  }, [])
 
 
   const [messageApi, contextHolder] = message.useMessage();
@@ -44,6 +52,9 @@ const UpdateOrCreateInvoice = ({ open, setOpen, invoice, create, getInvoices, co
   const [description, setDescription] = useState(invoice?.description || '')
   const [paiedWith, setPaiedWith] = useState(invoice?.paied_with || 'عند الحضور')
 
+  const [isAcceptedState, setIsAcceptedState] = useState(invoice?.is_accepted || request ? 'True' : 'False' || '')
+
+
 
 
   const [loading, setLoading] = useState(false)
@@ -56,37 +67,52 @@ const UpdateOrCreateInvoice = ({ open, setOpen, invoice, create, getInvoices, co
 
     setLoading(true)
 
-    const formData = new FormData();
+    try {
 
-    if (typeof thePlayerImage === 'object') formData.append('the_player_image', thePlayerImage);
-    if (typeof birthCertificateImage === 'object') formData.append('birth_certificate_image', birthCertificateImage);
-    if (typeof passport === 'object') formData.append('passport', passport);
-    if (typeof idCardImageOfPlayer === 'object') formData.append('id_card_image_of_player', idCardImageOfPlayer);
-    if (typeof idCardImageOfPlayerParent === 'object') formData.append('id_card_image_of_player_parent', idCardImageOfPlayerParent);
+      const formData = new FormData();
 
-    if (name) formData.append('name', name);
-    if (phone) formData.append('phone', phone);
-    if (age) formData.append('age', age);
-    if (gender) formData.append('gender', gender);
-    if (nationality) formData.append('nationality', nationality);
-    if (fatherPhone) formData.append('father_phone', fatherPhone);
-    if (motherPhone) formData.append('mother_phone', motherPhone);
-    if (address) formData.append('address', address);
-    if (startDate) formData.append('start_date', startDate);
-    if (endDate) formData.append('end_date', endDate);
-    if (amount) formData.append('amount', amount);
-    if (description) formData.append('description', description);
-    if (paiedWith) formData.append('paied_with', paiedWith);
+      if (typeof thePlayerImage === 'object') formData.append('the_player_image', thePlayerImage);
+      if (typeof birthCertificateImage === 'object') formData.append('birth_certificate_image', birthCertificateImage);
+      if (typeof passport === 'object') formData.append('passport', passport);
+      if (typeof idCardImageOfPlayer === 'object') formData.append('id_card_image_of_player', idCardImageOfPlayer);
+      if (typeof idCardImageOfPlayerParent === 'object') formData.append('id_card_image_of_player_parent', idCardImageOfPlayerParent);
+
+      if (request) formData.append('is_accepted', isAcceptedState);
+      if (request) formData.append('is_academy', 'True');
 
 
-    const res = await apiContext?.updateInvoice(invoice?.id, formData)
-    if (res?.data?.id) {
-      getInvoices()
-      setOpen(false)
-    } else {
-      Object?.entries(res?.data || {}).forEach(([key, value]) => error(`${key}: ${value?.join(', ')}`))
+
+      if (name) formData.append('name', name);
+      if (phone) formData.append('phone', phone);
+      if (age) formData.append('age', age);
+      if (gender) formData.append('gender', gender);
+      if (nationality) formData.append('nationality', nationality);
+      if (fatherPhone) formData.append('father_phone', fatherPhone);
+      if (motherPhone) formData.append('mother_phone', motherPhone);
+      if (address) formData.append('address', address);
+      if (startDate) formData.append('start_date', startDate);
+      if (endDate) formData.append('end_date', endDate);
+      if (amount) formData.append('amount', amount);
+      if (description) formData.append('description', description);
+      if (paiedWith) formData.append('paied_with', paiedWith);
+
+
+      const res = await apiContext?.updateInvoice(invoice?.id, formData)
+      if (res?.data?.id) {
+        getInvoices()
+        setOpen(false)
+      } else if (res?.data?.deleted) {
+        getInvoices()
+        setOpen(false)
+        alert('تم حذف الطلب')
+      } else {
+        Object?.entries(res?.data || {}).forEach(([key, value]) => error(`${key}: ${value?.join(', ')}`))
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
 
@@ -96,13 +122,19 @@ const UpdateOrCreateInvoice = ({ open, setOpen, invoice, create, getInvoices, co
 
     if (courtId) formData.append('court', courtId);
     if (bookId) formData.append('book', bookId);
-    if (academyId) formData.append('academy', academyId);
+    if (academyId && (request == false || !request)) formData.append('academy', academyId);
+    if (request == true) formData.append('academy', academy?.id);
+
+    if (request == true) formData.append('manager', academy?.manager);
 
     if (typeof thePlayerImage === 'object') formData.append('the_player_image', thePlayerImage);
     if (typeof birthCertificateImage === 'object') formData.append('birth_certificate_image', birthCertificateImage);
     if (typeof passport === 'object') formData.append('passport', passport);
     if (typeof idCardImageOfPlayer === 'object') formData.append('id_card_image_of_player', idCardImageOfPlayer);
     if (typeof idCardImageOfPlayerParent === 'object') formData.append('id_card_image_of_player_parent', idCardImageOfPlayerParent);
+
+    if (request == true) formData.append('request', true);
+    if (request == true) formData.append('user_profile', profile?.user?.id);
 
     if (name) formData.append('name', name);
     if (phone) formData.append('phone', phone);
@@ -120,7 +152,9 @@ const UpdateOrCreateInvoice = ({ open, setOpen, invoice, create, getInvoices, co
 
     const res = await apiContext?.createInvoice(formData)
     if (res?.data?.id) {
-      getInvoices()
+      if (request == false) {
+        getInvoices()
+      }
       setOpen(false)
       setOpenRenew(false)
     } else {
@@ -181,7 +215,7 @@ const UpdateOrCreateInvoice = ({ open, setOpen, invoice, create, getInvoices, co
         }
 
         {
-          !create && (path?.includes('manager') || path?.includes('staff')) && !path?.includes('books') && !path?.includes('courts') ?
+          !create && !request && (path?.includes('manager') || path?.includes('staff')) && !path?.includes('books') && !path?.includes('courts') ?
             <Button className='w-full font' type='primary' onClick={() => setOpenRenew(true)}>
               تجديد الاشتراك
             </Button>
@@ -216,10 +250,20 @@ const UpdateOrCreateInvoice = ({ open, setOpen, invoice, create, getInvoices, co
 
 
         {
-          (path?.includes('manager') || path?.includes('staff')) && (!path?.includes('books') && !path?.includes('courts')) ?
+          (path?.includes('manager') || path?.includes('staff')) && (!path?.includes('books') && !path?.includes('courts')) || request ?
             (
               <div className='academyCreateInvoice flex flex-col gap-4'>
                 <div className='studentInfo flex flex-col gap-4'>
+                  {
+                    !request ? null :
+                      <div className='invoiceInfo flex flex-col gap-4'>
+                        <p>الموافقة</p>
+                        <Select value={isAcceptedState} onChange={(e) => setIsAcceptedState(e)}>
+                          <Select.Option value='True'>موافق</Select.Option>
+                          <Select.Option value='False'>غير موافق</Select.Option>
+                        </Select>
+                      </div>
+                  }
                   <div className='invoiceInfo flex flex-col gap-4'>
                     <p>الاسم</p>
                     <Input
@@ -430,17 +474,25 @@ const UpdateOrCreateInvoice = ({ open, setOpen, invoice, create, getInvoices, co
         }
 
         <div className='flex flex-col gap-4'>
-          <div className='invoiceInfo flex flex-col gap-4'>
-            <p>المبلغ</p>
+          {
+            !request &&
+            <div className='invoiceInfo flex flex-col gap-4'>
+              <p>المبلغ</p>
 
-            <Input
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder='المبلغ مثل: 300 او -130'
-            />
-          </div>
+              <Input
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder='المبلغ مثل: 300 او -130'
+              />
+            </div>
+          }
           <div className='invoiceInfo flex flex-col gap-4'>
-            <p>وصف العملية</p>
+            {
+              !request ?
+                <p>وصف العملية</p>
+                :
+                <p>اكتب ماذا تريد للمدرب, وسيتم الرد عليكم في اقرب وقت</p>
+            }
             <Input
               value={description}
               onChange={(e) => setDescription(e.target.value)}

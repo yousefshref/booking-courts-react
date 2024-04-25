@@ -98,7 +98,7 @@ const ManagerAcadamies = () => {
         {/* academies and create new one */}
         <CreateAcademyButton getAcademies={getAcademies} />
 
-        <div className='flex flex-wrap gap-5 p-5 justify-around bg-indigo-100 rounded-lg max-h-[700px] min-h-fit overflow-scroll'>
+        <div className='flex flex-wrap gap-5 p-5 justify-around bg-indigo-100 rounded-xl max-h-[700px] min-h-fit overflow-scroll'>
           {
             academies?.length > 0 ?
               academies?.map((academy) => (
@@ -121,7 +121,7 @@ const ManagerAcadamies = () => {
           <span>اضافة مدربين</span>
         </Button>
 
-        <div className='flex flex-wrap gap-5 p-5 justify-around bg-indigo-100 rounded-lg max-h-[700px] min-h-fit overflow-scroll'>
+        <div className='flex flex-wrap gap-5 p-5 justify-around bg-indigo-100 rounded-xl max-h-[700px] min-h-fit overflow-scroll'>
           {
             trainers?.length > 0 ?
               trainers?.map((trainer) => (

@@ -5,7 +5,7 @@ import { BiEdit } from 'react-icons/bi'
 const TrainerCard = ({ trainer, getAcademyTrainers }) => {
   const [open, setOpen] = React.useState(false)
   return (
-    <div className='relative p-4 rounded-lg h-fit bg-white w-full max-w-xs flex flex-col gap-3'>
+    <div className='relative p-4 rounded-xl h-fit bg-white w-full max-w-xs flex flex-col gap-3'>
 
       <div className='flex gap-1 justify-between'>
         <b>{trainer?.trainer}</b>

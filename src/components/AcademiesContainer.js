@@ -4,6 +4,7 @@ import { server } from '../utlits/Variables'
 import { Button, Input, Select } from 'antd'
 import { Backdrop, CircularProgress } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import AcademyCardClient from './AcademyCardClient'
 
 const AcademiesContainer = () => {
 
@@ -55,10 +56,10 @@ const AcademiesContainer = () => {
         <CircularProgress color="inherit" />
       </Backdrop>
 
-      <div className='p-3 flex flex-wrap rounded-lg bg-white'>
+      <div className='p-3 flex flex-wrap rounded-xl bg-white'>
         <div className='flex flex-col gap-2 w-full'>
           <label className='text-lg font-bold'>البحث</label>
-          <Input value={name} onChange={(e) => setName(e.target.value)} className='w-full font rounded-lg p-3' type="text" placeholder='اسم الكلية' />
+          <Input value={name} onChange={(e) => setName(e.target.value)} className='w-full font rounded-xl p-3' type="text" placeholder='اسم الكلية' />
         </div>
         <div className='flex flex-col gap-2 w-full'>
           <label className='text-lg font-bold'>نوع الاكاديمية</label>
@@ -76,14 +77,7 @@ const AcademiesContainer = () => {
       <div className='flex flex-wrap gap-5'>
         {
           academies?.map((academy, index) => (
-            <div className='flex h-fit shadow-xl bg-white p-3 rounded-lg w-full max-w-xs flex-col gap-3' key={index}>
-              <img className='w-full rounded-lg' alt={academy?.name} src={server + academy?.image} />
-              <hr />
-              <h3 className='text-lg font-bold'>{academy?.name}</h3>
-              <p className='text-zinc-600'>{academy?.type_details?.name}</p>
-              <small className='text-zinc-600'>{academy?.location}</small>
-              <Button onClick={() => navigate(`/academies/${academy?.id}`)} className='font h-[50px] rounded-full' type='primary'>تفاصيل</Button>
-            </div>
+            <AcademyCardClient key={index} academy={academy} />
           ))
         }
       </div>

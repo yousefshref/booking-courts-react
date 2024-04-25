@@ -97,29 +97,29 @@ const EditOrCreatePlanModal = ({ open, setOpen, create, getSubscribePlans, acade
 
       {contextHolder}
 
-      <div className='p-4 relative bg-indigo-200 flex rounded-lg flex-col gap-3'>
+      <div className='p-4 relative bg-indigo-200 flex rounded-xl flex-col gap-3'>
 
-        <div className='bg-white p-3 rounded-lg flex flex-col gap-1'>
+        <div className='bg-white p-3 rounded-xl flex flex-col gap-1'>
           <p>اسم الخطة *</p>
           <Input placeholder='مثال: خطة الاطفال / الخطة السنوية' value={nameState} onChange={(e) => setNameState(e.target.value)} />
         </div>
-        <div className='bg-white p-3 rounded-lg flex flex-col gap-1'>
+        <div className='bg-white p-3 rounded-xl flex flex-col gap-1'>
           <p>وصف بسيط *</p>
           <Input value={description} onChange={(e) => setDescription(e.target.value)} />
         </div>
-        <div className='bg-white p-3 rounded-lg flex flex-col gap-1'>
+        <div className='bg-white p-3 rounded-xl flex flex-col gap-1'>
           <p>السعر المدفوع من كل حصة</p>
           <Input type='number' value={pricePerClassState} onChange={(e) => setPricePerClassState(e.target.value)} placeholder='السعر المدفوع من كل حصة' />
         </div>
-        <div className='bg-white p-3 rounded-lg flex flex-col gap-1'>
+        <div className='bg-white p-3 rounded-xl flex flex-col gap-1'>
           <p>السعر المدفوع في الاسبوع</p>
           <Input type='number' value={pricePerWeekState} onChange={(e) => setPricePerWeekState(e.target.value)} placeholder='السعر المدفوع في الاسبوع' />
         </div>
-        <div className='bg-white p-3 rounded-lg flex flex-col gap-1'>
+        <div className='bg-white p-3 rounded-xl flex flex-col gap-1'>
           <p>السعر المدفوع في الشهر</p>
           <Input type='number' value={pricePerMonthState} onChange={(e) => setPricePerMonthState(e.target.value)} placeholder='السعر المدفوع في الشهر' />
         </div>
-        <div className='bg-white p-3 rounded-lg flex flex-col gap-1'>
+        <div className='bg-white p-3 rounded-xl flex flex-col gap-1'>
           <p>السعر المدفوع في السنة</p>
           <Input type='number' value={pricePerYearState} onChange={(e) => setPricePerYearState(e.target.value)} placeholder='السعر المدفوع في السنة' />
         </div>

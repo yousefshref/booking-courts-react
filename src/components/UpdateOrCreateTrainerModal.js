@@ -85,13 +85,13 @@ const UpdateOrCreateTrainerModal = ({ open, setOpen, create, trainer, getAcademy
 
       {contextHolder}
 
-      <div className='flex flex-col gap-3 p-3 rounded-lg bg-indigo-500'>
+      <div className='flex flex-col gap-3 p-3 rounded-xl bg-indigo-500'>
 
-        <div className='bg-white p-3 rounded-lg flex flex-col gap-1'>
+        <div className='bg-white p-3 rounded-xl flex flex-col gap-1'>
           <p>اسم المدرب *</p>
           <Input placeholder='مثال: محمد علي' value={trainerName} onChange={(e) => setTrainerName(e.target.value)} />
         </div>
-        <div className='bg-white p-3 rounded-lg flex flex-col gap-1'>
+        <div className='bg-white p-3 rounded-xl flex flex-col gap-1'>
           <p>المدرب يعمل في/ تخصص المدرب *</p>
           <Select placeholder='مثال: خطة الاطفال / الخطة السنوية' value={type} onChange={(value) => setType(value)}>
             <Select.Option value=''>اختر</Select.Option>
@@ -102,19 +102,19 @@ const UpdateOrCreateTrainerModal = ({ open, setOpen, create, trainer, getAcademy
             }
           </Select>
         </div>
-        <div className='bg-white p-3 rounded-lg flex flex-col gap-1'>
+        <div className='bg-white p-3 rounded-xl flex flex-col gap-1'>
           <p>سعر الحصة (إختياري)</p>
           <Input type='number' value={pricePerClass} onChange={(value) => setPricePerClass(value.target.value)} />
         </div>
-        <div className='bg-white p-3 rounded-lg flex flex-col gap-1'>
+        <div className='bg-white p-3 rounded-xl flex flex-col gap-1'>
           <p>سعر الفترة الأسبوعية (إختياري)</p>
           <Input type='number' value={pricePerWeek} onChange={(value) => setPricePerWeek(value.target.value)} />
         </div>
-        <div className='bg-white p-3 rounded-lg flex flex-col gap-1'>
+        <div className='bg-white p-3 rounded-xl flex flex-col gap-1'>
           <p>سعر الفترة الشهرية (إختياري)</p>
           <Input type='number' value={pricePerMonth} onChange={(value) => setPricePerMonth(value.target.value)} />
         </div>
-        <div className='bg-white p-3 rounded-lg flex flex-col gap-1'>
+        <div className='bg-white p-3 rounded-xl flex flex-col gap-1'>
           <p>سعر الفترة السنة (إختياري)</p>
           <Input type='number' value={pricePerYear} onChange={(value) => setPricePerYear(value.target.value)} />
         </div>

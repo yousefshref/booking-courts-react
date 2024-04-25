@@ -6,7 +6,7 @@ const SubscribePlanComponent = ({ plan, getSubscribePlans }) => {
   const [editOpen, setEditOpen] = React.useState(false)
 
   return (
-    <div className='relative p-3 flex flex-col gap-1 bg-indigo-100 rounded-lg'>
+    <div className='relative p-3 flex flex-col gap-1 bg-indigo-100 rounded-xl'>
       <span onClick={() => setEditOpen(true)} className='absolute top-1 left-1 text-blue-600 cursor-pointer text-sm'>
         <BiEdit />
       </span>

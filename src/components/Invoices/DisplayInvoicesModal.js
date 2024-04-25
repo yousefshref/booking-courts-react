@@ -1,4 +1,4 @@
-import { Button, DatePicker, Input, Modal } from 'antd'
+import { Button, DatePicker, Input, Modal, Select } from 'antd'
 import React, { useContext, useEffect, useState } from 'react'
 import { ApiContextProvider } from '../../contexts/ApiContext'
 import InvoiceComponent from './InvoiceComponent'
@@ -6,20 +6,30 @@ import UpdateOrCreateInvoice from './UpdateOrCreateInvoice'
 import moment from 'moment'
 import dayjs from 'dayjs'
 
-const DisplayInvoicesModal = ({ open, setOpen, court, academy, book }) => {
+const DisplayInvoicesModal = ({ open, setOpen, court, academy, book, request }) => {
 
   const apiContext = useContext(ApiContextProvider)
 
 
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
+  const [isREquest, setIsRequest] = useState(request ? 'True' : 'False' || '')
   const [created_at, setCreated_at] = useState(null)
   const [endTime, setEndtime] = useState(null)
 
   const [invoices, setInvoices] = useState([])
 
   const getInvoices = async () => {
-    const res = await apiContext?.getInvoices(created_at, '', '', '', '', '', endTime, book?.id, academy?.id, court?.id, name, phone)
+    const res = await apiContext?.getInvoices({
+      created_at_start: created_at,
+      end_date: endTime,
+      book_id: book?.id,
+      academy_id: academy?.id,
+      court_id: court?.id,
+      name: name,
+      phone: phone,
+      request: isREquest
+    })
     setInvoices(res.data)
   }
 
@@ -30,6 +40,8 @@ const DisplayInvoicesModal = ({ open, setOpen, court, academy, book }) => {
 
 
   const [createInvoiceOpen, setCreateInvoiceOpen] = useState(false)
+
+  const [seeInvoiceOpen, setseeInvoiceOpen] = useState(false)
 
   return (
     <Modal
@@ -43,7 +55,7 @@ const DisplayInvoicesModal = ({ open, setOpen, court, academy, book }) => {
       closeIcon={false}
     >
 
-      <div className='flex bg-zinc-200 max-h-[500px] min-h-fit overflow-scroll flex-col gap-3 p-4 rounded-lg'>
+      <div className='flex bg-zinc-200 max-h-[500px] min-h-fit overflow-scroll flex-col gap-3 p-4 rounded-xl'>
 
         <div className='flex flex-col search'>
           <div className='flex flex-col gap-2'>
@@ -53,6 +65,14 @@ const DisplayInvoicesModal = ({ open, setOpen, court, academy, book }) => {
           <div className='flex flex-col gap-2'>
             <p>رقم الهاتف</p>
             <Input value={phone} onChange={(e) => setPhone(e.target.value)} />
+          </div>
+          <div className='flex flex-col gap-2'>
+            <p>طلبات الاشتراكات</p>
+            <Select value={isREquest} onChange={(e) => setIsRequest(e)}>
+              <Select.Option value=''>اختر</Select.Option>
+              <Select.Option value='True'>نعم</Select.Option>
+              <Select.Option value='False'>لا</Select.Option>
+            </Select>
           </div>
           <div className='flex flex-col gap-2'>
             <p>تاريخ انشاء الفاتورة</p>
@@ -65,7 +85,7 @@ const DisplayInvoicesModal = ({ open, setOpen, court, academy, book }) => {
           <Button className='w-full font mt-3' type='primary' onClick={getInvoices}>ابحث</Button>
         </div>
 
-        <div className='flex flex-col bg-white p-3 rounded-lg totalOfPrices'>
+        <div className='flex flex-col bg-white p-3 rounded-xl totalOfPrices'>
 
           <div className='flex flex-col gap-2'>
             <p>المجموع</p>
@@ -77,7 +97,7 @@ const DisplayInvoicesModal = ({ open, setOpen, court, academy, book }) => {
         {
           invoices?.length > 0 ? (
             invoices?.map((invoice, index) => (
-              <InvoiceComponent getInvoices={getInvoices} key={index} invoice={invoice} />
+              <InvoiceComponent request={request} getInvoices={getInvoices} key={index} invoice={invoice} />
             ))
           ) : (
             <p className='text-center text-red-600'>لا يوجد فواتير</p>

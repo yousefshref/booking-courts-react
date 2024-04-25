@@ -52,10 +52,7 @@ const Redirect = () => {
         navigate(`/profile/${localStorage.getItem('username')}`)
       }
       if (res.data.no_user) {
-        navigate(`/auth/login`)
-        localStorage.removeItem('token')
-        localStorage.removeItem('username')
-        localStorage.removeItem('email')
+        navigate('/check/profile')
       }
     } catch (err) {
       setAlert(true)

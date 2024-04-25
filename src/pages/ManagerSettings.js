@@ -82,8 +82,8 @@ const ManagerSettings = () => {
             <Input type='file' className='p-4' onChange={(e) => setWhitelist({ ...whitelist, image2: e?.target?.files[0] })} />
           </div>
           <div className='flex gap-5 flex-wrap'>
-            <Button onClick={createWhtieList} className='font w-fit rounded-lg bg-green-500' type='primary'>انشاء</Button>
-            <Button onClick={() => setDisplayWhiteLists(true)} className='font w-fit rounded-lg' type='default'>رؤية القائمة البيضاء</Button>
+            <Button onClick={createWhtieList} className='font w-fit rounded-xl bg-green-500' type='primary'>انشاء</Button>
+            <Button onClick={() => setDisplayWhiteLists(true)} className='font w-fit rounded-xl' type='default'>رؤية القائمة البيضاء</Button>
           </div>
 
           {/* whitelists */}

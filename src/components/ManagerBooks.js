@@ -203,7 +203,7 @@ const ManagerBooks = () => {
         </div>
 
 
-        <div className='flex flex-col gap-2 bg-white p-3 rounded-lg'>
+        <div className='flex flex-col gap-2 bg-white p-3 rounded-xl'>
 
           <div className='flex justify-between gap-5 w-fit'>
             <p className='font-bold'>إجمالي المدفوع: </p>

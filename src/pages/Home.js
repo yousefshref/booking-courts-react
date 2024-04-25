@@ -9,10 +9,13 @@ import 'swiper/less/navigation';
 import 'swiper/less/pagination';
 import { Keyboard, Mousewheel } from 'swiper/modules';
 import { useNavigate } from 'react-router-dom';
+import { BiArrowToBottom, BiArrowToTop } from 'react-icons/bi';
 
 const Home = () => {
 
   const navigate = useNavigate()
+
+  const swiperRef = useRef(null)
 
   return (
     <Swiper
@@ -23,9 +26,15 @@ const Home = () => {
       className='h-[100vh]'
       modules={[Keyboard, Mousewheel]}
       speed={1000}
+      ref={swiperRef}
     >
       <SwiperSlide className='h-[100vh]'>
         <div className='flex flex-col justify-center gap-2 bg-[url("https://images.pexels.com/photos/61135/pexels-photo-61135.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")] p-3 h-screen bg-cover bg-bottom w-screen'>
+
+          <span onClick={() => swiperRef.current.swiper.slideNext()} className='absolute transition-all hover:bg-indigo-700 hover:text-white cursor-pointer z-20 duration-300 text-2xl top-5 left-5 bg-white p-5 rounded-full'>
+            <BiArrowToBottom />
+          </span>
+
           <div className='absolute w-screen h-screen top-0 right-0 from-black to-transparent bg-gradient-to-t'></div>
           <div className='absolute w-screen h-screen top-0 right-0 blur-2xl'></div>
           <div className='flex gap-6 md:flex-row flex-col justify-around w-full mx-auto md:max-w-7xl text-white z-50'>
@@ -56,11 +65,11 @@ const Home = () => {
             <h3 className='text-5xl'>ابحث عن مدربك المحترف في لعبتك الرياضية</h3>
             <hr />
             <div className='flex flex-wrap gap-6 justify-around text-neutral-700'>
-              <div className='md:w-1/3 flex flex-col gap-3 h-fit from-indigo-200 to-orange-50 bg-gradient-to-tr p-5 rounded-lg'>
+              <div className='md:w-1/3 flex flex-col gap-3 h-fit from-indigo-200 to-orange-50 bg-gradient-to-tr p-5 rounded-xl'>
                 <b className='text-2xl'>ابحث بعنايه</b>
                 <p>ستبحث عن افضل المدربين المتخصصين, نحن نختارهم بحرص</p>
               </div>
-              <div className='md:w-1/3 flex flex-col gap-3 h-fit from-indigo-200 to-orange-50 bg-gradient-to-tr p-5 rounded-lg'>
+              <div className='md:w-1/3 flex flex-col gap-3 h-fit from-indigo-200 to-orange-50 bg-gradient-to-tr p-5 rounded-xl'>
                 <b className='text-2xl'>امان الاماكن</b>
                 <p>لا تقلق من ناحية امان اولادك, الملاعب تمون بأحسن حالة وافضل الادوات</p>
               </div>

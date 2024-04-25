@@ -38,7 +38,12 @@ const Court = ({ court }) => {
       {
         load ? <Loading /> : (
           <span>
-            <img src={server + images[0]?.image} alt={court?.name} className='w-full rounded-md' />
+            {
+              images[0]?.image ?
+                <img src={server + images[0]?.image} alt={court?.name} className='w-full rounded-md' />
+                :
+                <img src="https://images.pexels.com/photos/46798/the-ball-stadion-football-the-pitch-46798.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt={court?.name} className='w-full rounded-md' />
+            }
           </span>
         )
       }

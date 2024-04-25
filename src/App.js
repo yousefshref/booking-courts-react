@@ -21,6 +21,9 @@ import ManagerCourts from './pages/ManagerCourts';
 import ManagerSettings from './pages/ManagerSettings';
 import Redirect from './pages/Redirect';
 import SignUp from './pages/SignUp';
+import ManagerCourtsCheck from './components/Managers/ManagerCourtsCheck';
+import ManagerAcademiesCheck from './components/Managers/ManagerAcademiesCheck';
+import UserProfileAcademiesSubscribations from './components/UserProfile/UserProfileAcademiesSubscribations';
 
 function App() {
 
@@ -101,9 +104,15 @@ function App() {
 
 
         <Route path='/profile/:username/' element={<PrivateRoute><UserProfile /></PrivateRoute>} />
+        <Route path='/profile/:username/academies/' element={<PrivateRoute><UserProfileAcademiesSubscribations /></PrivateRoute>} />
 
         <Route path='/academies/' element={<PrivateRoute><Academies /></PrivateRoute>} />
         <Route path='/academies/:academyName/' element={<PrivateRoute><AcademyDetail /></PrivateRoute>} />
+
+
+        <Route path='/managers/:academyName/:academyId/courts/' element={<PrivateRoute><ManagerCourtsCheck /></PrivateRoute>} />
+        <Route path='/managers/:academyName/:academyId/academies/' element={<PrivateRoute><ManagerAcademiesCheck /></PrivateRoute>} />
+
 
         <Route path='/courts' element={<PrivateRoute><Courts /></PrivateRoute>} />
         <Route path='/court/:courtName/:courtId' element={<PrivateRoute><CourtDetail /></PrivateRoute>} />

@@ -108,11 +108,11 @@ const Courts = () => {
         {/* serch */}
         <div className='search flex flex-col rounded-md shadow-md gap-2 bg-white p-3'>
           <div className=' flex gap-4 flex-wrap justify-between'>
-            <div className='flex flex-col w-full max-w-[200px]'>
+            <div className='flex flex-col w-full md:max-w-[200px]'>
               <p>اسم الملعب</p>
               <Input onChange={(e) => setName(e.target.value)} value={name} placeholder='الاسم' />
             </div>
-            <div className='flex flex-col w-full max-w-[200px]'>
+            <div className='flex flex-col w-full md:max-w-[200px]'>
               <p>البلد</p>
               <Select onChange={(e) => {
                 if (e === '') {
@@ -131,7 +131,7 @@ const Courts = () => {
                 }
               </Select>
             </div>
-            <div className='flex flex-col w-full max-w-[200px]'>
+            <div className='flex flex-col w-full md:max-w-[200px]'>
               <p>المدينة</p>
               <Select onChange={(e) => {
                 if (e === '') {
@@ -148,7 +148,7 @@ const Courts = () => {
                 }
               </Select>
             </div>
-            <div className='flex flex-col w-full max-w-[200px]'>
+            <div className='flex flex-col w-full md:max-w-[200px]'>
               <p>المنطقة</p>
               <Select onChange={(e) => {
                 if (e === '') {

@@ -85,19 +85,19 @@ const EditOrCreateTimeModal = ({ time, setOpen, open, getAcademyTimes, create, a
       closeIcon={false}
     >
 
-      <div className='p-4 bg-indigo-200 flex rounded-lg flex-col gap-3'>
+      <div className='p-4 bg-indigo-200 flex rounded-xl flex-col gap-3'>
 
-        <div className='bg-white p-3 rounded-lg flex flex-col gap-1'>
+        <div className='bg-white p-3 rounded-xl flex flex-col gap-1'>
           <p>اسم اليوم</p>
           <Input className='font' placeholder='اسم اليوم' value={dayName} onChange={(e) => setDayName(e.target.value)} />
         </div>
 
-        <div className='bg-white p-3 rounded-lg flex flex-col gap-1'>
+        <div className='bg-white p-3 rounded-xl flex flex-col gap-1'>
           <p>معاد فتح التدريب</p>
           <Input type='time' className='font' placeholder='وقت البدء' value={startTime} onChange={(e) => setStartTime(e.target.value)} />
         </div>
 
-        <div className='bg-white p-3 rounded-lg flex flex-col gap-1'>
+        <div className='bg-white p-3 rounded-xl flex flex-col gap-1'>
           <p>معاد اغلاق التدريب</p>
           <Input type='time' className='font' placeholder='وقت الانتهاء' value={endTime} onChange={(e) => setEndTime(e.target.value)} />
         </div>

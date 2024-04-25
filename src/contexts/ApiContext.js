@@ -1,6 +1,7 @@
-import React, { createContext, useEffect } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { server } from '../utlits/Variables'
+import { useLocation, useParams } from 'react-router-dom'
 
 const ApiContext = ({ children }) => {
   const header = {
@@ -60,13 +61,23 @@ const ApiContext = ({ children }) => {
     return res
   }
 
-  const createManagerProfile = async () => {
-    const res = await axios.post(`${server}user/manager/profile/create/`, {}, header)
+  const createManagerProfile = async (data) => {
+    const res = await axios.post(`${server}user/manager/profile/create-or-update/`, data, header)
     return res
   }
 
-  const createClientsProfile = async () => {
-    const res = await axios.post(`${server}user/client/profile/create/`, {}, header)
+  const updateManagerProfile = async (data) => {
+    const res = await axios.put(`${server}user/manager/profile/create-or-update/`, data, header)
+    return res
+  }
+
+  const createClientsProfile = async (data) => {
+    const res = await axios.post(`${server}user/client/profile/create-or-update/`, data, header)
+    return res
+  }
+
+  const updateClientProfile = async (data) => {
+    const res = await axios.put(`${server}user/client/profile/create-or-update/`, data, header)
     return res
   }
 
@@ -566,8 +577,8 @@ const ApiContext = ({ children }) => {
 
 
 
-  const getInvoices = async (created_at_start, created_at_end, only_courts, only_books, only_academies, start_date, end_date, book_id, academy_id, court_id, name, phone) => {
-    const url = `${server}invoices/?created_at_start=${created_at_start ?? ""}&created_at_end=${created_at_end ?? ""}&only_courts=${only_courts ?? ""}&only_books=${only_books ?? ""}&only_academies=${only_academies ?? ""}&start_date=${start_date ?? ""}&end_date=${end_date ?? ""}&book_id=${book_id ?? ""}&court_id=${court_id ?? ""}&academy_id=${academy_id ?? ""}&name=${name ?? ""}&phone=${phone ?? ""}`
+  const getInvoices = async ({ created_at_start = "", created_at_end = "", only_courts = "", only_books = "", only_academies = "", start_date = "", end_date = "", book_id = "", academy_id = "", court_id = "", name = "", phone = "", is_accepted = "", request = "", username = "" }) => {
+    const url = `${server}invoices/?created_at_start=${created_at_start ?? ""}&created_at_end=${created_at_end ?? ""}&only_courts=${only_courts ?? ""}&only_books=${only_books ?? ""}&only_academies=${only_academies ?? ""}&start_date=${start_date ?? ""}&end_date=${end_date ?? ""}&book_id=${book_id ?? ""}&court_id=${court_id ?? ""}&academy_id=${academy_id ?? ""}&name=${name ?? ""}&phone=${phone ?? ""}&is_accepted=${is_accepted ?? ""}&request=${request ?? ""}&username=${username ?? ""}`
     const res = await axios.get(url, header)
     return res
   }
@@ -623,8 +634,95 @@ const ApiContext = ({ children }) => {
     return res
   }
 
+
+
+
+
+
+
+
+
+
+
+  // manager courts
+  const path = useLocation().pathname
+
+  const [academyId, setAcademyId] = useState(null)
+
+
+  const [managerCourts, setManagerCourts] = useState([])
+  const [manaerCourtPagination, setManaerCourtPagination] = useState({})
+  const [manaerCourtPaginationPage, setManaerCourtPaginationPage] = useState(1)
+  const [manaerCourtPaginationLoading, setmanaerCourtPaginationLoading] = useState(false)
+
+  const getManagerCourts = async () => {
+    setmanaerCourtPaginationLoading(true)
+    try {
+      const res = await axios.get(`${server}manager/${academyId}/courts/?page=${manaerCourtPaginationPage}`, header);
+      const { results, next, previous, count } = res.data;
+      setManagerCourts(results);
+      setManaerCourtPagination({ next, previous, count });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setmanaerCourtPaginationLoading(false)
+      setAcademyId(null);
+    }
+  };
+
+  useEffect(() => {
+    if (
+      academyId && localStorage.getItem('token') && path?.includes('managers') && path?.includes('courts')
+    ) {
+      getManagerCourts()
+    }
+  }, [path, academyId, manaerCourtPaginationPage])
+
+
+
+  const [managerAcademies, setManagerAcademies] = useState([])
+  const [manaerAcademyPagination, setManaerAcademyPagination] = useState({})
+  const [manaerAcademyPaginationPage, setManaerAcademyPaginationPage] = useState(1)
+  const [manaerAcademyPaginationLoading, setmanaerAcademyPaginationLoading] = useState(false)
+
+  const getManagerAcademies = async () => {
+    setmanaerAcademyPaginationLoading(true)
+    try {
+      const res = await axios.get(`${server}manager/${academyId}/academies/?page=${manaerAcademyPaginationPage}`, header);
+      const { results, next, previous, count } = res.data;
+      setManagerAcademies(results);
+      setManaerAcademyPagination({ next, previous, count });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setmanaerAcademyPaginationLoading(false)
+      setAcademyId(null);
+    }
+  };
+
+  useEffect(() => {
+    if (
+      academyId && localStorage.getItem('token') && path?.includes('managers') && path?.includes('academies')
+    ) {
+      getManagerAcademies()
+    }
+  }, [path, academyId, manaerAcademyPaginationPage])
+
   return (
     <ApiContextProvider.Provider value={{
+
+      // manager courts
+      academyId, setAcademyId,
+
+      managerCourts, getManagerCourts,
+      manaerCourtPaginationPage, setManaerCourtPaginationPage,
+      manaerCourtPagination,
+      manaerCourtPaginationLoading, setmanaerCourtPaginationLoading,
+
+      managerAcademies, getManagerAcademies,
+      manaerAcademyPaginationPage, setManaerAcademyPaginationPage,
+      manaerAcademyPagination,
+      manaerAcademyPaginationLoading, setmanaerAcademyPaginationLoading,
 
       // whitelst
       createWhtieList,
@@ -679,7 +777,9 @@ const ApiContext = ({ children }) => {
       getUser,
       checkProfile,
       createManagerProfile,
+      updateManagerProfile,
       createClientsProfile,
+      updateClientProfile,
 
 
       getCountries,

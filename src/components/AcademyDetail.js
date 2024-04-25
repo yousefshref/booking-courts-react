@@ -5,6 +5,8 @@ import { ApiContextProvider } from '../contexts/ApiContext'
 import { convertToAMPM } from '../utlits/Functions'
 import { server } from '../utlits/Variables'
 import Header from './Header'
+import { useNavigate } from 'react-router-dom'
+import UpdateOrCreateInvoice from './Invoices/UpdateOrCreateInvoice'
 
 const AcademyDetail = () => {
   const apiContext = useContext(ApiContextProvider)
@@ -81,19 +83,23 @@ const AcademyDetail = () => {
     getAcademyTrainers()
   }, [])
 
+  const navigate = useNavigate()
+
+
+  const [open, setOpen] = React.useState(false)
 
   return (
     <div className='flex flex-col'>
       <Header />
       <div className='flex flex-col gap-4 w-full max-w-6xl mx-auto mt-8 p-5'>
-        <div className='flex flex-wrap gap-4 justify-around bg-white p-5 rounded-lg'>
+        <div className='flex flex-wrap gap-4 justify-around bg-white p-5 rounded-xl'>
 
           {
             academy?.image &&
-            <img src={server + academy?.image} className='w-full h-fit my-auto max-w-[300px] rounded-lg' alt={academy?.name} />
+            <img src={server + academy?.image} className='w-full h-fit my-auto max-w-[300px] rounded-xl' alt={academy?.name} />
           }
 
-          <div className='flex flex-col gap-2 p-5 rounded-lg my-auto bg-indigo-100 h-fit md:w-fit md:max-w-xs w-full'>
+          <div className='flex flex-col gap-2 p-5 rounded-xl my-auto bg-indigo-100 h-fit md:w-fit md:max-w-xs w-full'>
             <h3 className='text-2xl font-bold'>{academy?.name}</h3>
             <p className='text-zinc-600'>{academy?.type_details?.name}</p>
             <p className='text-zinc-600'>{academy?.location}</p>
@@ -109,14 +115,25 @@ const AcademyDetail = () => {
 
         </div>
 
-        <div className='flex gap-3 flex-col text-center bg-white p-3 rounded-lg'>
+        <div className='flex p-5 rounded-xl bg-indigo-200 flex-col justify-center text-center w-full max-w-6xl mx-auto'>
+          <div className='flex gap-5 justify-around'>
+            {
+              academy?.manager_details?.logo &&
+              <img className='w-36 h-36 my-auto' src={server + academy?.manager_details?.logo} alt={academy?.name} />
+            }
+            <p className='text-3xl my-auto'>{academy?.manager_details?.brand_name}</p>
+          </div>
+          <Button onClick={() => navigate(`/managers/${academy?.manager_details?.brand_name?.replace(' ', '-')}/${academy?.manager_details?.id}/academies/`)} type='primary' className='font bg-sky-500 h-[50px] rounded-xl'>رؤية جميع انشطة الاكاديمية</Button>
+        </div>
+
+        <div className='flex gap-3 flex-col text-center bg-white p-3 rounded-xl'>
           <h3 className='text-3xl'>اوقات التدريب</h3>
           <hr />
           <div className='flex flex-wrap gap-3 justify-around'>
 
             {
               academyTimes?.map((time, index) => (
-                <div className='flex flex-col gap-1 from-indigo-300 to-blue-200 bg-gradient-to-br p-3 rounded-lg w-full sm:max-w-[150px]' key={index}>
+                <div className='flex flex-col gap-1 from-indigo-300 to-blue-200 bg-gradient-to-br p-3 rounded-xl w-full sm:max-w-[150px]' key={index}>
                   <b>{time?.day_name}</b>
                   <div className='flex gap-1 mx-auto'>
                     <span className='my-auto text-green-700'>
@@ -140,40 +157,53 @@ const AcademyDetail = () => {
 
         {
           academyPlans?.length > 0 &&
-          <div className='flex flex-col gap-3 text-center bg-white p-3 rounded-lg'>
+          <div className='flex flex-col gap-3 text-center bg-white p-3 rounded-xl'>
             <h3 className='text-3xl'>الاشتراكات</h3>
             <hr />
             <div className='flex flex-wrap gap-3 justify-around max-h-[400px] min-h-fit overflow-scroll'>
               {
                 academyPlans?.map((plan, index) => (
-                  <div className='p-3 rounded-lg from-sky-200 to-blue-200 gap-4 flex flex-col bg-gradient-to-tr w-full max-w-xs' key={index}>
+                  <div className='p-3 rounded-xl from-sky-200 to-blue-200 gap-4 flex flex-col bg-gradient-to-tr w-full max-w-xs' key={index}>
                     <h3 className='text-2xl text-zinc-700'>{plan?.name}</h3>
                     <p>{plan?.description}</p>
-                    <div className='flex flex-col gap-1 p-3 rounded-lg bg-indigo-200'>
-                      <p>{plan?.price_per_class} EGP / في الحصة</p>
-                      <p>{plan?.price_per_week} EGP / في الاسبوع</p>
-                      <p>{plan?.price_per_month} EGP / في الشهر</p>
-                      <p>{plan?.price_per_year} EGP / في السنة</p>
+                    <div className='flex flex-col gap-1 p-3 rounded-xl bg-indigo-200'>
+                      {
+                        plan?.price_per_class &&
+                        <p>{plan?.price_per_class} EGP / في الحصة</p>
+                      }
+                      {
+                        plan?.price_per_week &&
+                        <p>{plan?.price_per_week} EGP / في الاسبوع</p>
+                      }
+                      {
+                        plan?.price_per_month &&
+                        <p>{plan?.price_per_month} EGP / في الشهر</p>
+                      }
+                      {
+                        plan?.price_per_year &&
+                        <p>{plan?.price_per_year} EGP / في السنة</p>
+                      }
                     </div>
-                    <Button size='large' href={`https://wa.me/20${plan?.academy_details?.manager_details?.user_details?.phone}`} className='font rounded-full' type='primary'>تفاصيل</Button>
+                    <Button onClick={() => setOpen(true)} size='large' className='font rounded-full' type='primary'>اشتراك</Button>
                   </div>
                 ))
               }
+              <UpdateOrCreateInvoice request={true} academy={academy} open={open} setOpen={setOpen} create={true} />
             </div>
           </div>
         }
 
         {
           trainers?.length > 0 &&
-          <div className='flex flex-col gap-3 text-center bg-white p-3 rounded-lg'>
+          <div className='flex flex-col gap-3 text-center bg-white p-3 rounded-xl'>
             <h3 className='text-3xl'>المدربين</h3>
             <hr />
             <div className='flex flex-wrap gap-3 justify-around max-h-[400px] min-h-fit overflow-scroll'>
               {
                 trainers?.map((trainer, index) => (
-                  <div className='p-3 rounded-lg from-sky-200 to-blue-200 gap-4 flex flex-col bg-gradient-to-tr w-full max-w-xs' key={index}>
+                  <div className='p-3 rounded-xl from-sky-200 to-blue-200 gap-4 flex flex-col bg-gradient-to-tr w-full max-w-xs' key={index}>
                     <h3 className='text-2xl text-zinc-700'>{trainer?.trainer}</h3>
-                    <div className='flex flex-col gap-1 p-3 rounded-lg bg-indigo-200'>
+                    <div className='flex flex-col gap-1 p-3 rounded-xl bg-indigo-200'>
                       <p>{trainer?.price_per_class} EGP / في الحصة</p>
                       <p>{trainer?.price_per_week} EGP / في الاسبوع</p>
                       <p>{trainer?.price_per_month} EGP / في الشهر</p>
