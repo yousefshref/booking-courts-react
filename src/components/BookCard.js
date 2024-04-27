@@ -4,7 +4,6 @@ import { server } from '../utlits/Variables'
 import { convertToAMPM } from '../utlits/Functions'
 import { Button } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import DisplayInvoicesModal from './Invoices/DisplayInvoicesModal'
 
 const BookCard = ({ book, apiContext, setBookOpne }) => {
 
@@ -57,7 +56,6 @@ const BookCard = ({ book, apiContext, setBookOpne }) => {
 
 
 
-  const [openInvoices, setOpenInvoices] = useState(false)
 
   return (
     <div className='book w-full sm:max-w-[250px] bg-white p-3 rounded-md'>
@@ -87,17 +85,6 @@ const BookCard = ({ book, apiContext, setBookOpne }) => {
         <small>يبدأ في: {book?.date}</small>
         <hr className='my-2' />
         <small onClick={() => navigate(`/court/${book?.court_details?.name?.replace(' ', '-')}/${book?.court}`)} className='text-blue-700 cursor-pointer'>ملعب {book?.court_details?.name}</small>
-        {
-          user?.manager || user?.staff ? (
-            <>
-              <hr className='my-2' />
-              <Button onClick={() => setOpenInvoices(true)} className='h-fit rounded-full bg-green-500' type='primary'>فواتير الحجز</Button>
-            </>
-          )
-            : null
-        }
-
-        <DisplayInvoicesModal open={openInvoices} setOpen={setOpenInvoices} book={book} />
 
         <hr className='my-2' />
         <Button onClick={() => setBookOpne(book?.id)} className='h-[40px] rounded-full bg-indigo-500' type='primary'>تفاصيل الحجز</Button>

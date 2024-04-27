@@ -12,7 +12,6 @@ import { ArrowLeft, ArrowRight } from '@mui/icons-material';
 import { Popconfirm } from "antd";
 import { useNavigate } from 'react-router-dom';
 import { server } from '../utlits/Variables';
-import DisplayInvoicesModal from './Invoices/DisplayInvoicesModal';
 import FeaturesAndTools from './FeaturesAndTools';
 import ImagesAndVideos from './ImagesAndVideos';
 import Info from './Info';
@@ -204,8 +203,6 @@ const CourtCard = ({ court, deleteCourt }) => {
 
 
 
-
-  const [displayInvoices, setDisplayInvoices] = useState(false)
 
 
 
@@ -414,14 +411,6 @@ const CourtCard = ({ court, deleteCourt }) => {
             }} color='error' className='w-full max-w-[200px]' variant="outlined"><p className='font'>حذف</p></Button>
           </Popconfirm>
         </div>
-        <Button style={{
-          padding: "13px",
-          borderRadius: "100px"
-        }} onClick={() => setDisplayInvoices(true)} className='w-full' color='secondary' variant="contained"><p className='font'>فواتير الملعب</p></Button>
-
-        {/* invoices display */}
-        <DisplayInvoicesModal open={displayInvoices} setOpen={setDisplayInvoices} court={court} />
-
       </div>
 
 

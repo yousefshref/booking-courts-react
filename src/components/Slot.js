@@ -29,7 +29,6 @@ const Slot = ({ slot, closedSlots, pinnedSlots, date, bookedSlots, visible, setV
   const hideSlotCuzt = (firstSlot >= currentTime || date > currentDate) ? true : false
 
 
-
   return (
     hideSlotCuzt ?
       <div

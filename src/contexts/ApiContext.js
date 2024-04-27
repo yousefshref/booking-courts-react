@@ -2,6 +2,8 @@ import React, { createContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { server } from '../utlits/Variables'
 import { useLocation, useParams } from 'react-router-dom'
+import { getCurrentDate, getCurrentDateYMD } from '../utlits/Functions'
+import { message } from 'antd'
 
 const ApiContext = ({ children }) => {
   const header = {
@@ -9,6 +11,11 @@ const ApiContext = ({ children }) => {
       Authorization: `Token ${localStorage.getItem('token')}`
     }
   }
+
+
+  const path = useLocation().pathname
+
+
 
   const serndVerification = async (phone) => {
     const data = {
@@ -52,14 +59,24 @@ const ApiContext = ({ children }) => {
     return res
   }
 
+
+  const [profile, setProfile] = useState({})
+
   const checkProfile = async (token) => {
     const res = await axios.get(`${server}user/profile/`, {
       headers: {
         Authorization: `Token ${token}`
       }
     })
+    setProfile(res.data)
     return res
   }
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      checkProfile(localStorage.getItem('token'))
+    }
+  }, [])
 
   const createManagerProfile = async (data) => {
     const res = await axios.post(`${server}user/manager/profile/create-or-update/`, data, header)
@@ -577,28 +594,6 @@ const ApiContext = ({ children }) => {
 
 
 
-  const getInvoices = async ({ created_at_start = "", created_at_end = "", only_courts = "", only_books = "", only_academies = "", start_date = "", end_date = "", book_id = "", academy_id = "", court_id = "", name = "", phone = "", is_accepted = "", request = "", username = "" }) => {
-    const url = `${server}invoices/?created_at_start=${created_at_start ?? ""}&created_at_end=${created_at_end ?? ""}&only_courts=${only_courts ?? ""}&only_books=${only_books ?? ""}&only_academies=${only_academies ?? ""}&start_date=${start_date ?? ""}&end_date=${end_date ?? ""}&book_id=${book_id ?? ""}&court_id=${court_id ?? ""}&academy_id=${academy_id ?? ""}&name=${name ?? ""}&phone=${phone ?? ""}&is_accepted=${is_accepted ?? ""}&request=${request ?? ""}&username=${username ?? ""}`
-    const res = await axios.get(url, header)
-    return res
-  }
-
-  const createInvoice = async (data) => {
-    const res = await axios.post(`${server}invoices/`, data, header)
-    return res
-  }
-
-  const updateInvoice = async (invoice_id, data) => {
-    const res = await axios.put(`${server}invoice/${invoice_id}/`, data, header)
-    return res
-  }
-
-  const deleteInvoice = async (invoice_id) => {
-    const res = await axios.delete(`${server}invoice/${invoice_id}/`, header)
-    return res
-  }
-
-
 
   const check_auto_cancell = async () => {
     try {
@@ -645,7 +640,6 @@ const ApiContext = ({ children }) => {
 
 
   // manager courts
-  const path = useLocation().pathname
 
   const [academyId, setAcademyId] = useState(null)
 
@@ -708,8 +702,260 @@ const ApiContext = ({ children }) => {
     }
   }, [path, academyId, manaerAcademyPaginationPage])
 
+
+
+
+
+
+  const [incomes, setIncomes] = useState([])
+  const [incomeLoading, setIncomeLoading] = useState(false)
+
+  const [from_date, setFromDate] = useState(getCurrentDate() || '')
+  const [to_date, setToDate] = useState(getCurrentDate() || '')
+
+
+  const getIncomes = async () => {
+    setIncomeLoading(true)
+    try {
+      const res = await axios.get(`${server}incomes/?from_date=${from_date}&to_date=${to_date}`, header)
+      setIncomes(res.data)
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIncomeLoading(false)
+    }
+  }
+
+
+
+  useEffect(() => {
+    if (
+      localStorage.getItem('token') && path?.includes('manager') && path?.split('/')?.length === 3
+    ) {
+      getIncomes()
+    }
+  }, [path])
+
+
+  const createIncome = async (data) => {
+    try {
+      const res = await axios.post(`${server}incomes/`, data, header)
+      if (res?.data) {
+        getIncomes()
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const deleteIncome = async (id) => {
+    try {
+      const res = await axios.delete(`${server}income/${id}`, header)
+      getIncomes()
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+
+  const updateIncome = async (id, data) => {
+    try {
+      const res = await axios.put(`${server}income/${id}/`, data, header)
+      if (res?.data) {
+        getIncomes()
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+
+
+
+
+
+
+
+  const [expenses, setExpenses] = useState([])
+  const [expenseLoading, setExpenseLoading] = useState(false)
+
+  const [from_date_expense, setFromDateexpense] = useState(getCurrentDate() || '')
+  const [to_date_expense, setToDateexpense] = useState(getCurrentDate() || '')
+
+
+  const getExpenses = async () => {
+    setExpenseLoading(true)
+    try {
+      const res = await axios.get(`${server}expenses/?from_date=${from_date_expense}&to_date=${to_date_expense}`, header)
+      setExpenses(res.data)
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setExpenseLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (
+      localStorage.getItem('token') && path?.includes('manager') && path?.split('/')?.length === 3
+    ) {
+      getExpenses()
+    }
+  }, [path])
+
+
+  const createExpense = async (data) => {
+    try {
+      const res = await axios.post(`${server}expenses/`, data, header)
+      if (res?.data?.id) {
+        getExpenses()
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const deleteExpense = async (id) => {
+    try {
+      const res = await axios.delete(`${server}expense/${id}`, header)
+      getExpenses()
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const updateExpense = async (id, data) => {
+    try {
+      const res = await axios.put(`${server}expense/${id}/`, data, header)
+      if (res?.data) {
+        getExpenses()
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+
+
+
+
+  const [msg, messageApi] = message.useMessage()
+
+  const error = (m) => {
+    msg.error(m);
+  }
+
+  const success = (m) => {
+    msg.success(m);
+  }
+
+
+
+  const [subscriptions, setSubscriptions] = useState([])
+  const [loadingSubscriptions, setLoadingSubscriptions] = useState(false)
+
+  const [subscriptionPhone, setSubscriptionPhone] = useState('')
+
+  const [openSubscriptions, setOpenSubscriptions] = React.useState(false)
+
+  const getSubscriptions = async ({ plan_id = '', from_date = '', to_date = '', is_approved = '', requests_from_profile = '' }) => {
+    setLoadingSubscriptions(true)
+    try {
+      const res = await axios.get(`${server}subscriptions/?phone=${subscriptionPhone}&sub_id=${plan_id}&from_date=${from_date}&to_date=${to_date}&is_approved=${is_approved}&requests_from_profile=${requests_from_profile}`, header)
+      setSubscriptions(res.data)
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoadingSubscriptions(false)
+    }
+  }
+
+  useEffect(() => {
+    if (
+      localStorage.getItem('token') &&
+      (path?.includes('manager') && path?.includes('academies')) ||
+      (path?.includes('profile') && path?.includes('academies'))
+    ) {
+      getSubscriptions({})
+    }
+  }, [path, openSubscriptions])
+
+
+  const createSubscription = async (data, setOpen) => {
+    setLoadingSubscriptions(true)
+    try {
+      const res = await axios.post(`${server}subscriptions/`, data, header)
+      if (res?.data?.id) {
+        getSubscriptions({})
+        setOpen(false)
+        success('تمت الاشتراك بنجاح')
+      } else {
+        Object?.entries(res?.data).map(([key, value]) => {
+          error(`${key}: ${value?.join(', ')}`)
+        })
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoadingSubscriptions(false)
+    }
+  }
+
+
+
+  const updateSubscription = async (id, data, setOpen) => {
+    setLoadingSubscriptions(true)
+    try {
+      const res = await axios.put(`${server}subscription/${id}/`, data, header)
+      console.log(res);
+      if (res?.data?.id) {
+        getSubscriptions({})
+        success('تم تعديل الاشتراك بنجاح')
+        setOpen(false)
+      } else {
+        Object?.entries(res?.data).map(([key, value]) => {
+          error(`${key}: ${value?.join(', ')}`)
+        })
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoadingSubscriptions(false)
+    }
+  }
+
+
+
   return (
     <ApiContextProvider.Provider value={{
+      messageApi,
+
+      subscriptions, setSubscriptions,
+      subscriptionPhone, setSubscriptionPhone,
+      openSubscriptions, setOpenSubscriptions,
+      loadingSubscriptions, setLoadingSubscriptions,
+      getSubscriptions,
+      createSubscription,
+      updateSubscription,
+
+      expenses,
+      expenseLoading,
+      from_date_expense, setFromDateexpense,
+      to_date_expense, setToDateexpense,
+      getExpenses,
+      createExpense,
+      deleteExpense,
+      updateExpense,
+
+
+      incomes,
+      incomeLoading,
+      from_date, setFromDate,
+      to_date, setToDate,
+      getIncomes,
+      createIncome,
+      deleteIncome,
+      updateIncome,
 
       // manager courts
       academyId, setAcademyId,
@@ -731,11 +977,6 @@ const ApiContext = ({ children }) => {
       deleteWhtieList,
 
 
-      // invoices
-      getInvoices,
-      createInvoice,
-      updateInvoice,
-      deleteInvoice,
 
       // academies
       getAcademyTypes,

@@ -12,7 +12,7 @@ const AcademyCardClient = ({ academy }) => {
       <h3 className='text-lg font-bold'>{academy?.name}</h3>
       <p className='text-zinc-600'>{academy?.type_details?.name}</p>
       <small className='text-zinc-600'>{academy?.location}</small>
-      <Button onClick={() => navigate(`/academies/${academy?.id}`)} className='font h-[50px] rounded-full' type='primary'>تفاصيsل</Button>
+      <Button onClick={() => navigate(`/academies/${academy?.id}`)} className='font h-[50px] rounded-full' type='primary'>تفاصيل</Button>
     </div>
   )
 }

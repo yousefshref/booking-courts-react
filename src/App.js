@@ -23,7 +23,7 @@ import Redirect from './pages/Redirect';
 import SignUp from './pages/SignUp';
 import ManagerCourtsCheck from './components/Managers/ManagerCourtsCheck';
 import ManagerAcademiesCheck from './components/Managers/ManagerAcademiesCheck';
-import UserProfileAcademiesSubscribations from './components/UserProfile/UserProfileAcademiesSubscribations';
+import UserSubscriptions from './pages/Client/UserSubscriptions';
 
 function App() {
 
@@ -104,7 +104,7 @@ function App() {
 
 
         <Route path='/profile/:username/' element={<PrivateRoute><UserProfile /></PrivateRoute>} />
-        <Route path='/profile/:username/academies/' element={<PrivateRoute><UserProfileAcademiesSubscribations /></PrivateRoute>} />
+        <Route path='/profile/:username/academies/' element={<PrivateRoute><UserSubscriptions /></PrivateRoute>} />
 
         <Route path='/academies/' element={<PrivateRoute><Academies /></PrivateRoute>} />
         <Route path='/academies/:academyName/' element={<PrivateRoute><AcademyDetail /></PrivateRoute>} />

@@ -4,11 +4,12 @@ import { Button } from 'antd'
 import { BiEdit } from 'react-icons/bi'
 import TimeComponent from './TimeComponent'
 import EditOrCreateTimeModal from './EditOrCreateTimeModal'
-import SubscribePlanComponent from './SubscribePlanComponent'
 import EditOrCreatePlanModal from './EditOrCreatePlanModal'
 import UpdateAcademy from './UpdateAcademy'
-import DisplayInvoicesModal from './Invoices/DisplayInvoicesModal'
 import { server } from '../utlits/Variables'
+import CreateOrUpdateSubscribePlanModal from './Subscribe/CreateOrUpdateSubscribePlanModal'
+import { FiDelete } from 'react-icons/fi'
+import SubscribePlan from './Subscribe/SubscribePlan'
 
 const AcademyCard = ({ academy, getAcademies }) => {
 
@@ -58,8 +59,7 @@ const AcademyCard = ({ academy, getAcademies }) => {
 
   const [updateAcademy, setUpdateAcademy] = React.useState(false)
 
-
-  const [displayInvoices, setDisplayInvoices] = React.useState(false)
+  const [createSubscribe, setCreateSubscribe] = React.useState(false)
 
   return (
     <div className='relative p-4 rounded-xl h-fit bg-white w-full max-w-xs flex flex-col gap-3'>
@@ -103,27 +103,23 @@ const AcademyCard = ({ academy, getAcademies }) => {
 
       </div>
       <hr />
-      <div className='times flex flex-col gap-1 text-xs'>
+      <div className='flex flex-col gap-2 text-xs min-h-fit max-h-[500px] overflow-scroll'>
         {
           subscribePlans?.length > 0 ?
             subscribePlans?.map((plan) => (
-              // <TimeComponent getAcademyTimes={getAcademyTimes} key={time?.id} time={time} />
-              <SubscribePlanComponent key={plan?.id} plan={plan} getSubscribePlans={getSubscribePlans} />
+              <SubscribePlan getSubscribePlans={getSubscribePlans} key={plan?.id} plan={plan} />
             ))
-            : <p className='text-red-600'>لا يوجد خطط اشتراكات</p>
+            : <p className='text-red-600'>لا يوجد خطت</p>
         }
+      </div>
+      <hr />
+      <div className='times flex flex-col gap-1 text-xs'>
         <Button type='primary' onClick={() => {
           setCreatePlan(true)
         }} className='w-full bg-green-500 font'>أضف خطة جديدة</Button>
 
         <EditOrCreatePlanModal academy={academy} getSubscribePlans={getSubscribePlans} create={true} setOpen={setCreatePlan} open={createPlan} />
       </div>
-
-      <hr />
-
-      <Button type='primary' onClick={() => setDisplayInvoices(true)} className='w-full'><p className='font'>فواتير الاكاديمية</p></Button>
-
-      <DisplayInvoicesModal open={displayInvoices} setOpen={setDisplayInvoices} academy={academy} />
 
 
     </div>
