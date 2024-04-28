@@ -123,7 +123,7 @@ const ApiContext = ({ children }) => {
 
 
   const getCourts = async (name, country, city, state, type) => {
-    const res = await axios.get(`${server}courts/?name=${name ?? ""}&type=${type}&country=${country ?? ""}&city=${city ?? ""}&state=${state ?? ""}`, header)
+    const res = await axios.get(`${server}courts/?name=${name ?? ""}&type=${type ?? ""}&country=${country ?? ""}&city=${city ?? ""}&state=${state ?? ""}`, header)
     return res
   }
 

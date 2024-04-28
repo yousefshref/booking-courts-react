@@ -338,9 +338,6 @@ const ManagerCourts = () => {
           {
             courts?.length === 0 && !loading && <Alert className='w-full' message="لا يوجد ملاعب" type="warning" />
           }
-          {
-            err && <Alert className='w-full' message="حدث خطأ ما, يرجي التواصل مع خدمة العملاء" type="error" />
-          }
         </div>
       </div>
     </div>

@@ -28,6 +28,7 @@ const ManagerBooks = () => {
   const getCourts = async () => {
     const res = await apiContext?.getCourts()
     setDataSource(res.data)
+    console.log(res.data)
   }
   useEffect(() => {
     getCourts()
