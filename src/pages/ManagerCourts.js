@@ -54,11 +54,12 @@ const ManagerCourts = () => {
   const [country, setCountry] = useState(null)
   const [city, setCity] = useState(null)
   const [state, setState] = useState(null)
-  const [openFrom, setOpenFrom] = useState('')
-  const [openTo, setOpenTo] = useState('')
+  const [type, setType] = useState(null)
+  const [openFrom, setOpenFrom] = useState('00:00:00')
+  const [openTo, setOpenTo] = useState('00:00:00')
   const [closeFrom, setCloseFrom] = useState(null)
   const [closeTo, setCloseTo] = useState(null)
-  const [ball, setBall] = useState(true)
+  const [ball, setBall] = useState(0)
 
   const [offerPrice, setOfferPrice] = useState('')
   const [offerFrom, setOfferFrom] = useState(null)
@@ -90,8 +91,8 @@ const ManagerCourts = () => {
 
 
   const createCourtFunction = async () => {
+    setLoading(true)
     try {
-
       // court, Images, Videos, Tools, Features
       const createCourt = await apiContext?.createCourt(
         name,
@@ -112,7 +113,8 @@ const ManagerCourts = () => {
         eventTo,
         country,
         city,
-        state
+        state,
+        type
       )
 
       if (createCourt?.data?.id) {
@@ -126,12 +128,15 @@ const ManagerCourts = () => {
         success()
       } else {
         error()
+        console.log(createCourt);
       }
 
 
     } catch (err) {
       error()
       console.log(err);
+    } finally {
+      setLoading(false)
     }
 
   }
@@ -162,7 +167,7 @@ const ManagerCourts = () => {
       <Result
         status="403"
         title="403"
-        subTitle="ليس لديك الصلاحية للدخول, يرجي التواصل مع الدعم"
+        subTitle="ليس لديك الصلاحية للدخول, لتفعيل حسابك وادارة الملاعب او الاكاديميات يرجي التواصل مع الدعم"
         extra={<Button href='https://wa.me/201229977573' className='font' type="primary">الدعم</Button>}
       />
     )
@@ -261,6 +266,8 @@ const ManagerCourts = () => {
                   setCity={setCity}
                   state={state}
                   setState={setState}
+                  type={type}
+                  setType={setType}
                   court={null}
                 />
 

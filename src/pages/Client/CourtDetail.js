@@ -265,13 +265,13 @@ const CourtDetail = () => {
                       <span className='my-auto'>
                         <FaClock />
                       </span>
-                      {/* <p>{court && convertToAMPM(court?.offer_time_from?.slice(0, 5))}</p> */}
+                      <p>{court && convertToAMPM(court?.offer_time_from?.slice(0, 5))}</p>
                     </div>
                     <div className='flex gap-1 text-green-600'>
                       <span className='my-auto'>
                         <FaClock />
                       </span>
-                      {/* <p>{court && convertToAMPM(court?.offer_time_to?.slice(0, 5))}</p> */}
+                      <p>{court && convertToAMPM(court?.offer_time_to?.slice(0, 5))}</p>
                     </div>
                   </div>
                   <div className='md:mx-auto flex gap-1 text-green-700'>
@@ -309,7 +309,7 @@ const CourtDetail = () => {
                   </div>
                   <div className='md:mx-auto flex gap-1 text-indigo-700'>
                     <Event fontSize='small' />
-                    <small className='my-auto'>عرض محدود</small>
+                    <small className='my-auto'>وقت مفتوح للمناسبات</small>
                   </div>
                 </div>
                 : null

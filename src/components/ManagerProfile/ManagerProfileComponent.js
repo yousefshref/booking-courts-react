@@ -37,8 +37,8 @@ const ManagerProfileComponent = () => {
       <span onClick={() => setOpenUpdateProfile(true)} className='absolute text-2xl top-2 left-2 cursor-pointer text-blue-700'>
         <BiEdit />
       </span>
-
       <CreateOrUpdateManagerProfile checkProfile={checkProfile} profile={profile} create={false} open={openUpdateProfile} setOpen={setOpenUpdateProfile} />
+
 
       {
         loading ? <Loading /> : (

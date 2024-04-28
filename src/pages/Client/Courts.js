@@ -12,10 +12,10 @@ const Courts = () => {
 
   const [courts, setCourts] = useState([])
   const [load, setLoad] = useState(true)
-  const getCourts = async (name, country, city, state) => {
+  const getCourts = async (name, country, city, state, type) => {
     setLoad(true)
     try {
-      const res = await apiContext?.getCourts(name, country, city, state)
+      const res = await apiContext?.getCourts(name, country, city, state, type)
       setCourts(res.data)
     } catch (err) {
       console.log(err)
@@ -33,6 +33,7 @@ const Courts = () => {
   const [country, setCountry] = useState('')
   const [city, setCity] = useState('')
   const [state, setState] = useState('')
+  const [type, setType] = useState('')
 
 
 
@@ -93,6 +94,11 @@ const Courts = () => {
   }, [city])
 
 
+
+
+  useEffect(() => {
+    apiContext?.getCourtsTypes()
+  }, [])
 
 
   return (
@@ -163,8 +169,17 @@ const Courts = () => {
                 }
               </Select>
             </div>
+            <div className='flex flex-col w-full md:max-w-[200px]'>
+              <p>نوع الملعب</p>
+              <Select onChange={(e) => setType(e)} value={type} defaultValue={''}>
+                <Select.Option value="">أختر</Select.Option>
+                {
+                  apiContext?.courtTypes?.map((type, index) => <Select.Option key={index} value={type.id}>{type.name}</Select.Option>)
+                }
+              </Select>
+            </div>
           </div>
-          <Button onClick={() => getCourts(name, country, city, state)} type='primary' className='w-fit'>بحث</Button>
+          <Button onClick={() => getCourts(name, country, city, state, type)} type='primary' className='w-fit'>بحث</Button>
         </div>
 
         {/* courts */}

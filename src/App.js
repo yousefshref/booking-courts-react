@@ -24,6 +24,7 @@ import SignUp from './pages/SignUp';
 import ManagerCourtsCheck from './components/Managers/ManagerCourtsCheck';
 import ManagerAcademiesCheck from './components/Managers/ManagerAcademiesCheck';
 import UserSubscriptions from './pages/Client/UserSubscriptions';
+import ManagerBalance from './pages/ManagerBalance';
 
 function App() {
 
@@ -94,6 +95,7 @@ function App() {
         <Route path='/manager/:username/books' element={<PrivateRoute><ManagerBooks /></PrivateRoute>} />
         <Route path='/manager/:username/staffs' element={<PrivateRoute><ManagerStaffs /></PrivateRoute>} />
         <Route path='/manager/:username/settings' element={<PrivateRoute><ManagerSettings /></PrivateRoute>} />
+        <Route path='/manager/:username/balance/' element={<PrivateRoute><ManagerBalance /></PrivateRoute>} />
 
 
         <Route path='/staff/:username' element={<PrivateRoute><Manager /></PrivateRoute>} />

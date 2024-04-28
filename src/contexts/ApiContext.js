@@ -114,8 +114,16 @@ const ApiContext = ({ children }) => {
   }
 
 
-  const getCourts = async (name, country, city, state) => {
-    const res = await axios.get(`${server}courts/?name=${name ?? ""}&country=${country ?? ""}&city=${city ?? ""}&state=${state ?? ""}`, header)
+  const [courtTypes, setCourtTypes] = useState([])
+
+  const getCourtsTypes = async () => {
+    const res = await axios.get(`${server}court-types/`, header)
+    setCourtTypes(res.data)
+  }
+
+
+  const getCourts = async (name, country, city, state, type) => {
+    const res = await axios.get(`${server}courts/?name=${name ?? ""}&type=${type}&country=${country ?? ""}&city=${city ?? ""}&state=${state ?? ""}`, header)
     return res
   }
 
@@ -158,7 +166,7 @@ const ApiContext = ({ children }) => {
     close_from,
     close_to,
     is_active,
-    has_ball,
+    ball_price,
     offer_price,
     offer_time_from,
     offer_time_to,
@@ -168,6 +176,7 @@ const ApiContext = ({ children }) => {
     country,
     city,
     state,
+    type,
   ) => {
     const data = {
       "name": name,
@@ -179,7 +188,7 @@ const ApiContext = ({ children }) => {
       "close_from": close_from,
       "close_to": close_to,
       "is_active": is_active,
-      "has_ball": has_ball,
+      "ball_price": ball_price,
       "offer_price": offer_price,
       "offer_time_from": offer_time_from,
       "offer_time_to": offer_time_to,
@@ -189,6 +198,7 @@ const ApiContext = ({ children }) => {
       "country": country,
       "city": city,
       "state": state,
+      "type": type,
     }
     const res = await axios.put(`${server}court/${court_id}/`, data, header)
     return res
@@ -253,7 +263,7 @@ const ApiContext = ({ children }) => {
     close_from,
     close_to,
     is_active,
-    has_ball,
+    ball_price,
     offer_price,
     offer_time_from,
     offer_time_to,
@@ -263,6 +273,7 @@ const ApiContext = ({ children }) => {
     country,
     city,
     state,
+    type,
   ) => {
 
     const data = {
@@ -275,7 +286,7 @@ const ApiContext = ({ children }) => {
       "close_from": close_from,
       "close_to": close_to,
       "is_active": is_active,
-      "has_ball": has_ball,
+      "ball_price": ball_price,
       "offer_price": offer_price,
       "offer_time_from": offer_time_from,
       "offer_time_to": offer_time_to,
@@ -285,6 +296,7 @@ const ApiContext = ({ children }) => {
       "country": country,
       "city": city,
       "state": state,
+      "type": type,
     }
 
     const res = await axios.post(`${server}courts/`, data, header)
@@ -320,15 +332,13 @@ const ApiContext = ({ children }) => {
 
   const createCourtTool = async (court_id, tools) => {
     if (tools?.length > 0) {
-      const data = new FormData()
-      data.append('court', court_id)
-      tools.forEach(tool => {
+      tools.map(async tool => {
+        const data = new FormData()
+        data.append('court', court_id)
         data.append('name', tool.name)
         data.append('price', tool.price)
+        const res = await axios.post(`${server}tools/${court_id}/`, data, header)
       })
-
-      const res = await axios.post(`${server}tools/${court_id}/`, data, header)
-      return res
     }
   }
 
@@ -336,13 +346,11 @@ const ApiContext = ({ children }) => {
     if (features?.length > 0) {
       const data = new FormData()
       data.append('court', court_id)
-      features.forEach(feature => {
+      features.forEach(async feature => {
         data.append('name', feature.name)
         data.append('is_free', feature.is_free)
+        const res = await axios.post(`${server}features/${court_id}/`, data, header)
       })
-
-      const res = await axios.post(`${server}features/${court_id}/`, data, header)
-      return res
     }
   }
 
@@ -730,7 +738,7 @@ const ApiContext = ({ children }) => {
 
   useEffect(() => {
     if (
-      localStorage.getItem('token') && path?.includes('manager') && path?.split('/')?.length === 3
+      localStorage.getItem('token') && path?.includes('manager') && path?.includes('balance')
     ) {
       getIncomes()
     }
@@ -797,7 +805,7 @@ const ApiContext = ({ children }) => {
 
   useEffect(() => {
     if (
-      localStorage.getItem('token') && path?.includes('manager') && path?.split('/')?.length === 3
+      localStorage.getItem('token') && path?.includes('manager') && path?.includes('balance')
     ) {
       getExpenses()
     }
@@ -1026,8 +1034,10 @@ const ApiContext = ({ children }) => {
       getCountries,
       getCities,
       getStates,
+      courtTypes,
 
 
+      getCourtsTypes,
       getCourts,
 
       getCourtDetail,

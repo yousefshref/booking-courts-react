@@ -138,6 +138,7 @@ const CourtCard = ({ court, deleteCourt }) => {
   const [country, setCountry] = useState(null)
   const [city, setCity] = useState(null)
   const [state, setState] = useState(null)
+  const [type, setType] = useState(court?.type)
   const [pricePerHour, setPricePerHour] = useState(court?.price_per_hour)
   const [openFrom, setOpenFrom] = useState(court?.open_from)
   const [openTo, setOpenTo] = useState(court?.open_to)
@@ -175,7 +176,7 @@ const CourtCard = ({ court, deleteCourt }) => {
       const emptyFeatures = selectedFeatures?.find(f => f.is_free === null || f.is_free === undefined || f.name === '')
       const emptyTools = selectedTools?.find(t => t.name === '' || t.price === null || t.price === undefined || t.price === 0 || t.price === '')
 
-      const courtRes = await apiContext?.updateCourt(courtDetail?.id, name, address, locationUrl, pricePerHour, openFrom, openTo, closeFrom, closeTo, false, ball, offerPrice, offerFrom, offerTo, eventPrice, eventFrom, eventTo, country, city, state)
+      const courtRes = await apiContext?.updateCourt(courtDetail?.id, name, address, locationUrl, pricePerHour, openFrom, openTo, closeFrom, closeTo, false, ball, offerPrice, offerFrom, offerTo, eventPrice, eventFrom, eventTo, country, city, state, type)
       if (courtRes?.data?.id) {
         const createImagesRes = await apiContext?.createCourtImage(courtRes?.data.id, createImages)
         const createCourtVideoRes = await apiContext?.createCourtVideo(courtRes?.data.id, createVideos)
@@ -192,6 +193,8 @@ const CourtCard = ({ court, deleteCourt }) => {
 
         setIsVisible(false)
         success()
+      } else {
+        error()
       }
 
     } catch (err) {
@@ -287,6 +290,8 @@ const CourtCard = ({ court, deleteCourt }) => {
                 setCity={setCity}
                 state={state}
                 setState={setState}
+                type={type}
+                setType={setType}
                 court={courtDetail}
               />
 

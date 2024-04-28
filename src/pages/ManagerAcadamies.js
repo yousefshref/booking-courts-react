@@ -77,7 +77,7 @@ const ManagerAcadamies = () => {
       <Result
         status="403"
         title="403"
-        subTitle="ليس لديك الصلاحية للدخول, يرجي التواصل مع الدعم"
+        subTitle="ليس لديك الصلاحية للدخول, لتفعيل حسابك وادارة الملاعب او الاكاديميات يرجي التواصل مع الدعم"
         extra={<Button href='https://wa.me/201229977573' className='font' type="primary">الدعم</Button>}
       />
     )

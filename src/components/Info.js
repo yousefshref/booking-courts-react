@@ -14,12 +14,15 @@ const Info = ({
   openTo, setOpenTo,
   closeFrom, setCloseFrom,
   closeTo, setCloseTo,
-  ball, setBall, country, setCountry, city, setCity, state, setState
+  ball, setBall, country, setCountry, city, setCity, state, setState, type, setType
 }) => {
 
 
   const apiContext = useContext(ApiContextProvider)
 
+  useEffect(() => {
+    apiContext?.getCourtsTypes()
+  }, [])
 
   const [countries, setCountries] = useState([])
   const getCountries = async () => {
@@ -60,10 +63,11 @@ const Info = ({
       setOpenTo(court?.open_to)
       setCloseFrom(court?.close_from)
       setCloseTo(court?.close_to)
-      setBall(court?.has_ball)
+      setBall(court?.ball_price)
       setCountry(court?.country)
       setCity(court?.city)
       setState(court?.state)
+      setType(court?.type)
     }
   }, [court?.id])
 
@@ -135,6 +139,17 @@ const Info = ({
 
 
       <div className='flex flex-col gap-1'>
+        <p>نوع الملعب *</p>
+        <Select value={type} onChange={(e) => setType(e)}>
+          <Select.Option value="">أختر النوع</Select.Option>
+          {
+            apiContext?.courtTypes?.map(type => <Select.Option key={type?.id} value={type?.id}>{type?.name}</Select.Option>)
+          }
+        </Select>
+      </div>
+
+
+      <div className='flex flex-col gap-1'>
         <p>سعر الحجز بالساعة *</p>
         <InputNumber size='large' value={pricePerHour} onChange={(e) => setPricePerHour(e)} required addonAfter="EGP" />
       </div>
@@ -169,11 +184,8 @@ const Info = ({
       </div>
 
       <div className='flex flex-col gap-1'>
-        <p>هل الكرة متاحة *</p>
-        <Select size='large' value={ball} onChange={(e) => setBall(e)}>
-          <Select.Option value={true}>نعم</Select.Option>
-          <Select.Option value={false}>لا</Select.Option>
-        </Select>
+        <p>سعر الكرة <small>(لو تركته فارغ هذا يعني انه لا يوجد كرة)</small></p>
+        <Input type='number' value={ball} onChange={(e) => setBall(e.target.value)} />
       </div>
 
     </div>
