@@ -34,7 +34,7 @@ const UpdateWhiteList = ({ open, setOpen, getWhiteLists, whitelistData }) => {
 
   return (
     <Modal
-      visible={open}
+      open={open}
       onOk={() => updateWhtieList()}
       onCancel={() => setOpen(false)}
       centered

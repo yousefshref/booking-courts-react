@@ -4,26 +4,30 @@ import { ApiContextProvider } from '../../contexts/ApiContext'
 import Subscription from './Subscription'
 import dayjs from 'dayjs'
 import Loading from '../Loading'
+import { getCurrentDate } from '../../utlits/Functions'
 
 const DisplaySubscriptions = ({ open, setOpen, plan }) => {
   const apiContext = useContext(ApiContextProvider)
 
   const subscriptions = apiContext?.subscriptions
 
-
-  useEffect(() => {
-    apiContext?.getSubscriptions({
-      plan_id: plan?.id
-    })
-  }, [plan?.id])
-
-
-
   const [subscriptionPhone, setSubscriptionPhone] = React.useState('')
-  const [subscriptionDateFrom, setSubscriptionDateFrom] = React.useState('')
+  const [subscriptionDateFrom, setSubscriptionDateFrom] = React.useState(getCurrentDate())
   const [subscriptionDateTo, setSubscriptionDateTo] = React.useState('')
   const [isRequest, setIsRequest] = React.useState('')
   const [subscriptionStatus, setSubscriptionStatus] = React.useState('')
+
+
+
+  useEffect(() => {
+    apiContext?.getSubscriptions({
+      plan_id: plan?.id,
+      from_date: subscriptionDateFrom,
+      to_date: subscriptionDateTo,
+      is_approved: subscriptionStatus,
+      requests_from_profile: isRequest,
+    })
+  }, [plan?.id])
 
   return (
     <Modal
@@ -77,6 +81,15 @@ const DisplaySubscriptions = ({ open, setOpen, plan }) => {
           }} className='w-fit' type='primary'>بحث</Button>
         </div>
       </div>
+
+      <hr className='bg-indigo-700 py-[0.5px] my-2' />
+
+      <div className='summerizeOfTotalEarn flex flex-wrap gap-5 justify-around'>
+        <p>المنتظر من طلبات الاشتراكات: {subscriptions?.filter(sub => sub?.request_from_profile && !sub?.is_approved)?.reduce((a, b) => a + b?.price, 0)} EGP</p>
+        <p>اجمالي المدفوع: {subscriptions?.reduce((a, b) => a + b?.price, 0)} EGP</p>
+      </div>
+
+      <hr className='bg-indigo-700 py-[0.5px] my-2' />
 
       <div className='flex flex-col gap-5 min-h-fit max-h-[500px] overflow-scroll bg-indigo-300 rounded-xl p-3'>
 

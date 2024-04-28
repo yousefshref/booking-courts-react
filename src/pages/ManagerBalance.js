@@ -48,21 +48,23 @@ const ManagerBalance = () => {
   }, [incomes, expenses]);
 
   const [createdAt, setCreatedAt] = useState(getCurrentDate());
+  const [endAt, setEndAt] = useState(getCurrentDate());
   const [description, setDescription] = useState('');
 
   useEffect(() => {
-    if (description || createdAt) {
+    if (description || createdAt || endAt) {
       const filteredInvoices = originalInvoices.filter(invoice => {
         const descriptionMatch = description ? invoice.description?.includes(description) : true;
         const dateMatch = createdAt ? new Date(invoice.created_at) >= new Date(createdAt) : true;
-        return descriptionMatch && dateMatch;
+        const dateEndMatch = endAt ? new Date(invoice.created_at) <= new Date(endAt) : true;
+        return descriptionMatch && dateMatch && dateEndMatch;
       });
       setInvoices(filteredInvoices);
     } else {
       // If both description and createdAt become null, revert back to original sorted invoices
       setInvoices(originalInvoices);
     }
-  }, [description, createdAt, originalInvoices]);
+  }, [description, createdAt, originalInvoices, endAt]);
 
 
   return (
@@ -79,8 +81,12 @@ const ManagerBalance = () => {
                 <Input className='w-full' value={description} onChange={(e) => setDescription(e.target.value)} />
               </div>
               <div className='flex flex-col gap-1 w-full max-w-[300px]'>
-                <p>تم الانشاء في يوم</p>
+                <p>تم الانشاء من يوم</p>
                 <Input className='w-full' type='date' value={createdAt} onChange={(e) => setCreatedAt(e.target.value)} />
+              </div>
+              <div className='flex flex-col gap-1 w-full max-w-[300px]'>
+                <p>حتي يوم</p>
+                <Input className='w-full' type='date' value={endAt} onChange={(e) => setEndAt(e.target.value)} />
               </div>
             </div>
             <div className='createButtons flex flex-col justify-center gap-3'>
@@ -92,9 +98,9 @@ const ManagerBalance = () => {
             </div>
           </div>
           <div className='w-full max-w-lg mx-auto p-3 rounded-b-xl bg-indigo-300 text-zinc-800 flex gap-7 flex-wrap justify-around'>
-            <b>الايرادات: {incomes?.reduce((a, b) => a + b.amount, 0)} EGP</b>
-            <b>المصروفات: {expenses?.reduce((a, b) => a + b.amount, 0)} EGP</b>
-            <b>صافي الربح: {incomes?.reduce((a, b) => a + b.amount, 0) - expenses?.reduce((a, b) => a + b.amount, 0)} EGP</b>
+            <b>الايرادات: {invoices?.filter(inv => inv?.income)?.reduce((a, b) => a + b.amount, 0)} EGP</b>
+            <b>المصروفات: {invoices?.filter(inv => inv?.expense)?.reduce((a, b) => a + b.amount, 0)} EGP</b>
+            <b>صافي الربح: {invoices?.filter(inv => inv?.income)?.reduce((a, b) => a + b.amount, 0) - invoices?.filter(inv => inv?.expense)?.reduce((a, b) => a + b.amount, 0)} EGP</b>
           </div>
         </div>
 

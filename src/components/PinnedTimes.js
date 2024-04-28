@@ -32,7 +32,7 @@ const PinnedTimes = ({ open, setOpen, book, getBooks }) => {
     <Modal
       centered
       width={700}
-      visible={open}
+      open={open}
       onOk={() => { }}
       onCancel={() => { setOpen(false) }}
       okText='تحديث'

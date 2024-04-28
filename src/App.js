@@ -103,6 +103,7 @@ function App() {
         <Route path='/staff/:username/courts' element={<PrivateRoute><ManagerCourts /></PrivateRoute>} />
         <Route path='/staff/:username/books' element={<PrivateRoute><ManagerBooks /></PrivateRoute>} />
         <Route path='/staff/:username/settings' element={<PrivateRoute><ManagerSettings /></PrivateRoute>} />
+        <Route path='/staff/:username/balance/' element={<PrivateRoute><ManagerBalance /></PrivateRoute>} />
 
 
         <Route path='/profile/:username/' element={<PrivateRoute><UserProfile /></PrivateRoute>} />

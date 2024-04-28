@@ -189,7 +189,7 @@ const UpdateBook = ({ setLoading, getBooks, bookOpen, setBookOpne, settings, boo
     <Modal
       centered
       width={700}
-      visible={bookOpen}
+      open={bookOpen}
       onCancel={() => {
         setBookOpne(null)
       }}

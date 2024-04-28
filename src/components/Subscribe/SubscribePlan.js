@@ -42,8 +42,6 @@ const SubscribePlan = ({ plan, getSubscribePlans }) => {
       }
 
       <Button onClick={() => setCreateSubscribe(true)} type='primary' className='w-full font'>اشتراك</Button>
-      <Button onClick={() => apiContext?.setOpenSubscriptions(true)} type='default' className='w-full font border border-indigo-700'>المشتركين</Button>
-      <DisplaySubscriptions plan={plan} open={apiContext?.openSubscriptions} setOpen={apiContext?.setOpenSubscriptions} />
 
 
       <CreateOrUpdateSubscribePlanModal plan={plan} setOpen={setCreateSubscribe} open={createSubscribe} />

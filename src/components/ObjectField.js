@@ -52,7 +52,7 @@ const ObjectField = ({ keyName, value, academy }) => {
 
 
       <Modal
-        visible={openImage}
+        open={openImage}
         onOk={() => setopenImage(null)}
         onCancel={() => setopenImage(null)}
         width={400}

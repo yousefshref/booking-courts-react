@@ -23,12 +23,23 @@ const Subscription = ({ subscripe }) => {
   return (
     <div className='relative flex flex-col gap-1 border border-zinc-700 rounded-xl p-2 bg-white'>
 
-      <span onClick={() => setUpdateSubscripe(true)} className='absolute top-1 left-1 updateIcon'>
-        <BiEdit />
-      </span>
+      {
+        !profile?.user &&
+        <span onClick={() => setUpdateSubscripe(true)} className='absolute top-1 left-1 updateIcon'>
+          <BiEdit />
+        </span>
+      }
 
       <CreateOrUpdateSubscribePlanModal open={updateSubscripe} setOpen={setUpdateSubscripe} subscripe={subscripe} />
 
+      <div className='flex flex-col'>
+        <p className='text-zinc-700'>{subscripe?.academy_subscribe_plan_details?.name}</p>
+        <p className='text-zinc-700'>{subscripe?.academy_subscribe_plan_details?.price_per_class === subscripe?.price && 'في الحصة'}</p>
+        <p className='text-zinc-700'>{subscripe?.academy_subscribe_plan_details?.price_per_week === subscripe?.price && 'في الاسبوع'}</p>
+        <p className='text-zinc-700'>{subscripe?.academy_subscribe_plan_details?.price_per_month === subscripe?.price && 'في الشهر'}</p>
+        <p className='text-zinc-700'>{subscripe?.academy_subscribe_plan_details?.price_per_year === subscripe?.price && 'في السنة'}</p>
+      </div>
+      <hr />
       <p className='text-zinc-700'>{subscripe?.name}</p>
       <p className='text-zinc-700'>{subscripe?.phone}</p>
       <p className='text-zinc-700'>{subscripe?.birth_date}</p>

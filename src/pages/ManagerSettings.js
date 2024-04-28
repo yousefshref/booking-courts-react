@@ -6,6 +6,7 @@ import { ApiContextProvider } from '../contexts/ApiContext'
 import { BiEdit, BiTrash } from 'react-icons/bi'
 import DisplayWhiteLists from '../components/DisplayWhiteLists'
 import { UploadOutlined } from '@mui/icons-material'
+import { useNavigate } from 'react-router-dom'
 
 const ManagerSettings = () => {
 
@@ -53,10 +54,17 @@ const ManagerSettings = () => {
   }
 
 
+  const navigate = useNavigate()
+
   return (
     <div className='flex flex-col gap-4'>
       {contextHolder}
       <Header />
+
+      <div onClick={() => { navigate(`/manager/${localStorage.getItem('username')}/balance/`) }} className='flex w-full max-w-4xl mx-auto text-center flex-col transition-all duration-200 hover:text-white cursor-pointer hover:bg-indigo-900 gap-8 p-3 bg-indigo-300 rounded-xl'>
+        <b>تفاصيل رصيد اليوم</b>
+      </div>
+
 
       <ManagerSettingsComponent success={success} error={error} />
 

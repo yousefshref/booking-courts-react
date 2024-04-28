@@ -26,7 +26,7 @@ const WhiteListComponent = ({ whitelist, getWhtieLists }) => {
 
         <Modal
           centered
-          visible={image}
+          open={image}
           onOk={() => setImage(null)}
           onCancel={() => setImage(null)}
           width={650}

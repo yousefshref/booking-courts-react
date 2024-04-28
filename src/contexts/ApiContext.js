@@ -54,8 +54,23 @@ const ApiContext = ({ children }) => {
     return res
   }
 
+
+
+  const sendWhastappCode = async ({ phone = '', verification = '' }) => {
+    const res = await axios.post(`${server}whatsapp-send-verification/?phone=${phone}&verification=${verification}`, {}, header)
+    console.log(res);
+  }
+
+  const updateUser = async (data) => {
+    const res = await axios.put(`${server}user/`, data, header)
+    console.log(res);
+  }
+
+  const [user, setUser] = useState({})
+
   const getUser = async () => {
     const res = await axios.get(`${server}user/`, header)
+    setUser(res.data)
     return res
   }
 
@@ -878,15 +893,7 @@ const ApiContext = ({ children }) => {
     }
   }
 
-  useEffect(() => {
-    if (
-      localStorage.getItem('token') &&
-      (path?.includes('manager') && path?.includes('academies')) ||
-      (path?.includes('profile') && path?.includes('academies'))
-    ) {
-      getSubscriptions({})
-    }
-  }, [path, openSubscriptions])
+
 
 
   const createSubscription = async (data, setOpen) => {
@@ -1023,6 +1030,10 @@ const ApiContext = ({ children }) => {
       signUpSendVerification,
       signUp,
 
+      sendWhastappCode,
+
+      updateUser,
+      user, setUser,
       getUser,
       checkProfile,
       createManagerProfile,

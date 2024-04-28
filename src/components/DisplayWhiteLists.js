@@ -22,7 +22,7 @@ const DisplayWhiteLists = ({ open, setOpen }) => {
 
   return (
     <Modal
-      visible={open}
+      open={open}
       onOk={() => setOpen(false)}
       onCancel={() => setOpen(false)}
       centered

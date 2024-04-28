@@ -1,6 +1,7 @@
 import { Button, Input, message, Modal, Select } from 'antd'
 import React, { useContext, useEffect, useState } from 'react'
 import { ApiContextProvider } from '../contexts/ApiContext'
+import DisplaySubscriptions from '../components/Subscribe/DisplaySubscriptions'
 
 const CreateAcademyButton = ({ getAcademies }) => {
 
@@ -62,11 +63,19 @@ const CreateAcademyButton = ({ getAcademies }) => {
     }
   }
 
+
+
+  const [openSubs, setOpenSubs] = React.useState(false)
+
   return (
     <div className='createAcademy'>
       {contextHolder}
 
-      <Button onClick={() => setOpen(true)} className='bg-green-500 font' type='primary' size='large'>انشاء اكاديمية</Button>
+      <div className='flex flex-row gap-4 '>
+        <Button onClick={() => setOpen(true)} className='bg-green-500 font' type='primary' size='large'>انشاء اكاديمية</Button>
+        <Button onClick={() => setOpenSubs(true)} className='font' type='default' size='large'>المشتركين</Button>
+        <DisplaySubscriptions open={openSubs} setOpen={setOpenSubs} />
+      </div>
 
       <Modal
         centered
