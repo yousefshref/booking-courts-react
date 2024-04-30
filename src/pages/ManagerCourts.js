@@ -14,6 +14,8 @@ import Info from '../components/Info'
 import Offers from '../components/Offers'
 import ImagesAndVideos from '../components/ImagesAndVideos'
 import FeaturesAndTools from '../components/FeaturesAndTools'
+import { BiEdit } from 'react-icons/bi'
+import ManagerSettings from './ManagerSettings'
 
 const ManagerCourts = () => {
   const apiContext = useContext(ApiContextProvider)
@@ -148,6 +150,11 @@ const ManagerCourts = () => {
   }
 
 
+
+  const [openSettings, setOpenSettings] = useState(false)
+
+
+
   const [checkProfile, setCheckProfile] = useState(null)
 
   const checkUser = async () => {
@@ -174,6 +181,8 @@ const ManagerCourts = () => {
   }
 
 
+
+
   return (
 
     <div className='flex flex-col gap-3'>
@@ -185,6 +194,18 @@ const ManagerCourts = () => {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+
+
+      <div className='w-full flex gap-7 justify-between max-w-6xl mx-auto p-3'>
+        <p className='my-auto'>اعدادات الملاعب</p>
+        <span onClick={() => setOpenSettings(true)} className='updateIcon'>
+          <BiEdit />
+        </span>
+        <ManagerSettings open={openSettings} setOpen={setOpenSettings} />
+      </div>
+
+      <hr className='w-full flex gap-7 max-w-6xl mx-auto' />
+
       <div className='w-full flex flex-col gap-7 max-w-6xl mx-auto p-3'>
 
         <div className='createCourt'>

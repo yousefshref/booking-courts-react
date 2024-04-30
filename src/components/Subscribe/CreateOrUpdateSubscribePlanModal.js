@@ -29,10 +29,10 @@ const CreateOrUpdateSubscribePlanModal = ({ open, setOpen, plan, subscripe, trai
 
 
   useEffect(() => {
-    if (trainer?.id) {
-      apiContext?.getTrainer(trainer?.id)
+    if (subscripe?.trainer) {
+      apiContext?.getTrainer(subscripe?.trainer)
     }
-  }, [trainer])
+  }, [])
 
 
 

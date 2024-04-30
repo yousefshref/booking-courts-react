@@ -98,7 +98,7 @@ function App() {
         <Route path='/manager/:username/courts' element={<PrivateRoute><ManagerCourts /></PrivateRoute>} />
         <Route path='/manager/:username/books' element={<PrivateRoute><ManagerBooks /></PrivateRoute>} />
         <Route path='/manager/:username/staffs' element={<PrivateRoute><ManagerStaffs /></PrivateRoute>} />
-        <Route path='/manager/:username/settings' element={<PrivateRoute><ManagerSettings /></PrivateRoute>} />
+        {/* <Route path='/manager/:username/settings' element={<PrivateRoute><ManagerSettings /></PrivateRoute>} /> */}
         <Route path='/manager/:username/balance/' element={<PrivateRoute><ManagerBalance /></PrivateRoute>} />
 
 
@@ -107,7 +107,7 @@ function App() {
         <Route path='/staff/:username/academies' element={<PrivateRoute><ManagerAcadamies /></PrivateRoute>} />
         <Route path='/staff/:username/courts' element={<PrivateRoute><ManagerCourts /></PrivateRoute>} />
         <Route path='/staff/:username/books' element={<PrivateRoute><ManagerBooks /></PrivateRoute>} />
-        <Route path='/staff/:username/settings' element={<PrivateRoute><ManagerSettings /></PrivateRoute>} />
+        {/* <Route path='/staff/:username/settings' element={<PrivateRoute><ManagerSettings /></PrivateRoute>} /> */}
         <Route path='/staff/:username/balance/' element={<PrivateRoute><ManagerBalance /></PrivateRoute>} />
 
 

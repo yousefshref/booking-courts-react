@@ -32,7 +32,7 @@ const DisplaySubscriptions = ({ open, setOpen, plan }) => {
   return (
     <Modal
       centered
-      width={700}
+      width={1200}
       open={open}
       onCancel={() => setOpen(false)}
       closeIcon={false}

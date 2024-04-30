@@ -234,7 +234,11 @@ const CourtBook = () => {
         if (window.confirm("هل تريد حجز وقت اخر ؟") == true) {
           window.location.reload()
         } else {
-          navigate(`/profile/${user?.username}/`)
+          if (apiContext?.profile?.user) {
+            navigate(`/profile/${user?.username}/`)
+          } else {
+            navigate(`/manager/${user?.username}/courts/`)
+          }
         }
 
       }
