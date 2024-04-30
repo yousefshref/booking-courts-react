@@ -9,7 +9,9 @@ const UserSubscriptions = () => {
   const apiContext = useContext(ApiContextProvider)
 
   const subsription = apiContext?.subscriptions
-
+  useEffect(() => {
+    apiContext?.getSubscriptions({})
+  }, [])
 
   return (
     <ProfileLayout>
@@ -17,7 +19,7 @@ const UserSubscriptions = () => {
         apiContext?.loadingSubscriptions ? <Loading /> :
           subsription?.length > 0 ? subsription?.map((sub, index) => (
             <Subscription subscripe={sub} key={index} />
-          )) : null
+          )) : <p>لا يوجد اي اشتراكات</p>
       }
     </ProfileLayout>
   )

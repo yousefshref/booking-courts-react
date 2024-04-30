@@ -86,7 +86,7 @@ const DisplaySubscriptions = ({ open, setOpen, plan }) => {
 
       <div className='summerizeOfTotalEarn flex flex-wrap gap-5 justify-around'>
         <p>المنتظر من طلبات الاشتراكات: {subscriptions?.filter(sub => sub?.request_from_profile && !sub?.is_approved)?.reduce((a, b) => a + b?.price, 0)} EGP</p>
-        <p>اجمالي المدفوع: {subscriptions?.reduce((a, b) => a + b?.price, 0)} EGP</p>
+        <p>اجمالي المدفوع: {subscriptions?.filter(sub => sub?.is_approved)?.reduce((a, b) => a + b?.price, 0)} EGP</p>
       </div>
 
       <hr className='bg-indigo-700 py-[0.5px] my-2' />

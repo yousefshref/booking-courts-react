@@ -78,6 +78,7 @@ const Header = () => {
             <>
               <p onClick={() => navigate(`/manager/${user?.username}/courts`)} className='cursor-pointer transition-all hover:text-blue-800 md:text-base text-sm'>الملاعب</p>
               <p onClick={() => navigate(`/manager/${user?.username}/academies`)} className='cursor-pointer transition-all hover:text-blue-800 md:text-base text-sm'>الأكاديميات</p>
+              <p onClick={() => navigate(`/manager/${user?.username}/trainers/`)} className='cursor-pointer transition-all hover:text-blue-800 md:text-base text-sm'>المدربيين</p>
               <p onClick={() => navigate(`/manager/${user?.username}/books`)} className='cursor-pointer transition-all hover:text-blue-800 md:text-base text-sm'>الحجوزات</p>
               <p onClick={() => navigate(`/manager/${user?.username}/staffs`)} className='cursor-pointer transition-all hover:text-blue-800 md:text-base text-sm'>الموظفين</p>
               <p onClick={() => navigate(`/manager/${user?.username}/settings`)} className='cursor-pointer transition-all hover:text-blue-800 md:text-base text-sm'>الاعدادات</p>
@@ -89,6 +90,7 @@ const Header = () => {
             <>
               <p onClick={() => navigate(`/staff/${user?.username}/courts`)} className='cursor-pointer transition-all hover:text-blue-800 md:text-base text-sm'>الملاعب</p>
               <p onClick={() => navigate(`/staff/${user?.username}/academies`)} className='cursor-pointer transition-all hover:text-blue-800 md:text-base text-sm'>الأكاديميات</p>
+              <p onClick={() => navigate(`/staff/${user?.username}/trainers/`)} className='cursor-pointer transition-all hover:text-blue-800 md:text-base text-sm'>المدربيين</p>
               <p onClick={() => navigate(`/staff/${user?.username}/books`)} className='cursor-pointer transition-all hover:text-blue-800 md:text-base text-sm'>الحجوزات</p>
               <p onClick={() => navigate(`/staff/${user?.username}/settings`)} className='cursor-pointer transition-all hover:text-blue-800 md:text-base text-sm'>الاعدادات</p>
             </>
@@ -99,7 +101,7 @@ const Header = () => {
             <>
               <p onClick={() => navigate(`/courts`)} className='cursor-pointer transition-all hover:text-blue-800 md:text-base text-sm'>الملاعب</p>
               <p onClick={() => navigate(`/academies/`)} className='cursor-pointer transition-all hover:text-blue-800 md:text-base text-sm'>الأكاديميات</p>
-              <p onClick={() => navigate(`/profile/${user?.username}`)} className='cursor-pointer transition-all hover:text-blue-800 md:text-base text-sm'>الحجوزات</p>
+              <p onClick={() => navigate(`/trainers/`)} className='cursor-pointer transition-all hover:text-blue-800 md:text-base text-sm'>المدربيين</p>
             </>
           )
         }

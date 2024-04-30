@@ -56,8 +56,8 @@ const ProfileLayout = ({ children }) => {
         <hr className='my-3' />
 
         <div className='p-5 flex flex-wrap gap-5 justify-around rounded-xl bg-indigo-200'>
-          <p onClick={() => navigate(`/profile/${localStorage.getItem('username')?.replace(' ', '-')}/`)} className={`${pathName?.includes('profile') && !pathName?.includes('academies') ? 'bg-lime-200' : 'bg-white hover:bg-lime-200'} cursor-pointer p-3 rounded-xl  w-full max-w-[200px] text-center transition-all `}>الحجوزات</p>
-          <p onClick={() => navigate(`/profile/${localStorage.getItem('username')?.replace(' ', '-')}/academies/`)} className={`${pathName?.includes('profile') && pathName?.includes('academies') ? 'bg-lime-200' : 'bg-white hover:bg-lime-200'} cursor-pointer p-3 rounded-xl  w-full max-w-[200px] text-center transition-all `}>اشتراك الاكاديميات</p>
+          <p onClick={() => navigate(`/profile/${localStorage.getItem('username')?.replace(' ', '-')}/`)} className={`${pathName?.includes('profile') && !pathName?.includes('academies') && !pathName?.includes('trainers') ? 'bg-lime-200' : 'bg-white hover:bg-lime-200'} cursor-pointer p-3 rounded-xl  w-full max-w-[400px] text-center transition-all `}>الحجوزات</p>
+          <p onClick={() => navigate(`/profile/${localStorage.getItem('username')?.replace(' ', '-')}/academies/`)} className={`${pathName?.includes('profile') && pathName?.includes('academies') ? 'bg-lime-200' : 'bg-white hover:bg-lime-200'} cursor-pointer p-3 rounded-xl  w-full max-w-[400px] text-center transition-all `}>اشتراك الاكاديميات/ المدربين</p>
         </div>
 
         <hr className='my-3' />

@@ -5,8 +5,6 @@ import { ApiContextProvider } from '../contexts/ApiContext'
 import { Backdrop, CircularProgress } from '@mui/material'
 import AcademyCard from '../components/AcademyCard'
 import { Button, Result } from 'antd'
-import UpdateOrCreateTrainerModal from '../components/UpdateOrCreateTrainerModal'
-import TrainerCard from '../components/TrainerCard'
 
 const ManagerAcadamies = () => {
 
@@ -44,30 +42,6 @@ const ManagerAcadamies = () => {
   useEffect(() => {
     checkProfile && getAcademies()
   }, [checkProfile])
-
-
-
-
-
-  const [trainers, setTrainers] = useState([])
-
-  const getAcademyTrainers = async () => {
-    setLoading(true)
-    try {
-      const res = await apiContext?.getAcademyTrainers()
-      setTrainers(res?.data)
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    getAcademyTrainers()
-  }, [])
-
-  const [opneCreateTrainer, setOpneCreateTrainer] = useState(false)
 
 
 
@@ -111,28 +85,6 @@ const ManagerAcadamies = () => {
       </div>
 
 
-      <div className='flex flex-col gap-3 mt-5 p-5 w-full max-w-5xl mx-auto'>
-        <Button
-          className='gap-3 w-fit font bg-green-500'
-          type='primary'
-          size='large'
-          onClick={() => setOpneCreateTrainer(true)}
-        >
-          <span>اضافة مدربين</span>
-        </Button>
-
-        <div className='flex flex-wrap gap-5 p-5 justify-around bg-indigo-100 rounded-xl max-h-[700px] min-h-fit overflow-scroll'>
-          {
-            trainers?.length > 0 ?
-              trainers?.map((trainer) => (
-                <TrainerCard getAcademyTrainers={getAcademyTrainers} key={trainer?.id} trainer={trainer} />
-              ))
-              : <p className='my-auto text-red-600'>لا يوجد مدربين</p>
-          }
-          <UpdateOrCreateTrainerModal create={true} setOpen={setOpneCreateTrainer} open={opneCreateTrainer} getAcademyTrainers={getAcademyTrainers} />
-        </div>
-
-      </div>
 
     </div>
   )

@@ -75,6 +75,7 @@ input[type="number"] {
   @apply p-3 w-fit h-fit my-auto rounded-full bg-red-300 cursor-pointer transition-all duration-300 hover:bg-red-600 hover:text-white;
 }
 
-input {
+input,
+select {
   @apply p-3 rounded-xl border border-indigo-300 transition-all w-full hover:border-indigo-600;
 }

@@ -25,6 +25,9 @@ import ManagerCourtsCheck from './components/Managers/ManagerCourtsCheck';
 import ManagerAcademiesCheck from './components/Managers/ManagerAcademiesCheck';
 import UserSubscriptions from './pages/Client/UserSubscriptions';
 import ManagerBalance from './pages/ManagerBalance';
+import ManagerTrainers from './pages/ManagerTrainers';
+import TrainersClient from './pages/Client/TrainersClient';
+import TrainersClientSubscriptions from './pages/Client/TrainersClientSubscriptions';
 
 function App() {
 
@@ -91,6 +94,7 @@ function App() {
 
         <Route path='/manager/:username' element={<PrivateRoute><Manager /></PrivateRoute>} />
         <Route path='/manager/:username/academies' element={<PrivateRoute><ManagerAcadamies /></PrivateRoute>} />
+        <Route path='/manager/:username/trainers/' element={<PrivateRoute><ManagerTrainers /></PrivateRoute>} />
         <Route path='/manager/:username/courts' element={<PrivateRoute><ManagerCourts /></PrivateRoute>} />
         <Route path='/manager/:username/books' element={<PrivateRoute><ManagerBooks /></PrivateRoute>} />
         <Route path='/manager/:username/staffs' element={<PrivateRoute><ManagerStaffs /></PrivateRoute>} />
@@ -99,6 +103,7 @@ function App() {
 
 
         <Route path='/staff/:username' element={<PrivateRoute><Manager /></PrivateRoute>} />
+        <Route path='/staff/:username/trainers/' element={<PrivateRoute><ManagerTrainers /></PrivateRoute>} />
         <Route path='/staff/:username/academies' element={<PrivateRoute><ManagerAcadamies /></PrivateRoute>} />
         <Route path='/staff/:username/courts' element={<PrivateRoute><ManagerCourts /></PrivateRoute>} />
         <Route path='/staff/:username/books' element={<PrivateRoute><ManagerBooks /></PrivateRoute>} />
@@ -106,16 +111,17 @@ function App() {
         <Route path='/staff/:username/balance/' element={<PrivateRoute><ManagerBalance /></PrivateRoute>} />
 
 
+
         <Route path='/profile/:username/' element={<PrivateRoute><UserProfile /></PrivateRoute>} />
         <Route path='/profile/:username/academies/' element={<PrivateRoute><UserSubscriptions /></PrivateRoute>} />
-
-        <Route path='/academies/' element={<PrivateRoute><Academies /></PrivateRoute>} />
-        <Route path='/academies/:academyName/' element={<PrivateRoute><AcademyDetail /></PrivateRoute>} />
-
 
         <Route path='/managers/:academyName/:academyId/courts/' element={<PrivateRoute><ManagerCourtsCheck /></PrivateRoute>} />
         <Route path='/managers/:academyName/:academyId/academies/' element={<PrivateRoute><ManagerAcademiesCheck /></PrivateRoute>} />
 
+        <Route path='/academies/' element={<PrivateRoute><Academies /></PrivateRoute>} />
+        <Route path='/academies/:academyName/' element={<PrivateRoute><AcademyDetail /></PrivateRoute>} />
+
+        <Route path='/trainers/' element={<PrivateRoute><TrainersClient /></PrivateRoute>} />
 
         <Route path='/courts' element={<PrivateRoute><Courts /></PrivateRoute>} />
         <Route path='/court/:courtName/:courtId' element={<PrivateRoute><CourtDetail /></PrivateRoute>} />

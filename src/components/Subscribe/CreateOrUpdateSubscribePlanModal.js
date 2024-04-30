@@ -1,4 +1,4 @@
-import { DatePicker, Input, Modal, Select } from 'antd'
+import { Button, DatePicker, Input, Modal, Select } from 'antd'
 import React, { useEffect } from 'react'
 import { server } from '../../utlits/Variables'
 import dayjs from 'dayjs'
@@ -8,7 +8,7 @@ import { FiDelete } from 'react-icons/fi'
 import { TiDelete } from 'react-icons/ti'
 import { Backdrop, CircularProgress } from '@mui/material'
 
-const CreateOrUpdateSubscribePlanModal = ({ open, setOpen, plan, subscripe }) => {
+const CreateOrUpdateSubscribePlanModal = ({ open, setOpen, plan, subscripe, trainer }) => {
 
   const apiContext = React.useContext(ApiContextProvider)
 
@@ -28,6 +28,12 @@ const CreateOrUpdateSubscribePlanModal = ({ open, setOpen, plan, subscripe }) =>
   }, [])
 
 
+  useEffect(() => {
+    if (trainer?.id) {
+      apiContext?.getTrainer(trainer?.id)
+    }
+  }, [trainer])
+
 
 
   const [profile, setProfile] = React.useState({})
@@ -46,6 +52,7 @@ const CreateOrUpdateSubscribePlanModal = ({ open, setOpen, plan, subscripe }) =>
 
 
   const [academySubscribePlan, setAcademySubscribePlan] = React.useState(plan?.id || subscripe?.academy_subscribe_plan || '')
+  const [trainerId, setTrainerId] = React.useState(apiContext?.trainer?.id || subscripe?.trainer || '')
 
   const [playerImage, setPlayerImage] = React.useState(subscripe?.player_image || '')
   const [birthCirtificate, setBirthCirtificate] = React.useState(subscripe?.birth_cirtificate || '')
@@ -67,7 +74,7 @@ const CreateOrUpdateSubscribePlanModal = ({ open, setOpen, plan, subscripe }) =>
   const [startFrom, setStartFrom] = React.useState(subscripe?.start_from || '')
   const [endTo, setEndTo] = React.useState(subscripe?.end_to || '')
 
-  const [isApproved, setIsApproved] = React.useState(subscripe?.is_approved || false)
+  const [isApproved, setIsApproved] = React.useState(subscripe?.is_approved || '')
 
 
   useEffect(() => {
@@ -81,14 +88,15 @@ const CreateOrUpdateSubscribePlanModal = ({ open, setOpen, plan, subscripe }) =>
     const formData = new FormData()
 
     formData.append('academy_subscribe_plan', academySubscribePlan)
+    formData.append('trainer', trainerId)
 
-    if (playerImage) formData.append('player_image', playerImage)
-    if (birthCirtificate) formData.append('birth_cirtificate', birthCirtificate)
-    if (nationalIdImage1) formData.append('national_id_image1', nationalIdImage1)
-    if (nationalIdImage2) formData.append('national_id_image2', nationalIdImage2)
-    if (nationalIdParent1) formData.append('national_id_parent1', nationalIdParent1)
-    if (nationalIdParent2) formData.append('national_id_parent2', nationalIdParent2)
-    if (passportImage) formData.append('passport_image', passportImage)
+    if (playerImage == '' || typeof playerImage == 'object') formData.append('player_image', playerImage)
+    if (birthCirtificate == '' || typeof birthCirtificate == 'object') formData.append('birth_cirtificate', birthCirtificate)
+    if (nationalIdImage1 == '' || typeof nationalIdImage1 == 'object') formData.append('national_id_image1', nationalIdImage1)
+    if (nationalIdImage2 == '' || typeof nationalIdImage2 == 'object') formData.append('national_id_image2', nationalIdImage2)
+    if (nationalIdParent1 == '' || typeof nationalIdParent1 == 'object') formData.append('national_id_parent1', nationalIdParent1)
+    if (nationalIdParent2 == '' || typeof nationalIdParent2 == 'object') formData.append('national_id_parent2', nationalIdParent2)
+    if (passportImage == '' || typeof passportImage == 'object') formData.append('passport_image', passportImage)
 
     formData.append('name', name)
     formData.append('phone', phone)
@@ -170,13 +178,35 @@ const CreateOrUpdateSubscribePlanModal = ({ open, setOpen, plan, subscripe }) =>
         <CircularProgress color="inherit" />
       </Backdrop>
 
-      <div className='flex flex-col gap-8 font min-h-fit max-h-[500px] overflow-scroll'>
+      <div className='flex flex-col gap-4 font min-h-fit max-h-[500px] overflow-y-scroll'>
+        {
+          subscripe?.id && subscripe?.is_approved && !profile?.user ? (
+            <Button onClick={() => {
+              apiContext?.renewSubscription(subscripe?.id, setOpen)
+            }} className='font bg-indigo-300 h-[60px]'>تجديد الاشتراك</Button>
+          ) : null
+        }
         {/* subscriptions */}
         <div className='flex flex-col gap-2'>
           <p className='text-xl text-blue-600'>معلومات الاشتراك</p>
           <div className='flex flex-col'>
-            <p className='text-zinc-600'>اسم الخطة:</p>
-            <p>{plan?.name || subscripe?.academy_subscribe_plan_details?.name}</p>
+            {
+              plan?.id || subscripe?.academy_subscribe_plan_details?.name ? (
+                <>
+                  <p className='text-zinc-600'>اسم الخطة:</p>
+                  <p>{plan?.name || subscripe?.academy_subscribe_plan_details?.name}</p>
+                </>
+              )
+                : null
+            }
+            {
+              apiContext?.trainer?.id && (
+                <>
+                  <p className='text-zinc-600'>المدرب:</p>
+                  <p>{apiContext?.trainer?.trainer}</p>
+                </>
+              )
+            }
           </div>
         </div>
         <hr className='py-[0.5px] bg-indigo-200' />
@@ -322,6 +352,7 @@ const CreateOrUpdateSubscribePlanModal = ({ open, setOpen, plan, subscripe }) =>
           <div className='flex flex-col'>
             <p className='text-zinc-600'>رقم الهاتف:</p>
             <Input type='number' value={phone} onChange={(e) => setPhone(e.target.value)} />
+            <small className='text-red-700'>لو قمت بتغييرة لرقم انت لست مسجل به في موقعنا لن تستطيع تتبع اشتراك بنسبة كبيرة</small>
           </div>
           <div className='flex flex-col'>
             <p className='text-zinc-600'>تاريخ الولادة:</p>
@@ -366,6 +397,22 @@ const CreateOrUpdateSubscribePlanModal = ({ open, setOpen, plan, subscripe }) =>
                 planDetail?.price_per_year &&
                 <Select.Option value={planDetail?.price_per_year}>{planDetail?.price_per_year} EGP / في السنة</Select.Option>
               }
+              {
+                apiContext?.trainer?.price_per_class &&
+                <Select.Option value={apiContext?.trainer?.price_per_class}>{apiContext?.trainer?.price_per_class} EGP / في الحصة</Select.Option>
+              }
+              {
+                apiContext?.trainer?.price_per_week &&
+                <Select.Option value={apiContext?.trainer?.price_per_week}>{apiContext?.trainer?.price_per_week} EGP / في الاسبوع</Select.Option>
+              }
+              {
+                apiContext?.trainer?.price_per_month &&
+                <Select.Option value={apiContext?.trainer?.price_per_month}>{apiContext?.trainer?.price_per_month} EGP / في الشهر</Select.Option>
+              }
+              {
+                apiContext?.trainer?.price_per_year &&
+                <Select.Option value={apiContext?.trainer?.price_per_year}>{apiContext?.trainer?.price_per_year} EGP / في السنة</Select.Option>
+              }
             </Select>
           </div>
           {
@@ -374,8 +421,8 @@ const CreateOrUpdateSubscribePlanModal = ({ open, setOpen, plan, subscripe }) =>
                 <div className='flex flex-col'>
                   <p className='text-zinc-600'>هل تقبل طلب الاشتراك:</p>
                   <Select value={isApproved} onChange={(e) => setIsApproved(e)}>
-                    <Select.Option value={false}>لا</Select.Option>
                     <Select.Option value={true}>نعم</Select.Option>
+                    <Select.Option value={false}>لا</Select.Option>
                   </Select>
                 </div>
                 <div className='flex flex-col'>

@@ -509,9 +509,10 @@ const ApiContext = ({ children }) => {
 
 
   // academies
-
+  const [types, setTypes] = useState([])
   const getAcademyTypes = async () => {
     const res = await axios.get(`${server}academy-types/`, header)
+    setTypes(res?.data)
     return res
   }
 
@@ -588,30 +589,6 @@ const ApiContext = ({ children }) => {
     const res = await axios.delete(`${server}academy-subscribe-plan/${plan_id}/`, header)
     return res
   }
-
-
-
-
-  const getAcademyTrainers = async (academy_id) => {
-    const res = await axios.get(`${server}academy-trainers/?academy_id=${academy_id}`, header)
-    return res
-  }
-
-  const createAcademyTrainer = async (data) => {
-    const res = await axios.post(`${server}academy-trainers/`, data, header)
-    return res
-  }
-
-  const updateAcademyTrainer = async (trainer_id, data) => {
-    const res = await axios.put(`${server}academy-trainer/${trainer_id}/`, data, header)
-    return res
-  }
-
-  const deleteAcademyTrainer = async (trainer_id) => {
-    const res = await axios.delete(`${server}academy-trainer/${trainer_id}/`, header)
-    return res
-  }
-
 
 
 
@@ -922,7 +899,6 @@ const ApiContext = ({ children }) => {
     setLoadingSubscriptions(true)
     try {
       const res = await axios.put(`${server}subscription/${id}/`, data, header)
-      console.log(res);
       if (res?.data?.id) {
         getSubscriptions({})
         success('تم تعديل الاشتراك بنجاح')
@@ -939,11 +915,150 @@ const ApiContext = ({ children }) => {
     }
   }
 
+  const renewSubscription = async (id, setOpen) => {
+    setLoadingSubscriptions(true)
+    try {
+      const res = await axios.post(`${server}subscription-renew/${id}/`, {}, header)
+      if (res?.data?.id) {
+        getSubscriptions({})
+        success('تم تجديد الاشتراك, يرجي تغيير التاريخ او اي معلومات اخري يجب تعديلها')
+        setOpen(false)
+      } else {
+        Object?.entries(res?.data).map(([key, value]) => {
+          error(`${key}: ${value?.join(', ')}`)
+        })
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoadingSubscriptions(false)
+    }
+  }
+
+  const deleteSubscribe = async (id) => {
+    setLoadingSubscriptions(true)
+    try {
+      const res = await axios.delete(`${server}subscription/${id}/`, header)
+      getSubscriptions({})
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoadingSubscriptions(false)
+    }
+  }
+
+
+
+
+
+
+
+
+
+  const [trainers, setTrainers] = useState([])
+  const [trainerLoading, setTrainerLoading] = useState(false)
+
+  const getTrainers = async ({ type = '', priceFrom = '', priceTo = '' }) => {
+    setTrainerLoading(true)
+    try {
+      const res = await axios.get(`${server}academy-trainers/?type_id=${type}&price_from=${priceFrom}&price_to=${priceTo}`, header)
+      setTrainers(res.data)
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setTrainerLoading(false)
+    }
+  }
+
+
+
+  const createTrainer = async (data, setOpen) => {
+    setTrainerLoading(true)
+    try {
+      const res = await axios.post(`${server}academy-trainers/`, data, header)
+      if (res?.data?.id) {
+        getTrainers({})
+        success('تمت الاضافة بنجاح')
+        setOpen(false)
+      } else {
+        Object?.entries(res?.data).map(([key, value]) => {
+          error(`${key}: ${value?.join(', ')}`)
+        })
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setTrainerLoading(false)
+    }
+  }
+
+
+  const [trainer, setTrainer] = useState({})
+  const getTrainer = async (id) => {
+    setTrainerLoading(true)
+    try {
+      const res = await axios.get(`${server}academy-trainer/${id}/`, header)
+      setTrainer(res.data)
+    }
+    catch (err) {
+      console.log(err);
+    } finally {
+      setTrainerLoading(false)
+    }
+  }
+
+  const updateTrainer = async (id, data, setOpen) => {
+    setTrainerLoading(true)
+    try {
+      const res = await axios.put(`${server}academy-trainer/${id}/`, data, header)
+      if (res?.data?.id) {
+        getTrainers({})
+        success('تمت التعديل بنجاح')
+        setOpen(false)
+      } else {
+        Object?.entries(res?.data).map(([key, value]) => {
+          error(`${key}: ${value?.join(', ')}`)
+        })
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setTrainerLoading(false)
+    }
+  }
+
+
+  const deleteTrainer = async (id, setOpen) => {
+    setTrainerLoading(true)
+    try {
+      const res = await axios.delete(`${server}academy-trainer/${id}/`, header)
+      getTrainers({})
+      success('تمت الاضافة بنجاح')
+      setOpen(false)
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setTrainerLoading(false)
+    }
+  }
+
+
+
 
 
   return (
     <ApiContextProvider.Provider value={{
       messageApi,
+
+      trainers, setTrainers,
+      trainerLoading, setTrainerLoading,
+      getTrainers,
+      trainer,
+      getTrainer,
+      createTrainer,
+      updateTrainer,
+      deleteTrainer,
+
 
       subscriptions, setSubscriptions,
       subscriptionPhone, setSubscriptionPhone,
@@ -952,6 +1067,8 @@ const ApiContext = ({ children }) => {
       getSubscriptions,
       createSubscription,
       updateSubscription,
+      renewSubscription,
+      deleteSubscribe,
 
       expenses,
       expenseLoading,
@@ -994,13 +1111,9 @@ const ApiContext = ({ children }) => {
 
 
       // academies
+      types, setTypes,
       getAcademyTypes,
 
-
-      getAcademyTrainers,
-      createAcademyTrainer,
-      updateAcademyTrainer,
-      deleteAcademyTrainer,
 
 
       getAcademies,
@@ -1035,6 +1148,7 @@ const ApiContext = ({ children }) => {
       updateUser,
       user, setUser,
       getUser,
+      profile,
       checkProfile,
       createManagerProfile,
       updateManagerProfile,
