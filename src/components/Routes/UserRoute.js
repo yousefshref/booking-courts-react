@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ApiContextProvider } from "../contexts/ApiContext";
 import { Navigate, useNavigate } from "react-router-dom";
+import { ApiContextProvider } from "../../contexts/ApiContext";
 
-const PrivateRoute = ({ children }) => {
+const UserRoute = ({ children }) => {
   const apiContext = useContext(ApiContextProvider);
 
   const navigate = useNavigate();
@@ -11,10 +11,7 @@ const PrivateRoute = ({ children }) => {
     const res = await apiContext
       ?.checkProfile(localStorage.getItem("token"))
       .then((res) => {
-        if (
-          Object.keys(res.data).length <= 0 ||
-          Object.keys(res.data).length <= 0
-        ) {
+        if (!res?.data?.user) {
           navigate("/auth/login");
         }
       });
@@ -27,4 +24,4 @@ const PrivateRoute = ({ children }) => {
   return children;
 };
 
-export default PrivateRoute;
+export default UserRoute;
