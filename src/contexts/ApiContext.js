@@ -136,17 +136,25 @@ const ApiContext = ({ children }) => {
     return res;
   };
 
+  const [countries, setCountries] = useState([]);
   const getCountries = async () => {
     const res = await axios.get(`${server}countries/`, header);
-    return res;
-  };
-  const getCities = async (country_id) => {
-    const res = await axios.get(`${server}cities/${country_id}/`, header);
+    setCountries(res.data);
     return res;
   };
 
+  const [cities, setCities] = useState([]);
+  const getCities = async (country_id) => {
+    const res = await axios.get(`${server}cities/${country_id}/`, header);
+    setCities(res.data);
+    return res;
+  };
+
+  const [states, setStates] = useState([]);
+
   const getStates = async (city_id) => {
     const res = await axios.get(`${server}states/${city_id}/`, header);
+    setStates(res.data);
     return res;
   };
 
@@ -608,9 +616,13 @@ const ApiContext = ({ children }) => {
     return res;
   };
 
-  const getAcademies = async (name, type) => {
+  const getAcademies = async (
+    name,
+    type,
+    { country = "", city = "", state = "" }
+  ) => {
     const res = await axios.get(
-      `${server}academies/?name=${name ?? ""}&type=${type ?? ""}`,
+      `${server}academies/?name=${name ?? ""}&type=${type ?? ""}&country=${country}&city=${city}&state=${state}`,
       header
     );
     return await res;
@@ -1285,8 +1297,11 @@ const ApiContext = ({ children }) => {
         createClientsProfile,
         updateClientProfile,
 
+        countries,
         getCountries,
+        cities,
         getCities,
+        states,
         getStates,
         courtTypes,
 

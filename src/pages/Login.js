@@ -27,7 +27,6 @@ const Login = () => {
         localStorage.setItem("email", res.data.user.email);
         localStorage.setItem("phone", res.data.user.phone);
         apiContext?.checkProfile(res?.data?.token).then((res) => {
-          console.log(res);
           if (res?.data?.user?.id) {
             navigate("/profile/" + res?.data?.user?.user_details?.username);
           } else {
@@ -36,8 +35,13 @@ const Login = () => {
                 "/manager/" + res?.data?.manager?.user_details?.username
               );
             } else {
-              if (res?.data?.staff?.id)
+              if (res?.data?.staff?.id) {
                 navigate("/staff/" + res?.data?.staff?.user_details?.username);
+              } else {
+                if (res?.data?.no_user) {
+                  navigate("/redirect/");
+                }
+              }
             }
           }
         });

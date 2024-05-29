@@ -18,7 +18,7 @@ const DisplaySubscriptions = ({ open, setOpen, plan }) => {
   const [academies, setAcademies] = React.useState([]);
 
   const getAcademies = async () => {
-    const res = await apiContext?.getAcademies();
+    const res = await apiContext?.getAcademies("", "", {});
     setAcademies(res?.data);
   };
 

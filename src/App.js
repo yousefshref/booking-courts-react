@@ -1,12 +1,10 @@
 import "./App.css";
 
-import { useContext, useEffect } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import AcademyDetail from "./components/AcademyDetail";
 import ManagerBooks from "./components/ManagerBooks";
 import ManagerStaffs from "./components/ManagerStaffs";
 import PrivateRoute from "./components/PrivateRoute";
-import { ApiContextProvider } from "./contexts/ApiContext";
 import Academies from "./pages/Academies";
 import ChooseProfile from "./pages/ChooseProfile";
 import CourtDetail from "./pages/Client/CourtDetail";
@@ -18,7 +16,6 @@ import Login from "./pages/Login";
 import Manager from "./pages/Manager";
 import ManagerAcadamies from "./pages/ManagerAcadamies";
 import ManagerCourts from "./pages/ManagerCourts";
-import ManagerSettings from "./pages/ManagerSettings";
 import Redirect from "./pages/Redirect";
 import SignUp from "./pages/SignUp";
 import ManagerCourtsCheck from "./components/Managers/ManagerCourtsCheck";
@@ -27,7 +24,6 @@ import UserSubscriptions from "./pages/Client/UserSubscriptions";
 import ManagerBalance from "./pages/ManagerBalance";
 import ManagerTrainers from "./pages/ManagerTrainers";
 import TrainersClient from "./pages/Client/TrainersClient";
-import TrainersClientSubscriptions from "./pages/Client/TrainersClientSubscriptions";
 import UserRoute from "./components/Routes/UserRoute";
 
 function App() {

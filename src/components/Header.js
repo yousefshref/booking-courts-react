@@ -88,7 +88,7 @@ const Header = () => {
             localStorage.removeItem("token");
             localStorage.removeItem("username");
             localStorage.removeItem("email");
-            window.location.reload();
+            navigate("/auth/login");
           }}
           className="font text-red-500"
         >
