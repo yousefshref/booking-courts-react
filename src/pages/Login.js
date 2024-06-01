@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 import React, { useContext, useEffect, useState } from "react";
 import { ApiContextProvider } from "../contexts/ApiContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const apiContext = useContext(ApiContextProvider);
@@ -96,6 +96,7 @@ const Login = () => {
             <div className="flex flex-col gap-1 text-start">
               <label>كلمة المرور</label>
               <TextField
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 style={{ direction: "rtl" }}
@@ -119,9 +120,12 @@ const Login = () => {
               >
                 ليس لديك حساب؟
               </p>
-              <p className="text-blue-500 cursor-pointer transition-all hover:text-blue-600">
+              <Link
+                to="/password/reset/"
+                className="text-blue-500 cursor-pointer transition-all hover:text-blue-600"
+              >
                 نسيت كلمة المرور
-              </p>
+              </Link>
             </div>
           </form>
         </div>

@@ -498,9 +498,16 @@ const CourtCard = ({ court, deleteCourt }) => {
             </small>
           </div>
         </div>
-        <div className="text-indigo-700 my-auto">
-          <p className="my-auto font-bold">{court.price_per_hour} جنية</p>
-        </div>
+        {court.offer_price ? (
+          <div className="text-indigo-700 my-auto flex gap-3">
+            <p className="my-auto font-bold">{court.offer_price} جنية</p>
+            <small>بدلا من {court.price_per_hour}</small>
+          </div>
+        ) : (
+          <div className="text-indigo-700 my-auto">
+            <p className="my-auto font-bold">{court.price_per_hour} جنية</p>
+          </div>
+        )}
       </div>
       <hr />
       <div className="flex flex-col gap-4">

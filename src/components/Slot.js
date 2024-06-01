@@ -57,9 +57,6 @@ const Slot = ({
   const hideSlotCuzt =
     firstSlot >= currentTime || date > currentDate ? true : false;
 
-  console.log(closedSlots);
-  console.log(first_slot);
-
   const closed = closedSlots?.find((c) => c == first_slot);
 
   return (

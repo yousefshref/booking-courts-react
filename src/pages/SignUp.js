@@ -151,6 +151,7 @@ const SignUp = () => {
               <div className="flex flex-col gap-1 text-start">
                 <label>كلمة المرور *</label>
                 <TextField
+                  type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   style={{ direction: "rtl" }}

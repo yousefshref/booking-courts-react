@@ -66,7 +66,6 @@ const CourtBook = () => {
 
   const getCourtBooksDetails = async (court_id, date) => {
     const res = await apiContext?.getCourtBooksDetails(court_id, date);
-    console.log(res);
     setSlots(res?.data?.all_slots);
     setClosedSlots(res?.data?.closed_slots);
     setBookedSlots(res?.data?.booked_slots);
@@ -122,8 +121,10 @@ const CourtBook = () => {
       const end = moment(courtData.offer_time_to, "HH:mm");
       const startTimeMoment = moment(startTime, "HH:mm");
       const endTimeMoment = moment(endTime, "HH:mm");
-      setOfferTime(true);
-      return start.isBefore(startTimeMoment) && end.isAfter(endTimeMoment);
+      if (start.isBefore(startTimeMoment) && end.isAfter(endTimeMoment)) {
+        setOfferTime(true);
+        return start.isBefore(startTimeMoment) && end.isAfter(endTimeMoment);
+      }
     }
   };
 
@@ -199,7 +200,6 @@ const CourtBook = () => {
       if (res?.data && !res?.data?.id) {
         const keys = Object.keys(res?.data);
         const values = Object.values(res?.data);
-
         keys.forEach((key, index) => {
           error(`${key}: ${values[index]}`);
         });
@@ -219,7 +219,11 @@ const CourtBook = () => {
         setIsPaied(false);
         setPaiedWith("عند الحضور");
 
-        const updateBook = await apiContext?.updateBook(res?.data?.id, {});
+        apiContext?.createIncome({
+          manager: courtData?.manager,
+          amount: totalPrice,
+          description: `حجز ${courtData?.name} من ${name} - ${phone}`,
+        });
 
         if (window.confirm("هل تريد حجز وقت اخر ؟") == true) {
           window.location.reload();

@@ -25,6 +25,7 @@ import ManagerBalance from "./pages/ManagerBalance";
 import ManagerTrainers from "./pages/ManagerTrainers";
 import TrainersClient from "./pages/Client/TrainersClient";
 import UserRoute from "./components/Routes/UserRoute";
+import PasswordReset from "./pages/PasswordReset";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth/login" element={<Login />} />
+        <Route path="/password/reset/" element={<PasswordReset />} />
         <Route path="/redirect" element={<Redirect />} />
         <Route path="/auth/signup" element={<SignUp />} />
         <Route path="/check/profile" element={<ChooseProfile />} />

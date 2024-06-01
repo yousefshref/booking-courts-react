@@ -56,13 +56,28 @@ const ApiContext = ({ children }) => {
     return res;
   };
 
+  const sendPassowrdResetCode = async (phone) => {
+    const res = await axios.post(`${server}password-reset/`, {
+      phone: phone,
+    });
+    return res;
+  };
+
+  const resetPassword = async (phone, code, password) => {
+    const res = await axios.put(`${server}password-reset/`, {
+      phone: phone,
+      code: code,
+      password: password,
+    });
+    return res;
+  };
+
   const sendWhastappCode = async ({ phone = "", verification = "" }) => {
-    const res = await axios.post(
+    await axios.post(
       `${server}whatsapp-send-verification/?phone=${phone}&verification=${verification}`,
       {},
       header
     );
-    console.log(res);
   };
 
   const updateUser = async (data) => {
@@ -1177,6 +1192,9 @@ const ApiContext = ({ children }) => {
     <ApiContextProvider.Provider
       value={{
         messageApi,
+
+        sendPassowrdResetCode,
+        resetPassword,
 
         notifications,
         getNotifications,

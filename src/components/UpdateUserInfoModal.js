@@ -1,41 +1,38 @@
-import { Button, Modal } from 'antd'
-import React, { useContext, useState } from 'react'
-import { ApiContextProvider } from '../contexts/ApiContext'
+import { Button, Modal } from "antd";
+import React, { useContext, useState } from "react";
+import { ApiContextProvider } from "../contexts/ApiContext";
 
 const UpdateUserInfoModal = ({ open, setOpen, user }) => {
-  const apiCotext = useContext(ApiContextProvider)
+  const apiCotext = useContext(ApiContextProvider);
 
-  const [username, setUsername] = useState(user?.username || '')
-  const [phone, setPhone] = useState(user?.phone || '')
-  const [email, setEmail] = useState(user?.email || '')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState(user?.username || "");
+  const [phone, setPhone] = useState(user?.phone || "");
+  const [email, setEmail] = useState(user?.email || "");
+  const [password, setPassword] = useState("");
 
+  const [openVerification, setOpenVerification] = useState(false);
 
-  const [openVerification, setOpenVerification] = useState(false)
-
-  const [code, setCode] = useState('')
+  const [code, setCode] = useState("");
   const sendWhastappCode = async () => {
-    setOpenVerification(true)
+    setOpenVerification(true);
     const verification = Math.floor(100000 + Math.random() * 900000);
     const res = await apiCotext?.sendWhastappCode({
       phone: user?.phone,
-      verification: verification
-    })
+      verification: verification,
+    });
     console.log(res);
     // if(res.data.success){
     //   setOpenVerification(true)
     // }
-  }
+  };
 
   const updateUserInfo = async () => {
-    const data = new FormData()
+    const data = new FormData();
 
-    data.append('username', username)
-    data.append('email', email)
-    data.append('password', password)
-
-  }
-
+    data.append("username", username);
+    data.append("email", email);
+    data.append("password", password);
+  };
 
   return (
     <Modal
@@ -45,11 +42,10 @@ const UpdateUserInfoModal = ({ open, setOpen, user }) => {
       onCancel={() => setOpen(false)}
       width={500}
       onOk={() => sendWhastappCode()}
-      className='font'
+      className="font"
     >
-
       <Modal
-        className='font'
+        className="font"
         centered
         title="الكود المرسل الي محادثة الواتساب الخاصة بك"
         open={openVerification}
@@ -57,7 +53,7 @@ const UpdateUserInfoModal = ({ open, setOpen, user }) => {
         width={400}
         onOk={() => updateUserInfo()}
       >
-        <div className='flex flex-col gap-1'>
+        <div className="flex flex-col gap-1">
           <input
             type="text"
             value={code}
@@ -67,8 +63,8 @@ const UpdateUserInfoModal = ({ open, setOpen, user }) => {
         </div>
       </Modal>
 
-      <form className='flex flex-col gap-3'>
-        <div className='flex flex-col gap-1'>
+      <form className="flex flex-col gap-3">
+        <div className="flex flex-col gap-1">
           <label>اسم المستخدم</label>
           <input
             type="text"
@@ -76,7 +72,7 @@ const UpdateUserInfoModal = ({ open, setOpen, user }) => {
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-        <div className='flex flex-col gap-1'>
+        <div className="flex flex-col gap-1">
           <label>رقم الهاتف</label>
           <input
             readOnly
@@ -85,7 +81,7 @@ const UpdateUserInfoModal = ({ open, setOpen, user }) => {
             onChange={(e) => setPhone(e.target.value)}
           />
         </div>
-        <div className='flex flex-col gap-1'>
+        <div className="flex flex-col gap-1">
           <label>البريد الالكتروني</label>
           <input
             type="text"
@@ -93,17 +89,17 @@ const UpdateUserInfoModal = ({ open, setOpen, user }) => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className='flex flex-col gap-1'>
+        <div className="flex flex-col gap-1">
           <label>كلمة المرور</label>
           <input
-            type="text"
+            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
       </form>
     </Modal>
-  )
-}
+  );
+};
 
-export default UpdateUserInfoModal
+export default UpdateUserInfoModal;
