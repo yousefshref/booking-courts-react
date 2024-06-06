@@ -130,7 +130,7 @@ const DisplaySubscriptions = ({ open, setOpen, plan }) => {
         <div className="flex flex-col gap-1">
           <p className="text-zinc-700">الطلبات فقط</p>
           <Select value={isRequest} onChange={(e) => setIsRequest(e)}>
-            <Select.Option value="">ليس مهم</Select.Option>
+            <Select.Option value="">الكل</Select.Option>
             <Select.Option value={"True"}>نعم</Select.Option>
             <Select.Option value={"False"}>لا</Select.Option>
           </Select>
@@ -141,7 +141,7 @@ const DisplaySubscriptions = ({ open, setOpen, plan }) => {
             value={subscriptionStatus}
             onChange={(e) => setSubscriptionStatus(e)}
           >
-            <Select.Option value="">ليس مهم</Select.Option>
+            <Select.Option value="">الكل</Select.Option>
             <Select.Option value={"True"}>نعم</Select.Option>
             <Select.Option value={"False"}>لا</Select.Option>
           </Select>

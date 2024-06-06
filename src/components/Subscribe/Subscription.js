@@ -3,6 +3,7 @@ import { BiEdit, BiTrash } from "react-icons/bi";
 import CreateOrUpdateSubscribePlanModal from "./CreateOrUpdateSubscribePlanModal";
 import { ApiContextProvider } from "../../contexts/ApiContext";
 import { Button } from "antd";
+import dayjs from "dayjs";
 
 const Subscription = ({ subscripe }) => {
   const apiContext = React.useContext(ApiContextProvider);
@@ -114,6 +115,16 @@ const Subscription = ({ subscripe }) => {
                   <p className="text-zinc-700 my-auto min-w-fit max-w-[200px]">
                     ينتهي في: {subscripe?.end_to}
                   </p>
+                  {dayjs(subscripe?.end_to).diff(dayjs(), "days") <= 0 ? (
+                    <p className="text-red-700 my-auto min-w-fit max-w-[200px]">
+                      تم انتهاء الاشتراك
+                    </p>
+                  ) : (
+                    <p className="text-zinc-700 my-auto min-w-fit max-w-[200px]">
+                      المتبقي علي انتهاء الاشتراك :{" "}
+                      {dayjs(subscripe?.end_to).diff(dayjs(), "days")} ايام
+                    </p>
+                  )}
                 </>
               ) : (
                 <>

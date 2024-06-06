@@ -429,6 +429,12 @@ const CourtCard = ({ court, deleteCourt }) => {
         </div>
       </Modal>
 
+      {!court?.is_active && (
+        <span className="w-fit p-2 rounded-full bg-red-500 text-white text-xs">
+          قيد المراجعة
+        </span>
+      )}
+
       <div className="flex justify-between gap-3">
         {loading ? (
           <Loading />
@@ -546,13 +552,6 @@ const CourtCard = ({ court, deleteCourt }) => {
           </Popconfirm>
         </div>
       </div>
-
-      {!court?.is_active && (
-        <>
-          <hr />
-          <p>مازال قيد المراجعة حتي يتم نشرة</p>
-        </>
-      )}
     </div>
   );
 };
