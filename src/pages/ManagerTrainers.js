@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Header from "../components/Header";
-import { Button } from "antd";
+import { Button, Result } from "antd";
 import CreateOrUpdateTrainers from "../components/CreateOrUpdateTrainers";
 import { ApiContextProvider } from "../contexts/ApiContext";
 import { server } from "../utlits/Variables";
@@ -17,6 +17,42 @@ const ManagerTrainers = () => {
 
   const [openTrainer, setOpenTrainer] = useState(false);
   const [openSubscribe, setOpenSubscribe] = useState(false);
+
+  const [checkProfile, setCheckProfile] = useState(null);
+
+  const checkUser = async () => {
+    const res = await apiContext?.checkProfile(localStorage.getItem("token"));
+    setCheckProfile(res.data);
+  };
+  useEffect(() => {
+    const token = localStorage.getItem("token"); // Fetch token only once
+    if (token) {
+      checkUser();
+    }
+  }, []);
+
+  if (
+    checkProfile?.manager &&
+    !checkProfile?.manager?.can_private_trainer &&
+    !checkProfile?.manager?.is_verified
+  ) {
+    return (
+      <Result
+        status="403"
+        title="403"
+        subTitle="ليس لديك الصلاحية للدخول, لتفعيل حسابك وادارة الملاعب او الاكاديميات او المدربين يرجي التواصل مع الدعم"
+        extra={
+          <Button
+            href="https://wa.me/201229977573"
+            className="font"
+            type="primary"
+          >
+            الدعم
+          </Button>
+        }
+      />
+    );
+  }
   return (
     <div className="flex flex-col">
       <Header />

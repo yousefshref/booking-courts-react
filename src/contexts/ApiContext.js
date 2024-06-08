@@ -1069,11 +1069,16 @@ const ApiContext = ({ children }) => {
   const [trainers, setTrainers] = useState([]);
   const [trainerLoading, setTrainerLoading] = useState(false);
 
-  const getTrainers = async ({ type = "", priceFrom = "", priceTo = "" }) => {
+  const getTrainers = async ({
+    type = "",
+    priceFrom = "",
+    priceTo = "",
+    manager = "",
+  }) => {
     setTrainerLoading(true);
     try {
       const res = await axios.get(
-        `${server}academy-trainers/?type_id=${type}&price_from=${priceFrom}&price_to=${priceTo}`,
+        `${server}academy-trainers/?type_id=${type}&price_from=${priceFrom}&price_to=${priceTo}&manager=${manager}`,
         header
       );
       setTrainers(res.data);

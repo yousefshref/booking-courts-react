@@ -82,6 +82,18 @@ const Header = () => {
     },
     {
       key: "3",
+      label: user?.manager_details?.id && (
+        <div
+          onClick={() => {
+            navigate(`/manager/${localStorage.getItem("username")}/balance/`);
+          }}
+        >
+          <p>تفاصيل رصيد اليوم</p>
+        </div>
+      ),
+    },
+    {
+      key: "4",
       label: (
         <p
           onClick={() => {

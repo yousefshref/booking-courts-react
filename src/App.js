@@ -26,6 +26,7 @@ import ManagerTrainers from "./pages/ManagerTrainers";
 import TrainersClient from "./pages/Client/TrainersClient";
 import UserRoute from "./components/Routes/UserRoute";
 import PasswordReset from "./pages/PasswordReset";
+import ManagerTrainersCheck from "./components/ManagerTrainersCheck";
 
 function App() {
   return (
@@ -168,6 +169,14 @@ function App() {
           element={
             <PrivateRoute>
               <ManagerCourtsCheck />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/managers/:academyName/:academyId/trainers/"
+          element={
+            <PrivateRoute>
+              <ManagerTrainersCheck />
             </PrivateRoute>
           }
         />
