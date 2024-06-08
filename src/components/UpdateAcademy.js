@@ -72,15 +72,6 @@ const UpdateAcademy = ({ open, setOpen, getAcademies, academy }) => {
     }
   };
 
-  const isUrl = (string) => {
-    try {
-      new URL(string);
-      return true;
-    } catch (_) {
-      return false;
-    }
-  };
-
   return (
     <Modal
       centered

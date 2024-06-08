@@ -72,16 +72,16 @@ const CreateAcademyButton = ({ getAcademies }) => {
   const [openSubs, setOpenSubs] = React.useState(false);
 
   useEffect(() => {
-    if (open) apiContext?.getCountries();
-  }, [open]);
+    apiContext?.getCountries();
+  }, []);
 
   useEffect(() => {
-    if (open && country) apiContext?.getCities(country);
-  }, [open, country]);
+    if (country) apiContext?.getCities(country);
+  }, [country]);
 
   useEffect(() => {
-    if (open && city) apiContext?.getStates(country, city);
-  }, [open, city]);
+    if (city) apiContext?.getStates(country, city);
+  }, [city]);
 
   return (
     <div className="createAcademy">
