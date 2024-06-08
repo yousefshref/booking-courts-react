@@ -78,6 +78,7 @@ const SignUp = () => {
       localStorage.setItem("email", res.data.user.email);
       localStorage.setItem("phone", res.data.user.phone);
       window.location.reload();
+      apiContext?.navigate("/login/");
     } else {
       error("حدث خطأ ما, او الكود غير صحيح");
     }
