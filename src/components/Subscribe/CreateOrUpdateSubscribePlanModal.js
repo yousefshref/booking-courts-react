@@ -157,7 +157,7 @@ const CreateOrUpdateSubscribePlanModal = ({
         apiContext?.createIncome({
           manager: e?.manager,
           amount: e?.price,
-          description: `اشتراك في اكاديمية او مع مدرب خاص باسم ${e?.name} ورقم هاتف ${e?.phone}`,
+          description: `اشتراك مع مدرب ${trainer?.name} | ${e?.name} ورقم هاتف ${e?.phone}`,
         });
       }
     });
