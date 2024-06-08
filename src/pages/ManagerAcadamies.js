@@ -41,11 +41,7 @@ const ManagerAcadamies = () => {
     checkProfile && getAcademies();
   }, [checkProfile]);
 
-  if (
-    checkProfile?.manager &&
-    !checkProfile?.manager?.can_academy &&
-    !checkProfile?.manager?.is_verified
-  ) {
+  if (checkProfile?.manager && !checkProfile?.manager?.can_academy) {
     return (
       <Result
         status="403"

@@ -171,11 +171,7 @@ const ManagerCourts = () => {
     }
   }, []);
 
-  if (
-    checkProfile?.manager &&
-    !checkProfile?.manager?.can_courts &&
-    !checkProfile?.manager?.is_verified
-  ) {
+  if (checkProfile?.manager && !checkProfile?.manager?.can_courts) {
     return (
       <Result
         status="403"

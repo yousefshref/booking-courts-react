@@ -31,11 +31,7 @@ const ManagerTrainers = () => {
     }
   }, []);
 
-  if (
-    checkProfile?.manager &&
-    !checkProfile?.manager?.can_private_trainer &&
-    !checkProfile?.manager?.is_verified
-  ) {
+  if (checkProfile?.manager && !checkProfile?.manager?.can_private_trainer) {
     return (
       <Result
         status="403"
