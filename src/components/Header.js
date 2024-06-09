@@ -165,12 +165,7 @@ const Header = () => {
             >
               المدربيين
             </p>
-            <p
-              onClick={() => navigate(`/manager/${user?.username}/books`)}
-              className="cursor-pointer transition-all hover:text-blue-800 md:text-base text-sm"
-            >
-              الحجوزات
-            </p>
+
             <p
               onClick={() => navigate(`/manager/${user?.username}/staffs`)}
               className="cursor-pointer transition-all hover:text-blue-800 md:text-base text-sm"

@@ -16,6 +16,7 @@ import ImagesAndVideos from "../components/ImagesAndVideos";
 import FeaturesAndTools from "../components/FeaturesAndTools";
 import { BiEdit } from "react-icons/bi";
 import ManagerSettings from "./ManagerSettings";
+import { useNavigate } from "react-router-dom";
 
 const ManagerCourts = () => {
   const apiContext = useContext(ApiContextProvider);
@@ -171,6 +172,8 @@ const ManagerCourts = () => {
     }
   }, []);
 
+  const navigate = useNavigate();
+
   if (checkProfile?.manager && !checkProfile?.manager?.can_courts) {
     return (
       <Result
@@ -212,13 +215,24 @@ const ManagerCourts = () => {
       <hr className="w-full flex gap-7 max-w-6xl mx-auto" />
 
       <div className="w-full flex flex-col gap-7 max-w-6xl mx-auto p-3">
-        <div className="createCourt">
+        <div className="createCourt flex gap-3">
           <Button
             onClick={() => setCreateCourt(true)}
             type="primary"
             className="w-full max-w-[200px] bg-green-500"
           >
             <p className="font">+ اضافة ملعب</p>
+          </Button>
+          <Button
+            onClick={() =>
+              navigate(
+                `/manager/${checkProfile?.manager?.user_details?.username}/books/`
+              )
+            }
+            type="primary"
+            className="w-full max-w-[200px] bg-blue-500"
+          >
+            <p className="font">الحجوزات</p>
           </Button>
         </div>
 
