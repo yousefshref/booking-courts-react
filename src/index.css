@@ -77,5 +77,6 @@ input[type="number"] {
 
 input,
 select {
-  @apply p-3 rounded-xl border border-indigo-300 transition-all w-full hover:border-indigo-600;
+  /* @apply p-3 rounded-xl border border-indigo-300 transition-all w-full hover:border-indigo-600; */
+  @apply py-1 px-2 rounded-md border border-indigo-300 transition-all w-full hover:border-indigo-600;
 }

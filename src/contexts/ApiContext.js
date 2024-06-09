@@ -986,48 +986,33 @@ const ApiContext = ({ children }) => {
     }
   };
 
-  const createSubscription = async (data, setOpen) => {
+  const createSubscription = async (data) => {
     setLoadingSubscriptions(true);
     try {
       const res = await axios.post(`${server}subscriptions/`, data, header);
-      if (res?.data?.id) {
-        getSubscriptions({});
-        setOpen(false);
-        success("تمت الاشتراك بنجاح");
-        return await res.data;
-      } else {
-        Object?.entries(res?.data).map(([key, value]) => {
-          error(`${key}: ${value?.join(", ")}`);
-        });
-      }
+      return await res.data;
     } catch (err) {
       console.log(err);
+      return await err;
     } finally {
       setLoadingSubscriptions(false);
     }
   };
 
-  const updateSubscription = async (id, data, setOpen) => {
+  const updateSubscription = async (id, data) => {
     setLoadingSubscriptions(true);
     try {
       const res = await axios.put(`${server}subscription/${id}/`, data, header);
-      if (res?.data?.id) {
-        getSubscriptions({});
-        success("تم تعديل الاشتراك بنجاح");
-        setOpen(false);
-      } else {
-        Object?.entries(res?.data).map(([key, value]) => {
-          error(`${key}: ${value?.join(", ")}`);
-        });
-      }
+      return await res.data;
     } catch (err) {
       console.log(err);
+      return await err;
     } finally {
       setLoadingSubscriptions(false);
     }
   };
 
-  const renewSubscription = async (id, setOpen) => {
+  const renewSubscription = async (id) => {
     setLoadingSubscriptions(true);
     try {
       const res = await axios.post(
@@ -1035,20 +1020,10 @@ const ApiContext = ({ children }) => {
         {},
         header
       );
-      if (res?.data?.id) {
-        getSubscriptions({});
-        success(
-          "تم تجديد الاشتراك, يرجي تغيير التاريخ او اي معلومات اخري يجب تعديلها"
-        );
-        setOpen(false);
-        return await res.data;
-      } else {
-        Object?.entries(res?.data).map(([key, value]) => {
-          error(`${key}: ${value?.join(", ")}`);
-        });
-      }
+      return await res.data;
     } catch (err) {
       console.log(err);
+      return await err;
     } finally {
       setLoadingSubscriptions(false);
     }
