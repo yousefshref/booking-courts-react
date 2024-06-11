@@ -1172,6 +1172,7 @@ const ApiContext = ({ children }) => {
     <ApiContextProvider.Provider
       value={{
         messageApi,
+        navigate,
 
         sendPassowrdResetCode,
         resetPassword,

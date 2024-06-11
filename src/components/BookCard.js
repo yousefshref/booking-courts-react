@@ -1,112 +1,154 @@
-import React, { useEffect, useState } from 'react'
-import Loading from './Loading'
-import { server } from '../utlits/Variables'
-import { convertToAMPM } from '../utlits/Functions'
-import { Button } from 'antd'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import Loading from "./Loading";
+import { server } from "../utlits/Variables";
+import { convertToAMPM } from "../utlits/Functions";
+import { Button } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const BookCard = ({ book, apiContext, setBookOpne }) => {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
-
-  const [images, setImages] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getCourtImages = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const res = await apiContext?.getCourtImages(book?.court)
-      setImages(res.data)
+      const res = await apiContext?.getCourtImages(book?.court);
+      setImages(res.data);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    book?.court && getCourtImages()
-  }, [book?.court])
+    book?.court && getCourtImages();
+  }, [book?.court]);
 
-
-  const [canCancel, setCanCancel] = useState(false)
+  const [canCancel, setCanCancel] = useState(false);
   const getBook = async (id) => {
     try {
-      const res = await apiContext?.getBook(id, true)
-      setCanCancel(res.data.can_cancel)
+      const res = await apiContext?.getBook(id, true);
+      setCanCancel(res.data.can_cancel);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
   useEffect(() => {
-    getBook(book?.id)
-  }, [])
+    getBook(book?.id);
+  }, []);
 
-
-  const [user, setuser] = useState(false)
+  const [user, setuser] = useState(false);
   const checkProfile = async (id) => {
     try {
-      const res = await apiContext?.checkProfile(localStorage.getItem('token'))
-      setuser(res.data)
+      const res = await apiContext?.checkProfile(localStorage.getItem("token"));
+      setuser(res.data);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
   useEffect(() => {
-    checkProfile(book?.id)
-  }, [])
-
-
-
+    checkProfile(book?.id);
+  }, []);
 
   return (
-    <div className='book w-full sm:max-w-[250px] bg-white p-3 rounded-md'>
-      <span className='w-full max-w-[250px] overflow-hidden rounded-md'>
-        {
-          loading ? <Loading /> : <img src={server + images[0]?.image} alt={book?.name} />
-        }
+    <div className="book w-full sm:max-w-[250px] bg-white p-3 rounded-md">
+      <span className="w-full max-w-[250px] overflow-hidden rounded-md">
+        {loading ? (
+          <Loading />
+        ) : (
+          <img src={server + images[0]?.image} alt={book?.name} />
+        )}
       </span>
-      <div className='flex flex-col gap-1'>
+      <div className="flex flex-col gap-1">
         <p>{book?.name}</p>
         <p>{book?.phone}</p>
-        {
-          book?.is_cancelled &&
-          <small className='text-red-700'>تم الالغاء</small>
-        }
-        {
-          book?.is_paied &&
-          <small className='text-green-700'>تم الدفع</small>
-        }
-        {
-          !book?.is_paied &&
-          <small className='text-blue-700'>في انتظار الدفع</small>
-        }
-        <small className='text-green-700'>{book?.total_price} EGP</small>
-        <hr className='my-2' />
-        <small>من: {convertToAMPM(book?.start_time?.slice(0, 5))} - الي: {convertToAMPM(book?.end_time?.slice(0, 5))}</small>
+        {book?.is_cancelled && (
+          <small className="text-red-700">تم الالغاء</small>
+        )}
+        {book?.is_paied && <small className="text-green-700">تم الدفع</small>}
+        {!book?.is_paied && (
+          <small className="text-blue-700">في انتظار الدفع</small>
+        )}
+        <small className="text-green-700">{book?.total_price} EGP</small>
+        <hr className="my-2" />
+        <small>
+          من: {convertToAMPM(book?.start_time?.slice(0, 5))} - الي:{" "}
+          {convertToAMPM(book?.end_time?.slice(0, 5))}
+        </small>
         <small>يبدأ في: {book?.date}</small>
-        <hr className='my-2' />
-        <small onClick={() => navigate(`/court/${book?.court_details?.name?.replace(' ', '-')}/${book?.court}`)} className='text-blue-700 cursor-pointer'>ملعب {book?.court_details?.name}</small>
+        <hr className="my-2" />
+        <small
+          onClick={() =>
+            navigate(
+              `/court/${book?.court_details?.name?.replace(" ", "-")}/${book?.court}`
+            )
+          }
+          className="text-blue-700 cursor-pointer"
+        >
+          ملعب {book?.court_details?.name}
+        </small>
 
-        <hr className='my-2' />
-        <Button onClick={() => setBookOpne(book?.id)} className='h-[40px] rounded-full bg-indigo-500' type='primary'>تفاصيل الحجز</Button>
-        {
-          canCancel && !book?.is_cancelled ?
-            <Button onClick={async () => {
-              const res = await apiContext?.updateBook(book?.id, { is_cancelled: true })
-              window.location.reload()
-            }} className='h-[40px] rounded-full border-red-500 text-red-600'>الغاء الحجز</Button>
-            : null
-        }
-        {
-          canCancel && book?.is_cancelled ?
-            <Button onClick={async () => {
-              const res = await apiContext?.updateBook(book?.id, { is_cancelled: false })
-              window.location.reload()
-            }} className='h-[40px] rounded-full border-green-500 text-green-600'>ارجاع الحجز</Button>
-            : null
-        }
+        <hr className="my-2" />
+        <Button
+          onClick={() => setBookOpne(book?.id)}
+          className="h-[40px] rounded-full bg-indigo-500"
+          type="primary"
+        >
+          تفاصيل الحجز
+        </Button>
+        {!book?.is_paied && (
+          <Button
+            onClick={() => {
+              apiContext?.updateBook(book?.id, { is_paied: true }).then((e) => {
+                window.location.reload();
+              });
+            }}
+            className="h-[40px] rounded-full bg-green-500"
+            type="primary"
+          >
+            تم الدفع
+          </Button>
+        )}
+        {canCancel && !book?.is_cancelled ? (
+          <Button
+            onClick={async () => {
+              const res = await apiContext?.updateBook(book?.id, {
+                is_cancelled: true,
+              });
+              window.location.reload();
+              apiContext?.createExpense({
+                manager: book?.court_details?.manager,
+                amount: book?.total_price,
+                description: `تم الغاء حجز ${book?.name} على ملعب ${book?.court_details?.name}`,
+              });
+            }}
+            className="h-[40px] rounded-full border-red-500 text-red-600"
+          >
+            الغاء الحجز
+          </Button>
+        ) : null}
+        {canCancel && book?.is_cancelled ? (
+          <Button
+            onClick={async () => {
+              const res = await apiContext?.updateBook(book?.id, {
+                is_cancelled: false,
+              });
+              window.location.reload();
+              apiContext?.createIncome({
+                manager: book?.court_details?.manager,
+                amount: book?.total_price,
+                description: `تم ارجاع الحجز ${book?.name} على ملعب ${book?.court_details?.name}`,
+              });
+            }}
+            className="h-[40px] rounded-full border-green-500 text-green-600"
+          >
+            ارجاع الحجز
+          </Button>
+        ) : null}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BookCard
+export default BookCard;

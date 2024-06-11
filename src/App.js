@@ -27,6 +27,7 @@ import TrainersClient from "./pages/Client/TrainersClient";
 import UserRoute from "./components/Routes/UserRoute";
 import PasswordReset from "./pages/PasswordReset";
 import ManagerTrainersCheck from "./components/ManagerTrainersCheck";
+import PrintPage from "./pages/PrintPage";
 
 function App() {
   return (
@@ -221,6 +222,8 @@ function App() {
           path="/court/:courtName/:courtId/book/"
           element={<CourtBook />}
         />
+
+        <Route path="/print/:printName/" element={<PrintPage />} />
       </Routes>
     </div>
   );

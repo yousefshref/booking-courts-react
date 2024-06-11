@@ -23,8 +23,8 @@ const ManagerBooks = () => {
   const [dateFrom, setDateFrom] = useState(getCurrentDate());
   const [dateTo, setDateTo] = useState(getCurrentDate());
   const [court, setCourt] = useState("");
-  const [isCancelled, setIsCancelled] = useState("False");
-  const [isPaied, setIsPaied] = useState("True");
+  const [isCancelled, setIsCancelled] = useState("");
+  const [isPaied, setIsPaied] = useState("");
   const [paied, setPaied] = useState("");
 
   const [dataSource, setDataSource] = useState([]);
@@ -172,6 +172,7 @@ const ManagerBooks = () => {
                       setIsCancelled(e);
                     }}
                   >
+                    <Select.Option value={""}>الكل</Select.Option>
                     <Select.Option value={"True"}>نعم</Select.Option>
                     <Select.Option value={"False"}>لا</Select.Option>
                   </Select>

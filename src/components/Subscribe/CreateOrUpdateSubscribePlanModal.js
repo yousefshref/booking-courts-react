@@ -8,8 +8,8 @@ const CreateOrUpdateSubscribePlanModal = ({
   open,
   setOpen,
   trainer,
-  subscribe,
   plan,
+  subscribe, //subscribe model that has trainer or academy
 }) => {
   const apiContext = React.useContext(ApiContextProvider);
 
@@ -97,12 +97,12 @@ const CreateOrUpdateSubscribePlanModal = ({
         if (e?.id) {
           setOpen(false);
           apiContext?.getSubscriptions({});
-          alert("تم انشاء الاشتراك بنجاح");
+          alert("تم الاشتراك بنجاح, يرجي انتظار موافقة الاكاديمية");
           apiContext?.createIncome({
             manager: trainer?.manager || plan?.academy_details?.manager,
             amount: price,
             description: "اشتراك في اكاديمية او مع مدرب خاص",
-          })
+          });
         } else {
           console.log(e);
           alert("هناك مشكلة يرجي مراجعة الخانات بدقة");
@@ -191,6 +191,7 @@ const CreateOrUpdateSubscribePlanModal = ({
       })
       .catch((e) => console.log(e));
   };
+
   return (
     <Modal
       centered
@@ -216,25 +217,40 @@ const CreateOrUpdateSubscribePlanModal = ({
       </Backdrop>
 
       <div className="flex flex-col gap-4 font min-h-fit max-h-[500px] overflow-y-scroll">
-        <button
-          onClick={() =>
-            apiContext?.renewSubscription(subscribe?.id).then((e) => {
-              if (e?.id) {
-                alert("تم تجديد الاشتراك بنجاح");
-                setOpen(false);
-                apiContext?.getSubscriptions({});
-                apiContext?.createIncome({
-                  manager: subscribe?.trainer_details?.manager,
-                  amount: subscribe?.price,
-                  description: "تجديد الاشتراك",
-                });
-              }
-            })
-          }
-          className="p-1 rounded-md bg-green-400 transition-all hover:bg-green-300"
-        >
-          تجديد الاشتراك
-        </button>
+        {subscribe?.id ? (
+          <button
+            onClick={() =>
+              apiContext?.renewSubscription(subscribe?.id).then((e) => {
+                if (e?.id) {
+                  alert("تم تجديد الاشتراك بنجاح");
+                  setOpen(false);
+                  apiContext?.getSubscriptions({});
+                  apiContext?.createIncome({
+                    manager: subscribe?.trainer_details?.manager,
+                    amount: subscribe?.price,
+                    description: "تجديد الاشتراك",
+                  });
+                }
+              })
+            }
+            className="p-1 rounded-md bg-green-400 transition-all hover:bg-green-300"
+          >
+            تجديد الاشتراك
+          </button>
+        ) : null}
+
+        {!user?.user_details?.id && (
+          <button
+            onClick={() => {
+              apiContext?.navigate(`/print/${subscribe?.name}/`, {
+                state: subscribe,
+              });
+            }}
+            className="p-1 rounded-md bg-indigo-400 transition-all hover:bg-indigo-300"
+          >
+            طباعة ايصال
+          </button>
+        )}
 
         <div className="flex flex-col gap-2">
           <b>صور المشترك</b>
@@ -459,12 +475,33 @@ const CreateOrUpdateSubscribePlanModal = ({
           <div className="flex flex-col">
             <p>السعر</p>
             {trainer?.id && (
-              <input
-                type="text"
+              <select
+                className="w-full"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
-                className="w-full"
-              />
+              >
+                <option value="">اختر</option>
+                {trainer?.price_per_class && (
+                  <option value={trainer?.price_per_class}>
+                    {trainer?.price_per_class} / الحصة
+                  </option>
+                )}
+                {trainer?.price_per_week && (
+                  <option value={trainer?.price_per_week}>
+                    {trainer?.price_per_week} / الاسبوع
+                  </option>
+                )}
+                {trainer?.price_per_month && (
+                  <option value={trainer?.price_per_month}>
+                    {trainer?.price_per_month} / الشهر
+                  </option>
+                )}
+                {trainer?.price_per_year && (
+                  <option value={trainer?.price_per_year}>
+                    {trainer?.price_per_year} / السنة
+                  </option>
+                )}
+              </select>
             )}
             {plan?.id && (
               <select
