@@ -45,6 +45,8 @@ const Login = () => {
             }
           }
         });
+      } else {
+        alert("البيانات خاطئة");
       }
     } catch (err) {
       console.log(err);
