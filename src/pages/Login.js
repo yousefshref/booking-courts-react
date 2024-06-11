@@ -49,6 +49,7 @@ const Login = () => {
         alert("البيانات خاطئة");
       }
     } catch (err) {
+      alert("البيانات خاطئة");
       console.log(err);
       if (err.response.status === 404) {
         setAlert("error");
