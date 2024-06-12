@@ -28,6 +28,7 @@ import UserRoute from "./components/Routes/UserRoute";
 import PasswordReset from "./pages/PasswordReset";
 import ManagerTrainersCheck from "./components/ManagerTrainersCheck";
 import PrintPage from "./pages/PrintPage";
+import Renews from "./pages/Renews";
 
 function App() {
   return (
@@ -224,6 +225,7 @@ function App() {
         />
 
         <Route path="/print/:printName/" element={<PrintPage />} />
+        <Route path="/renews/:subscribeName/" element={<Renews />} />
       </Routes>
     </div>
   );

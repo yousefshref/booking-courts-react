@@ -3,6 +3,7 @@ import { ApiContextProvider } from "../../contexts/ApiContext";
 import { Modal } from "antd";
 import { Backdrop, CircularProgress } from "@mui/material";
 import { server } from "../../utlits/Variables";
+import { getCurrentDate, getCurrentDateYMD } from "../../utlits/Functions";
 
 const CreateOrUpdateSubscribePlanModal = ({
   open,
@@ -220,18 +221,30 @@ const CreateOrUpdateSubscribePlanModal = ({
         {subscribe?.id ? (
           <button
             onClick={() =>
-              apiContext?.renewSubscription(subscribe?.id).then((e) => {
-                if (e?.id) {
-                  alert("تم تجديد الاشتراك بنجاح");
-                  setOpen(false);
-                  apiContext?.getSubscriptions({});
-                  apiContext?.createIncome({
-                    manager: subscribe?.trainer_details?.manager,
-                    amount: subscribe?.price,
-                    description: "تجديد الاشتراك",
-                  });
-                }
-              })
+              apiContext
+                ?.renewSubscription(subscribe?.id, {
+                  subsribe: subscribe?.id,
+                  price: subscribe?.price,
+                  start_from: getCurrentDate(),
+                  end_to: new Date(
+                    new Date().setDate(new Date().getDate() + 30)
+                  )
+                    .toISOString()
+                    .split("T")[0],
+                })
+                .then((e) => {
+                  if (e?.id) {
+                    alert("تم تجديد الاشتراك بنجاح");
+                    setOpen(false);
+                    apiContext?.getSubscriptions({});
+                    apiContext?.createIncome({
+                      manager: subscribe?.trainer_details?.manager,
+                      amount: subscribe?.price,
+                      description: "تجديد الاشتراك",
+                    });
+                  }
+                })
+                .then((e) => console.log(e))
             }
             className="p-1 rounded-md bg-green-400 transition-all hover:bg-green-300"
           >
@@ -239,7 +252,7 @@ const CreateOrUpdateSubscribePlanModal = ({
           </button>
         ) : null}
 
-        {!user?.user_details?.id && (
+        {!user?.user_details?.id && subscribe?.id ? (
           <button
             onClick={() => {
               apiContext?.navigate(`/print/${subscribe?.name}/`, {
@@ -250,7 +263,20 @@ const CreateOrUpdateSubscribePlanModal = ({
           >
             طباعة ايصال
           </button>
-        )}
+        ) : null}
+
+        {!user?.user_details?.id && subscribe?.id ? (
+          <button
+            onClick={() => {
+              apiContext?.navigate(`/renews/${subscribe?.name}/`, {
+                state: subscribe,
+              });
+            }}
+            className="p-1 rounded-md bg-indigo-400 transition-all hover:bg-indigo-300"
+          >
+            التجديدات
+          </button>
+        ) : null}
 
         <div className="flex flex-col gap-2">
           <b>صور المشترك</b>

@@ -1012,12 +1012,33 @@ const ApiContext = ({ children }) => {
     }
   };
 
-  const renewSubscription = async (id) => {
+  const [subscriptionRenewalsDetail, setSubscriptionRenewalsDetail] = useState(
+    []
+  );
+
+  const getSubscriptionRenewalsDetail = async (subscribeId) => {
+    setLoadingSubscriptions(true);
+    try {
+      const res = await axios.get(
+        `${server}subscription-renew-details/${subscribeId}/`,
+        header
+      );
+      setSubscriptionRenewalsDetail(res.data);
+      return await res.data;
+    } catch (err) {
+      console.log(err);
+      return await err;
+    } finally {
+      setLoadingSubscriptions(false);
+    }
+  };
+
+  const renewSubscription = async (id, data) => {
     setLoadingSubscriptions(true);
     try {
       const res = await axios.post(
         `${server}subscription-renew/${id}/`,
-        {},
+        data,
         header
       );
       return await res.data;
@@ -1204,6 +1225,8 @@ const ApiContext = ({ children }) => {
         getSubscriptions,
         createSubscription,
         updateSubscription,
+        subscriptionRenewalsDetail,
+        getSubscriptionRenewalsDetail,
         renewSubscription,
         deleteSubscribe,
 
