@@ -97,7 +97,7 @@ const BookCard = ({ book, apiContext, setBookOpne }) => {
         >
           تفاصيل الحجز
         </Button>
-        {!book?.is_paied && (
+        {!book?.is_paied && !user?.user?.id ? (
           <Button
             onClick={() => {
               apiContext?.updateBook(book?.id, { is_paied: true }).then((e) => {
@@ -109,7 +109,7 @@ const BookCard = ({ book, apiContext, setBookOpne }) => {
           >
             تم الدفع
           </Button>
-        )}
+        ) : null}
         {canCancel && !book?.is_cancelled ? (
           <Button
             onClick={async () => {

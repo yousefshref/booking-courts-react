@@ -8,7 +8,7 @@ import { getCurrentDate } from "../../utlits/Functions";
 import { Delete } from "@mui/icons-material";
 import TrainerSubscribeContainer from "./TrainerSubscribeContainer";
 
-const DisplaySubscriptions = ({ open, setOpen, plan }) => {
+const DisplaySubscriptions = ({ open, setOpen, plan, isTrainer }) => {
   const apiContext = useContext(ApiContextProvider);
 
   const trainers = apiContext?.trainers;
@@ -219,14 +219,3 @@ const DisplaySubscriptions = ({ open, setOpen, plan }) => {
 };
 
 export default DisplaySubscriptions;
-{
-  /* {apiContext?.loadingSubscriptions ? (
-    <Loading />
-  ) : subscriptions?.length > 0 ? (
-    subscriptions?.map((subscripe, index) => (
-      <Subscription key={index} subscripe={subscripe} />
-    ))
-  ) : (
-    <p className="text-center">لا يوجد اشتراكات</p>
-  )} */
-}
