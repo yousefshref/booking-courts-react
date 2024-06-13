@@ -631,6 +631,8 @@ const ApiContext = ({ children }) => {
     return res;
   };
 
+  const [academies, setAcademies] = useState([]);
+
   const getAcademies = async (
     name,
     type,
@@ -640,6 +642,7 @@ const ApiContext = ({ children }) => {
       `${server}academies/?name=${name ?? ""}&type=${type ?? ""}&country=${country}&city=${city}&state=${state}`,
       header
     );
+    setAcademies(res?.data);
     return await res;
   };
 
@@ -1283,6 +1286,7 @@ const ApiContext = ({ children }) => {
         setTypes,
         getAcademyTypes,
 
+        academies,
         getAcademies,
         getAcademy,
         createAcademy,

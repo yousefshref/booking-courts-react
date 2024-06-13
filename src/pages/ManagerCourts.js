@@ -20,6 +20,11 @@ import { useNavigate } from "react-router-dom";
 
 const ManagerCourts = () => {
   const apiContext = useContext(ApiContextProvider);
+
+  useEffect(() => {
+    apiContext?.getUser();
+  }, []);
+
   const [courts, setCourts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState(false);
@@ -88,67 +93,74 @@ const ManagerCourts = () => {
   };
 
   const createCourtFunction = async () => {
-    setLoading(true);
-    try {
-      // court, Images, Videos, Tools, Features
-      const createCourt = await apiContext?.createCourt(
-        name,
-        address,
-        locationUrl,
-        pricePerHour,
-        openFrom,
-        openTo,
-        closeFrom,
-        closeTo,
-        false,
-        ball,
-        offerPrice,
-        offerFrom,
-        offerTo,
-        eventPrice,
-        eventFrom,
-        eventTo,
-        country,
-        city,
-        state,
-        type
-      );
+    const len = courts?.length;
+    const limit = apiContext?.user?.manager_details?.courts_limit;
 
-      if (createCourt?.data?.id) {
-        const createCourtCloseTime = await apiContext?.createCourtCloseTime({
-          data: selectedClosedTimes,
-          court_id: createCourt?.data?.id,
-        });
-
-        const createCourtImage = await apiContext?.createCourtImage(
-          createCourt?.data?.id,
-          selectedImages
-        );
-        const createCourtVideo = await apiContext?.createCourtVideo(
-          createCourt?.data?.id,
-          selectedVideos
-        );
-        const createCourtTool = await apiContext?.createCourtTool(
-          createCourt?.data?.id,
-          selectedTools
-        );
-        const createCourtFeature = await apiContext?.createCourtFeature(
-          createCourt?.data?.id,
-          selectedFeatures
+    if (len > limit) {
+      alert("لقد تم تجاوز عدد الملاعب المسموح بها");
+    } else {
+      setLoading(true);
+      try {
+        // court, Images, Videos, Tools, Features
+        const createCourt = await apiContext?.createCourt(
+          name,
+          address,
+          locationUrl,
+          pricePerHour,
+          openFrom,
+          openTo,
+          closeFrom,
+          closeTo,
+          false,
+          ball,
+          offerPrice,
+          offerFrom,
+          offerTo,
+          eventPrice,
+          eventFrom,
+          eventTo,
+          country,
+          city,
+          state,
+          type
         );
 
-        getCourts();
-        setCreateCourt(false);
-        success();
-      } else {
+        if (createCourt?.data?.id) {
+          const createCourtCloseTime = await apiContext?.createCourtCloseTime({
+            data: selectedClosedTimes,
+            court_id: createCourt?.data?.id,
+          });
+
+          const createCourtImage = await apiContext?.createCourtImage(
+            createCourt?.data?.id,
+            selectedImages
+          );
+          const createCourtVideo = await apiContext?.createCourtVideo(
+            createCourt?.data?.id,
+            selectedVideos
+          );
+          const createCourtTool = await apiContext?.createCourtTool(
+            createCourt?.data?.id,
+            selectedTools
+          );
+          const createCourtFeature = await apiContext?.createCourtFeature(
+            createCourt?.data?.id,
+            selectedFeatures
+          );
+
+          getCourts();
+          setCreateCourt(false);
+          success();
+        } else {
+          error();
+          console.log(createCourt);
+        }
+      } catch (err) {
         error();
-        console.log(createCourt);
+        console.log(err);
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      error();
-      console.log(err);
-    } finally {
-      setLoading(false);
     }
   };
 

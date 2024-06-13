@@ -27,6 +27,14 @@ const CreateAcademyButton = ({ getAcademies }) => {
     messageApi.success(message);
   };
 
+  useEffect(() => {
+    apiContext?.getAcademies();
+  }, []);
+
+  useEffect(() => {
+    apiContext?.getUser();
+  }, []);
+
   const [image, setImage] = useState(null);
   const [name, setName] = useState("");
   const [type, setType] = useState("");
@@ -40,32 +48,41 @@ const CreateAcademyButton = ({ getAcademies }) => {
   const [website, setWebsite] = useState("");
 
   const createAcademy = async () => {
-    const data = new FormData();
+    const len = apiContext?.academies?.length;
+    const limit = apiContext?.user?.manager_details?.academy_limit;
 
-    data.append("image", image);
-    data.append("name", name);
-    data.append("country", country);
-    data.append("city", city);
-    data.append("state", state);
-    data.append("type", type);
-    data.append("location", location);
-    data.append("location_url", locationUrl);
-    data.append("website", website);
-
-    const res = await apiContext?.createAcademy(data);
-    if (res?.data?.id) {
-      setOpen(false);
-      getAcademies();
-      success("تم انشاء الاكاديمية بنجاح");
-      setName("");
-      setType("");
-      setLocation("");
-      setLocationUrl("");
-      setWebsite("");
-    } else {
-      Object?.entries(res?.data || {}).forEach(([key, value]) =>
-        error(`${key}: ${value?.join(", ")}`)
+    if (len >= limit) {
+      alert(
+        "لا يمكنك انشاء اكاديمية جديدة لانك تجاوزت الحد الادنى لعدد الاكاديميات المسجلة"
       );
+    } else {
+      const data = new FormData();
+
+      data.append("image", image);
+      data.append("name", name);
+      data.append("country", country);
+      data.append("city", city);
+      data.append("state", state);
+      data.append("type", type);
+      data.append("location", location);
+      data.append("location_url", locationUrl);
+      data.append("website", website);
+
+      const res = await apiContext?.createAcademy(data);
+      if (res?.data?.id) {
+        setOpen(false);
+        getAcademies();
+        success("تم انشاء الاكاديمية بنجاح");
+        setName("");
+        setType("");
+        setLocation("");
+        setLocationUrl("");
+        setWebsite("");
+      } else {
+        Object?.entries(res?.data || {}).forEach(([key, value]) =>
+          error(`${key}: ${value?.join(", ")}`)
+        );
+      }
     }
   };
 

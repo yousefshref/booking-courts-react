@@ -97,7 +97,7 @@ const ManagerAcadamies = () => {
         </div>
 
         {/* academies */}
-        <div className="flex flex-wrap gap-5 p-5 justify-around bg-indigo-100 rounded-xl max-h-[700px] min-h-fit overflow-scroll">
+        <div className="flex flex-wrap gap-5 p-5 justify-around bg-indigo-100 rounded-xl">
           {academies?.length > 0 ? (
             academies?.map((academy) => (
               <AcademyCard
