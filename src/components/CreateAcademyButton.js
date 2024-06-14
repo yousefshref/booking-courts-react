@@ -121,7 +121,11 @@ const CreateAcademyButton = ({ getAcademies }) => {
         >
           المشتركين
         </Button>
-        <DisplaySubscriptions open={openSubs} setOpen={setOpenSubs} />
+        <DisplaySubscriptions
+          isAcademies={true}
+          open={openSubs}
+          setOpen={setOpenSubs}
+        />
       </div>
 
       <Modal

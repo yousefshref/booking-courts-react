@@ -8,7 +8,13 @@ import { getCurrentDate } from "../../utlits/Functions";
 import { Delete } from "@mui/icons-material";
 import TrainerSubscribeContainer from "./TrainerSubscribeContainer";
 
-const DisplaySubscriptions = ({ open, setOpen, plan, isTrainer }) => {
+const DisplaySubscriptions = ({
+  open,
+  setOpen,
+  plan,
+  isTrainers,
+  isAcademies,
+}) => {
   const apiContext = useContext(ApiContextProvider);
 
   const trainers = apiContext?.trainers;
@@ -46,6 +52,9 @@ const DisplaySubscriptions = ({ open, setOpen, plan, isTrainer }) => {
       to_date: subscriptionDateTo,
       is_approved: subscriptionStatus,
       requests_from_profile: isRequest,
+
+      onlyAcademies: isAcademies && true,
+      onlyTrainers: isTrainers && true,
     });
   }, [plan?.id]);
 
@@ -203,6 +212,9 @@ const DisplaySubscriptions = ({ open, setOpen, plan, isTrainer }) => {
               <th className="text-start w-full min-w-[100px]">السعر</th>
               <th className="text-start w-full min-w-[100px]">يبدء في</th>
               <th className="text-start w-full min-w-[100px]">ينتهي في</th>
+              <th className="text-start w-full min-w-[100px]">
+                متبقي من الايام
+              </th>
               <th className="text-start w-full min-w-[100px]">الحالة</th>
               <th className="text-start w-full min-w-[100px]"></th>
             </tr>

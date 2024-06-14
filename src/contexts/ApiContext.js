@@ -974,11 +974,14 @@ const ApiContext = ({ children }) => {
     to_date = "",
     is_approved = "",
     requests_from_profile = "",
+
+    onlyAcademies = "",
+    onlyTrainers = "",
   }) => {
     setLoadingSubscriptions(true);
     try {
       const res = await axios.get(
-        `${server}subscriptions/?phone=${subscriptionPhone}&sub_id=${plan_id}&from_date=${from_date}&to_date=${to_date}&is_approved=${is_approved}&requests_from_profile=${requests_from_profile}&trainer_id=${trainer_id}&academy_id=${academy_id}`,
+        `${server}subscriptions/?phone=${subscriptionPhone}&only_academies=${onlyAcademies}&only_trainers${onlyTrainers}&sub_id=${plan_id}&from_date=${from_date}&to_date=${to_date}&is_approved=${is_approved}&requests_from_profile=${requests_from_profile}&trainer_id=${trainer_id}&academy_id=${academy_id}`,
         header
       );
       setSubscriptions(res.data);

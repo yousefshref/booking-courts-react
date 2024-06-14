@@ -3,7 +3,6 @@ import { ApiContextProvider } from "../../contexts/ApiContext";
 import { FiDelete } from "react-icons/fi";
 import { Button } from "antd";
 import CreateOrUpdateSubscribePlanModal from "./CreateOrUpdateSubscribePlanModal";
-import DisplaySubscriptions from "./DisplaySubscriptions";
 
 const SubscribePlan = ({ plan, getSubscribePlans }) => {
   const apiContext = React.useContext(ApiContextProvider);

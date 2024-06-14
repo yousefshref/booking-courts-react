@@ -79,7 +79,7 @@ const ManagerTrainers = () => {
             <DisplaySubscriptions
               open={openSubscribe}
               setOpen={setOpenSubscribe}
-              isTrainer={true}
+              isTrainers={true}
             />
           </div>
         </div>
