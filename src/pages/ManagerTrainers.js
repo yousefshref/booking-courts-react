@@ -3,7 +3,6 @@ import Header from "../components/Header";
 import { Button, Result } from "antd";
 import CreateOrUpdateTrainers from "../components/CreateOrUpdateTrainers";
 import { ApiContextProvider } from "../contexts/ApiContext";
-import { server } from "../utlits/Variables";
 import Trainer from "../components/Trainer";
 import Loading from "../components/Loading";
 import DisplaySubscriptions from "../components/Subscribe/DisplaySubscriptions";

@@ -53,10 +53,10 @@ const DisplaySubscriptions = ({
       is_approved: subscriptionStatus,
       requests_from_profile: isRequest,
 
-      onlyAcademies: isAcademies && true,
-      onlyTrainers: isTrainers && true,
+      onlyAcademies: isAcademies ? "True" : false,
+      onlyTrainers: isTrainers ? "True" : false,
     });
-  }, [plan?.id]);
+  }, [plan?.id, isAcademies, isTrainers]);
 
   return (
     <Modal
@@ -169,6 +169,9 @@ const DisplaySubscriptions = ({
                   to_date: subscriptionDateTo,
                   is_approved: subscriptionStatus,
                   requests_from_profile: isRequest,
+
+                  onlyAcademies: isAcademies ? "True" : false,
+                  onlyTrainers: isTrainers ? "True" : false,
                 });
               }}
               className="w-fit"
@@ -204,7 +207,8 @@ const DisplaySubscriptions = ({
           <thead>
             <tr>
               <th className="text-start w-full min-w-[100px]">
-                مدرب/ اكاديمية
+                {isTrainers && "اسم المدرب"}
+                {isAcademies && "اسم الاكاديمية"}
               </th>
               <th className="text-start w-full min-w-[100px]">الاسم</th>
               <th className="text-start w-full min-w-[100px]">رقم الهاتف</th>

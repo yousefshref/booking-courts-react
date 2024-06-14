@@ -28,7 +28,7 @@ const CreateAcademyButton = ({ getAcademies }) => {
   };
 
   useEffect(() => {
-    apiContext?.getAcademies();
+    apiContext?.getAcademies("", "", {});
   }, []);
 
   useEffect(() => {

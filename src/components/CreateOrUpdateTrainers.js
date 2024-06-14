@@ -41,8 +41,8 @@ const CreateOrUpdateTrainers = ({ open, setOpen, trainer }) => {
   }, [trainer]);
 
   useEffect(() => {
-    apiContext?.getTrainers();
-  }, []);
+    if (open) apiContext?.getTrainers({});
+  }, [open]);
 
   useEffect(() => {
     apiContext?.getUser();

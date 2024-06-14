@@ -639,7 +639,7 @@ const ApiContext = ({ children }) => {
     { country = "", city = "", state = "" }
   ) => {
     const res = await axios.get(
-      `${server}academies/?name=${name ?? ""}&type=${type ?? ""}&country=${country}&city=${city}&state=${state}`,
+      `${server}academies/?name=${name ?? ""}&type=${type ?? ""}&country=${country ?? ""}&city=${city}&state=${state}`,
       header
     );
     setAcademies(res?.data);
@@ -981,7 +981,7 @@ const ApiContext = ({ children }) => {
     setLoadingSubscriptions(true);
     try {
       const res = await axios.get(
-        `${server}subscriptions/?phone=${subscriptionPhone}&only_academies=${onlyAcademies}&only_trainers${onlyTrainers}&sub_id=${plan_id}&from_date=${from_date}&to_date=${to_date}&is_approved=${is_approved}&requests_from_profile=${requests_from_profile}&trainer_id=${trainer_id}&academy_id=${academy_id}`,
+        `${server}subscriptions/?phone=${subscriptionPhone}&only_academies=${onlyAcademies}&only_trainers=${onlyTrainers}&sub_id=${plan_id}&from_date=${from_date}&to_date=${to_date}&is_approved=${is_approved}&requests_from_profile=${requests_from_profile}&trainer_id=${trainer_id}&academy_id=${academy_id}`,
         header
       );
       setSubscriptions(res.data);
@@ -1080,7 +1080,7 @@ const ApiContext = ({ children }) => {
     setTrainerLoading(true);
     try {
       const res = await axios.get(
-        `${server}academy-trainers/?type_id=${type}&price_from=${priceFrom}&price_to=${priceTo}&manager=${manager}`,
+        `${server}academy-trainers/?type_id=${type || ""}&price_from=${priceFrom}&price_to=${priceTo}&manager=${manager}`,
         header
       );
       setTrainers(res.data);
